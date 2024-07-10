@@ -3,15 +3,21 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import time
 import csv
+import re
+
+#returns player that assisted, or "None" if unassisted
+def removeAssister(play_info):
+    assist_pattern = re.compile(rf'\((.*?)\s+assists?\)')
+    assist_match = assist_pattern.findall(play_info)
+    if not assist_match:
+        return ["None"]
+    else:
+        return assist_match
 
 
-def click_element(driver, element):
-    try:
-        element.click()
-    except Exception as e:
-        print(f"Click failed with error: {e}. Trying JavaScript click.")
-        driver.execute_script("arguments[0].click();", element)
-def get_play_component_data(page_url):
+
+
+def get_play_component_data(page_url, stage, game_num):
     # Initialize WebDriver (make sure to specify the path to your WebDriver)
     driver = webdriver.Chrome()
 
@@ -20,20 +26,26 @@ def get_play_component_data(page_url):
 
     # Wait for the content to load
     driver.implicitly_wait(10)  # Adjust the sleep time as needed
+    # Get the page source after the dynamic content is loaded
+    time.sleep(1)
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    teams = soup.find_all(True, class_=['fw-medium n7 ml2'])
+    teams_text = [team.get_text(strip=True) for team in teams]
+    home_team = teams_text[1]
+    away_team = teams_text[0]
 
+    play_components_text = []
     quarter_texts = ['1st', '2nd', '3rd', '4th']
-    driver.execute_script("window.scrollBy(0, 200);")
 
-    # Loop through each quarter tab and extract data
-    play_components_text = [["Time", "Play", "Quarter"]]
+
+    driver.execute_script("window.scrollBy(0, 200);")
     for quarter_text in quarter_texts:
         # Click on the quarter button
         quarter_button = driver.find_element(By.XPATH,
-                                             f'//button[contains(@class, "Button--unstyled tabs__link") and text()="{quarter_text}"]')
+                                             f'//button[contains(@class, "Button--unstyled tabs__link") and text()'
+                                             f'="{quarter_text}"]')
         quarter_button.click()
         driver.implicitly_wait(5)  # Adjust the sleep time as needed
-
-        # Get the page source after the dynamic content is loaded
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         play_times_q = soup.find_all(True, class_=['playByPlay__time Table__TD'])
         play_info_q = soup.find_all(True,
@@ -52,7 +64,30 @@ def get_play_component_data(page_url):
         play_times_text = [play_time.get_text(strip=True) for play_time in play_times_q]
         play_info_text = [info.get_text(strip=True) for info in play_info_q]
         for play_time, play_info in zip(play_times_text, play_info_text):
-            play_components_text.append([play_time, play_info, quarter_text])
+            print(play_info)
+            if "vs" in play_info:
+                continue
+            splitted = play_info.split()
+            player_name = "cannot identify"
+            if (home_team in play_info.upper() or away_team in play_info.upper() or "enters" in play_info or "End of" in\
+                    play_info or "Start of" in play_info or "delay" in play_info or "timeout" in play_info or "Game"
+                    in play_info):
+                player_name = "None"
+                continue
+            elif " jr" in splitted[2].lower() or " II" in splitted[2].lower() or " III" in splitted[2].lower():
+                player_name = splitted[0] + " " + splitted[1] + " " + splitted[2]
+                play_info = ' '.join(play_info.split()[3:])
+            else:
+                player_name = splitted[0] + " " + splitted[1]
+                play_info = ' '.join(play_info.split()[2:])
+
+            assister = removeAssister(play_info)
+            play_info = re.sub(r'\(.*?\)', '', play_info).strip()
+            #match = player_action_pattern.findall(play_info)
+            #player_name, action = match
+            #print(f"Player: {player_name}, Action: {action}")
+            play_components_text.append([play_time, play_info, quarter_text, home_team, away_team, player_name,
+                                         assister[0], stage, game_num])
 
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
@@ -63,18 +98,37 @@ def get_play_component_data(page_url):
 
 def main():
 
-    page_url = input("Enter ESPN game urls or END to finish the program\n")
-    while page_url != "END":
-        play_data = get_play_component_data(page_url)
-        if play_data == -1:
-            print("FATAL ERROR")
-            return
-        #save_to_file(play_data, 'play_components.txt')
-        with open('output.csv', mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(play_data)
-        print(f"Play component text saved to output.csv")
-        page_url = input()
+    page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually in correct format and enter END "
+                     "to finish the "
+                     "program\n")
+    play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num"]]
+    if page_url == "AUTO":
+        with open('game_urls.txt', 'r') as file:
+            for line in file:
+                # Strip the newline character and any leading/trailing whitespace
+                cleaned_line = line.strip()
+                print(line)
+                split_line = cleaned_line.split()
+                stage = split_line[0]
+                game_num = split_line[1]
+                page_url = split_line[2]
+                play_data += get_play_component_data(page_url, stage, game_num)
+
+    else:
+        while page_url != "END":
+            stage = input("enter stage")
+            game_num = input("enter game num")
+            play_data += get_play_component_data(page_url, stage, game_num)
+            if play_data == -1:
+                print("FATAL ERROR")
+                return
+            #save_to_file(play_data, 'play_components.txt')
+            page_url = input()
+    with open('output.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(play_data)
+    print(f"Play component text saved to output.csv")
+    print("OK :)")
 
 if __name__ == '__main__':
     main()
