@@ -121,7 +121,7 @@ def get_play_component_data(page_url, stage, game_num):
                     in play_info):
                 player_name = "None"
                 continue
-            elif " jr" in splitted[2].lower() or " II" in splitted[2].lower() or " III" in splitted[2].lower():
+            elif "jr" in splitted[2].lower() or "II" in splitted[2].lower() or "III" in splitted[2].lower():
                 player_name = splitted[0] + " " + splitted[1] + " " + splitted[2]
                 play_info = ' '.join(play_info.split()[3:])
             else:
@@ -138,6 +138,7 @@ def get_play_component_data(page_url, stage, game_num):
                 win_percentage = None
             play_components_text.append([play_time, play_info, quarter_text, home_team, away_team, player_name,
                                          assister[0], stage, game_num, win_diff, win_percentage])
+    print(play_components_text)
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
