@@ -1,9 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
 import csv
 import re
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1920,1080")
 
 #returns player that assisted, or "None" if unassisted
 def removeAssister(play_info):
@@ -15,7 +20,7 @@ def removeAssister(play_info):
         return assist_match
 
 def get_roster(page_url):
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options)
 
     # Open the page URL
     driver.get(page_url)
@@ -52,7 +57,7 @@ def get_play_component_data(page_url, stage, game_num):
     # Initialize WebDriver (make sure to specify the path to your WebDriver)
 
     home_roster, away_roster = get_roster(page_url)
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options)
 
     # Open the page URL
     driver.get(page_url)
@@ -139,7 +144,6 @@ def get_play_component_data(page_url, stage, game_num):
                 win_percentage = None
             play_components_text.append([play_time, play_info, quarter_text, home_team, away_team, player_name,
                                          assister[0], stage, game_num, win_diff, total_games, win_percentage])
-    print(play_components_text)
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
@@ -148,17 +152,14 @@ def get_play_component_data(page_url, stage, game_num):
     return play_components_text
 
 def main():
-
-    page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish"
-                     "to finish the "
-                     "program\n")
+    page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish the "
+                     "program")
     play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num", "Win Difference(Abs)", "Games Played", "Win percentage"]]
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
                 # Strip the newline character and any leading/trailing whitespace
                 cleaned_line = line.strip()
-                print(line)
                 split_line = cleaned_line.split()
                 stage = split_line[0]
                 game_num = split_line[1]
