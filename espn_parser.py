@@ -130,6 +130,7 @@ def get_play_component_data(page_url, stage, game_num):
 
             assister = removeAssister(play_info)
             play_info = re.sub(r'\(.*?\)', '', play_info).strip()
+            total_games = min(home_wins + home_losses, away_wins + away_losses)
             if player_name in home_roster:
                 win_percentage = home_win_percentage
             elif player_name in away_roster:
@@ -137,7 +138,7 @@ def get_play_component_data(page_url, stage, game_num):
             else:
                 win_percentage = None
             play_components_text.append([play_time, play_info, quarter_text, home_team, away_team, player_name,
-                                         assister[0], stage, game_num, win_diff, win_percentage])
+                                         assister[0], stage, game_num, win_diff, total_games, win_percentage])
     print(play_components_text)
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
@@ -148,10 +149,10 @@ def get_play_component_data(page_url, stage, game_num):
 
 def main():
 
-    page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually in correct format and enter END "
+    page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish"
                      "to finish the "
                      "program\n")
-    play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num", "Win Difference(Abs)", "Win percentage"]]
+    play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num", "Win Difference(Abs)", "Games Played", "Win percentage"]]
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
