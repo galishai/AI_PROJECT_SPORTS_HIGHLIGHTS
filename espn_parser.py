@@ -7,7 +7,7 @@ import csv
 import re
 
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
 
 #returns player that assisted, or "None" if unassisted
@@ -30,20 +30,18 @@ def get_roster(page_url):
     # Get the page source after the dynamic content is loaded
     time.sleep(1)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    dropdown_selector_home = ('#fittPageContainer > div:nth-child(2) > div > div:nth-child(6) > div > div > section.'
-                              'Card.ShotChart > div > div > div.ShotChartControls.ml4 > div.ShotChartControls__wrap.pt5'
-                              ' > div.ShotChartControls__team.ShotChartControls__team--home.w-100 > div.dropdown.dropd'
-                              'own--sm.ShotChartControls__Dropdown.mr0.ml0.w-100 > select')
+    dropdown_selector_home = ('.ShotChartControls__team.ShotChartControls__team--home.w-100 .dropdown__select')
     dropdown_home = soup.select_one(dropdown_selector_home)
-    dropdown_selector_away = ('#fittPageContainer > div:nth-child(2) > div > div:nth-child(6) > div > div > section.'
-                              'Card.ShotChart > div > div > div.ShotChartControls.ml4 > div.ShotChartControls__wrap.pt5'
-                              ' > div.ShotChartControls__team.ShotChartControls__team--away.w-100 > div.dropdown.drop'
-                              'down--sm.ShotChartControls__Dropdown.mr0.ml0.w-100 > select')
+    dropdown_selector_away = ('.ShotChartControls__team.ShotChartControls__team--away.w-100 .dropdown__select')
     dropdown_away = soup.select_one(dropdown_selector_away)
     if dropdown_home:
         player_names_home = [option['value'] for option in dropdown_home.find_all('option')]
+    else:
+        print("ERROR ROSTER HOME")
     if dropdown_away:
         player_names_away = [option['value'] for option in dropdown_away.find_all('option')]
+    else:
+        print("ERROR ROSTER AWAY")
     #players_text = [team.get_text(strip=True) for team in teams]
     del player_names_home[0]
     del player_names_away[0]
@@ -100,22 +98,30 @@ def get_play_component_data(page_url, stage, game_num):
         driver.implicitly_wait(5)  # Adjust the sleep time as needed
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         play_times_q = soup.find_all(True, class_=['playByPlay__time Table__TD'])
-        play_info_q = soup.find_all(True,
-                                  class_=['playByPlay__text tl Table__TD', 'playByPlay__text tl clr-btn Table__TD'])
+        play_info_q = soup.find_all(True, class_=['playByPlay__text tl Table__TD',
+                                                  'playByPlay__text tl clr-btn Table__TD'])
+        away_scores = soup.find_all(True, class_=['playByPlay__score playByPlay__score--away tr Table__TD',
+                                                  'playByPlay__score playByPlay__score--away tr fw-normal Table__TD'])
+        home_scores = soup.find_all(True, class_=['playByPlay__score playByPlay__score--home tr Table__TD',
+                                                  'playByPlay__score playByPlay__score--home tr fw-normal Table__TD'])
+
         if not play_times_q:
             print("Parsing Error 1!" + quarter_text)
             return -1
         if not play_info_q:
             print("Parsing Error 2!" + quarter_text)
             return -1
-        '''if len(play_times) != len(play_info):
-            print("Parsing Error 3!")
-            return -1
-            '''
+        if not away_scores:
+            print("Parsing Error 3!" + quarter_text)
+        if not home_scores:
+            print("Parsing Error 4!" + quarter_text)
+
 
         play_times_text = [play_time.get_text(strip=True) for play_time in play_times_q]
         play_info_text = [info.get_text(strip=True) for info in play_info_q]
-        for play_time, play_info in zip(play_times_text, play_info_text):
+        play_home_score_text = [score.get_text(strip=True) for score in home_scores]
+        play_away_score_text = [score.get_text(strip=True) for score in away_scores]
+        for play_time, play_info, home_score, away_score in zip(play_times_text, play_info_text, play_home_score_text, play_away_score_text):
             #print(play_info)
             if "vs" in play_info:
                 continue
@@ -143,7 +149,7 @@ def get_play_component_data(page_url, stage, game_num):
             else:
                 win_percentage = None
             play_components_text.append([play_time, play_info, quarter_text, home_team, away_team, player_name,
-                                         assister[0], stage, game_num, win_diff, total_games, win_percentage])
+                                         assister[0], stage, game_num, win_diff, total_games, win_percentage, home_score, away_score])
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
@@ -154,13 +160,14 @@ def get_play_component_data(page_url, stage, game_num):
 def main():
     page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish the "
                      "program")
-    play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num", "Win Difference(Abs)", "Games Played", "Win percentage"]]
+    play_data = [["Time", "Play", "Quarter", "Home Team", "Away Team", "Name", "Assister", "Stage", "Game Num", "Win Difference(Abs)", "Games Played", "Win Percentage", "Home Score", "Away Score"]]
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
                 # Strip the newline character and any leading/trailing whitespace
                 cleaned_line = line.strip()
                 split_line = cleaned_line.split()
+                print(line)
                 stage = split_line[0]
                 game_num = split_line[1]
                 page_url = split_line[2]
@@ -175,6 +182,7 @@ def main():
                 print("FATAL ERROR")
                 return
             #save_to_file(play_data, 'play_components.txt')
+            print("Enter next URL or END to finish")
             page_url = input()
     with open('output.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
