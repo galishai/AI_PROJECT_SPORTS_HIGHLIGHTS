@@ -1,52 +1,52 @@
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591874
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591876
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591879
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591898
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591895
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591899
-PS None https://www.espn.com/nba/playbyplay/_/gameId/401591920
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584918
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585327
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585739
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585111
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584780
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585762
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401617579
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585387
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584924
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584805
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585174
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585610
-RS None https://www.espn.com/nba/playbyplay/_/gameId/301217018
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584839
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585240
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401585452
-RS None https://www.espn.com/nba/playbyplay/_/gameId/400578720
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584876
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401070788
-RS None https://www.espn.com/nba/playbyplay/_/gameId/401584742
-R1 G5 https://www.espn.com/nba/playbyplay/_/gameId/320508011
-R1 G3 https://www.espn.com/nba/playbyplay/_/gameId/401585165
-R1 G1 https://www.espn.co.uk/nba/playbyplay/_/gameId/401654757
-R1 G2 https://www.espn.com/nba/playbyplay/_/gameId/401655112
-R1 G3 https://www.espn.com/nba/playbyplay/_/gameId/401655107
-R1 G6 https://www.espn.com/nba/playbyplay/_/gameId/310428003
-R1 G6 https://www.espn.com/nba/playbyplay/_/gameId/310429029
-R2 G3 https://www.espn.com/nba/playbyplay/_/gameId/310506006
-R2 G3 https://www.espn.com/nba/playbyplay/_/gameId/401657184
-R2 G4 https://www.espn.com/nba/playbyplay/_/gameId/401658227
-R2 G4 https://www.espn.com/nba/playbyplay/_/gameId/401658191
-R2 G7 https://www.espn.com/nba/playbyplay/_/gameId/320526002
-SF G1 https://www.espn.com/nba/playbyplay/_/gameId/310517006
-SF G1 https://www.espn.com/nba/playbyplay/_/gameId/401672976
-SF G3 https://www.espn.com/nba/playbyplay/_/gameId/280525024
-SF G4 https://www.espn.com/nba/playbyplay/_/gameId/401672001
-SF G5 https://www.espn.com/nba/playbyplay/_/gameId/290528005
-SF G4 https://www.espn.com/nba/playbyplay/_/gameId/401672979
-Finals G1 https://www.espn.com/nba/playbyplay/_/gameId/280605002
-Finals G1 https://www.espn.com/nba/playbyplay/_/gameId/401656359
-Finals G2 https://www.espn.com/nba/playbyplay/_/gameId/401656360
-Finals G3 https://www.espn.com/nba/playbyplay/_/gameId/401656361
-Finals G4 https://www.espn.com/nba/playbyplay/_/gameId/401656362
-Finals G6 https://www.espn.com/nba/playbyplay/_/gameId/280617002
-Finals G5 https://www.espn.com/nba/playbyplay/_/gameId/401656363
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591874 https://www.nba.com/game/phi-vs-bos-0012300006/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591876 https://www.nba.com/game/sac-vs-tor-0012300008/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591879 https://www.nba.com/game/sas-vs-okc-0012300011/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591898 https://www.nba.com/game/den-vs-chi-0012300030/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591895 https://www.nba.com/game/cha-vs-was-0012300025/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591899 https://www.nba.com/game/hou-vs-nop-0012300031/box-score
+PS None https://www.espn.com/nba/playbyplay/_/gameId/401591920 https://www.nba.com/game/tor-vs-chi-0012300052/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584918 https://www.nba.com/game/den-vs-sac-0022300290/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585327 https://www.nba.com/game/gsw-vs-atl-0022300699/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585739 https://www.nba.com/game/phi-vs-mia-0022301111/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585111 https://www.nba.com/game/nyk-vs-phi-0022300483/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584780 https://www.nba.com/game/uta-vs-chi-0022300152/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585762 https://www.nba.com/game/por-vs-bos-0022301134/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401617579 https://www.nba.com/game/nyk-vs-bos-0022301227/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585387 https://www.nba.com/game/bos-vs-mia-0022300759/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584924 https://www.nba.com/game/den-vs-atl-0022300296/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584805 https://www.nba.com/game/cha-vs-nyk-0022300177/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585174 https://www.nba.com/game/orl-vs-okc-0022300546/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585610 https://www.nba.com/game/atl-vs-lac-0022300982/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/301217018 https://www.nba.com/game/mia-vs-nyk-0021000382/box-score PROBLEMATIC
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584839 https://www.nba.com/game/det-vs-tor-0022300211/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585240 https://www.nba.com/game/chi-vs-phx-0022300612/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585452 https://www.nba.com/game/den-vs-gsw-0022300824/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/400578720 https://www.nba.com/game/okc-vs-sas-0021400428/box-score PROBLEMATIC
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584876 https://www.nba.com/game/cha-vs-orl-0022300248/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401070788 https://www.nba.com/game/uta-vs-min-0021800107/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584742 https://www.nba.com/game/orl-vs-lac-0022300114/box-score
+R1 G5 https://www.espn.com/nba/playbyplay/_/gameId/320508011 https://www.nba.com/game/orl-vs-ind-0041100125/box-score PROBLEMATIC
+R1 G3 https://www.espn.com/nba/playbyplay/_/gameId/401585165 https://www.nba.com/game/lac-vs-mem-0022300537/box-score
+R1 G1 https://www.espn.co.uk/nba/playbyplay/_/gameId/401654757 https://www.nba.com/game/orl-vs-cle-0042300131/box-score
+R1 G2 https://www.espn.com/nba/playbyplay/_/gameId/401655112 https://www.nba.com/game/ind-vs-mil-0042300122/box-score
+R1 G3 https://www.espn.com/nba/playbyplay/_/gameId/401655107 https://www.nba.com/game/nyk-vs-phi-0042300113/box-score
+R1 G6 https://www.espn.com/nba/playbyplay/_/gameId/310428003 https://www.nba.com/game/lal-vs-noh-0041000156/box-score
+R1 G6 https://www.espn.com/nba/playbyplay/_/gameId/310429029 https://www.nba.com/game/sas-vs-mem-0041000146/box-score
+R2 G3 https://www.espn.com/nba/playbyplay/_/gameId/310506006 https://www.nba.com/game/lal-vs-dal-0041000234/box-score
+R2 G3 https://www.espn.com/nba/playbyplay/_/gameId/401657184 https://www.nba.com/game/den-vs-min-0042300233/box-score
+R2 G4 https://www.espn.com/nba/playbyplay/_/gameId/401658227 https://www.nba.com/game/bos-vs-cle-0042300204/box-score
+R2 G4 https://www.espn.com/nba/playbyplay/_/gameId/401658191 https://www.nba.com/game/okc-vs-dal-0042300224/box-score
+R2 G7 https://www.espn.com/nba/playbyplay/_/gameId/320526002 https://www.nba.com/game/0041100217/box-score
+SF G1 https://www.espn.com/nba/playbyplay/_/gameId/310517006 https://www.nba.com/game/okc-vs-dal-0041000311/box-score
+SF G1 https://www.espn.com/nba/playbyplay/_/gameId/401672976 https://www.nba.com/game/dal-vs-min-0042300311/box-score
+SF G3 https://www.espn.com/nba/playbyplay/_/gameId/280525024 https://www.nba.com/game/lal-vs-sas-0040700313/box-score
+SF G4 https://www.espn.com/nba/playbyplay/_/gameId/401672001 https://www.nba.com/game/bos-vs-ind-0042300304/box-score
+SF G5 https://www.espn.com/nba/playbyplay/_/gameId/290528005 https://www.nba.com/game/orl-vs-cle-0040800305/box-score
+SF G4 https://www.espn.com/nba/playbyplay/_/gameId/401672979 https://www.nba.com/game/min-vs-dal-0042300314/box-score
+Finals G1 https://www.espn.com/nba/playbyplay/_/gameId/280605002 https://www.nba.com/game/lal-vs-bos-0040700401/box-score
+Finals G1 https://www.espn.com/nba/playbyplay/_/gameId/401656359 https://www.nba.com/game/dal-vs-bos-0042300401/box-score
+Finals G2 https://www.espn.com/nba/playbyplay/_/gameId/401656360 https://www.nba.com/game/dal-vs-bos-0042300402/box-score
+Finals G3 https://www.espn.com/nba/playbyplay/_/gameId/401656361 https://www.nba.com/game/bos-vs-dal-0042300403/box-score
+Finals G4 https://www.espn.com/nba/playbyplay/_/gameId/401656362 https://www.nba.com/game/bos-vs-dal-0042300404/box-score
+Finals G6 https://www.espn.com/nba/playbyplay/_/gameId/280617002 https://www.nba.com/game/lal-vs-bos-0040700406/box-score
+Finals G5 https://www.espn.com/nba/playbyplay/_/gameId/401656363 https://www.nba.com/game/dal-vs-bos-0042300405/box-score
