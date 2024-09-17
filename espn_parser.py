@@ -524,14 +524,17 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 play_info_id = play_info
             total_games = min(home_wins + home_losses, away_wins + away_losses)
             if player_name in home_roster:
+                curr_team = home_team
                 win_percentage = home_win_percentage
                 fouls = team_fouls[HOME]
                 turnovers = team_turnovers[HOME]
             elif player_name in away_roster:
+                curr_team = away_team
                 win_percentage = away_win_percentage
                 fouls = team_fouls[AWAY]
                 turnovers = team_turnovers[AWAY]
             else:
+                curr_team = "None"
                 win_percentage = "None"
                 fouls = "None"
                 turnovers = "None"
@@ -554,7 +557,7 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
             play_components_text.append([play_time, play_info_id, quarter_text, home_team, away_team, player_name,
                                          assister, stage, game_num, win_diff, total_games, win_percentage,
                                          home_score, away_score, abs(int(home_score) - int(away_score)), fouls, turnovers, player_rebs,
-                                         player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, game_date])
+                                         player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, curr_team, game_date])
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
@@ -567,7 +570,7 @@ def main():
                      "program\n")
     play_data = [["time", "play", "quarter", "home_team", "away_team", "name", "assister", "stage", "game_num",
                   "win_difference", "games_played", "win_percentage", "home_score", "away_score", "score_difference", "team_fouls_qtr",
-                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals","date"]]
+                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "curr_team", "date"]]
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
