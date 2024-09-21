@@ -24,6 +24,18 @@ RS None https://www.espn.com/nba/playbyplay/_/gameId/401585144 https://www.nba.c
 RS None https://www.espn.com/nba/playbyplay/_/gameId/401585273 https://www.nba.com/game/hou-vs-bkn-0022300645/box-score
 RS None https://www.espn.com/nba/playbyplay/_/gameId/401585295 https://www.nba.com/game/mil-vs-den-0022300667/box-score
 RS None https://www.espn.com/nba/playbyplay/_/gameId/401585714 https://www.nba.com/game/uta-vs-sac-0022301086/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584778 https://www.nba.com/game/lal-vs-mia-0022300150/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585222 https://www.nba.com/game/sas-vs-was-0022300594/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585226 https://www.nba.com/game/uta-vs-hou-0022300598/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585284 https://www.nba.com/game/chi-vs-por-0022300656/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585538 https://www.nba.com/game/cha-vs-was-0022300910/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585635 https://www.nba.com/game/bkn-vs-mil-0022301007/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585713 https://www.nba.com/game/gsw-vs-sas-0022301085/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585798 https://www.nba.com/game/nop-vs-sac-0022301170/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401585237 https://www.nba.com/game/mem-vs-tor-0022300609/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584741 https://www.nba.com/game/sas-vs-phx-0022300113/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584692 https://www.nba.com/game/was-vs-ind-0022300064/box-score
+RS None https://www.espn.com/nba/playbyplay/_/gameId/401584911 https://www.nba.com/game/cle-vs-det-0022300283/box-score
 R1 G3 https://www.espn.com/nba/playbyplay/_/gameId/401585165 https://www.nba.com/game/lac-vs-mem-0022300537/box-score vv
 R1 G1 https://www.espn.co.uk/nba/playbyplay/_/gameId/401654757 https://www.nba.com/game/orl-vs-cle-0042300131/box-score vv
 R1 G2 https://www.espn.com/nba/playbyplay/_/gameId/401655112 https://www.nba.com/game/ind-vs-mil-0042300122/box-score vv
