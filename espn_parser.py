@@ -93,13 +93,16 @@ class Plays(enum.Enum):
     MISSES_FREE_THROW_FLAGRANT_1_OF_3 = 740
     MISSES_FREE_THROW_FLAGRANT_2_OF_3 = 750
     MISSES_FREE_THROW_FLAGRANT_3_OF_3 = 760
-    UNSPECIFIED_FOUL = 770
+    BOTH_TEAM_FOUL = 770
     EJECTED = 780
     MAKES_RUNNING_JUMPER = 790
     MISSES_RUNNING_JUMPER = 800
     DEFENSIVE_TEAM_REBOUND = 810
     TEAM_REBOUND = 820
     LOST_BALL = 830
+    AWAY_FROM_PLAY_FOUL = 840
+    UNSPECIFIED_FOUL = 850
+    MAKES_FREE_THROW_FLAGRANT_1_OF_1 = 860
 
 REBOUND = 0
 ASSIST = 1
@@ -161,9 +164,6 @@ def name_corrector(player_name, home_roster, away_roster):
         return "OG Anunoby"
     if player_name == "Bill Walker":
         return "Henry Walker"
-    if player_name == "GG Jackson":
-        return "GG Jackson II"
-
     return player_name
 
 
@@ -229,7 +229,7 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
     offensive_charge = [r"offensive charge", FOUL_AND_TURNOVER]
     violation = [r"violation", TURNOVER]
     makes_finger_roll_layup = [r"makes finger roll layup", POINT]
-    misses_finger_roll_layup = [r"makes finger roll layup", POINT]
+    misses_finger_roll_layup = [r"misses finger roll layup", POINT]
     personal_take_foul = [r"personal take foul", FOUL]
     transition_take_foul = [r"transition take foul", FOUL]
     defensive_three_seconds = [r"defensive 3-seconds", TEAM_FOUL]
@@ -249,13 +249,17 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
     misses_ft_flagrant_1_of_3 = [r"misses free throw flagrant 1 of 3", POINT]
     misses_ft_flagrant_2_of_3 = [r"misses free throw flagrant 2 of 3", POINT]
     misses_ft_flagrant_3_of_3 = [r"misses free throw flagrant 3 of 3", POINT]
-    unspecified_foul = [r".*foul:.*", BOTH_TEAM_FOUL]
+    both_team_foul = [r".*foul:.*", BOTH_TEAM_FOUL]
     ejected = [r"ejected", POINT]
     makes_running_jumper = [r"makes (\d+)-foot running jumper|makes running jumper", POINT]
     misses_running_jumper = [r"misses (\d+)-foot running jumper|misses running jumper", POINT]
     defensive_team_rebound = [r"defensive team rebound", REBOUND]
     team_rebound = [r"team rebound", REBOUND]
     lost_ball = [r"lost ball", TURNOVER]
+    away_from_play_foul = [r"away from play foul", FOUL]
+    unspecified_foul = [r".*foul.*|Too Many Players Technical", FOUL]
+    makes_ft_flagrant_1_of_1 = [r"makes free throw flagrant 1 of 1", POINT]
+    misses_ft_flagrant_1_of_1 = [r"misses free throw flagrant 1 of 1", POINT]
 
 
 
@@ -277,7 +281,7 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
                   misses_technical_free_throw, hanging_techfoul, technical_foul, misses_bank_shot, flagrant_foul_1, makes_ft_flagrant_1_of_2,
                   makes_ft_flagrant_2_of_2, misses_ft_flagrant_1_of_2, misses_ft_flagrant_2_of_2, makes_ft_flagrant_1_of_3,
                   makes_ft_flagrant_2_of_3,makes_ft_flagrant_3_of_3,misses_ft_flagrant_1_of_3,misses_ft_flagrant_2_of_3,misses_ft_flagrant_3_of_3,
-                  unspecified_foul, ejected, makes_running_jumper, misses_running_jumper, defensive_team_rebound, team_rebound, lost_ball]
+                  both_team_foul, ejected, makes_running_jumper, misses_running_jumper, defensive_team_rebound, team_rebound, lost_ball, away_from_play_foul, unspecified_foul, makes_ft_flagrant_1_of_1, misses_ft_flagrant_1_of_1]
 
     for i, play_type in enumerate(play_types):
         match = re.search(play_type[0], play_info)
@@ -487,15 +491,13 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                     in play_info):
                 player_name = "None"
                 continue
-            elif "Jr." == splitted[2] or "II" == splitted[2] or "III" == splitted[2] or "IV" == splitted[2] or "Sr." == splitted[2]:
-                player_name = splitted[0] + " " + splitted[1] + " " + splitted[2]
-                play_info = ' '.join(play_info.split()[3:])
-            else:
-                if splitted[0] == "O.G.":
-                    player_name = "OG " + splitted[1]
+            if len(splitted) >= 2:
+                if "Jr." == splitted[2] or "II" == splitted[2] or "III" == splitted[2] or "IV" == splitted[2] or "Sr." == splitted[2]:
+                    player_name = splitted[0] + " " + splitted[1] + " " + splitted[2]
+                    play_info = ' '.join(play_info.split()[3:])
                 else:
                     player_name = splitted[0] + " " + splitted[1]
-                play_info = ' '.join(play_info.split()[2:])
+                    play_info = ' '.join(play_info.split()[2:])
 
             assister = removeAssister(play_info)[0]
             assister = name_corrector(assister,home_roster, away_roster)
