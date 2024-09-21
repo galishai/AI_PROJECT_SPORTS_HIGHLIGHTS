@@ -11,95 +11,95 @@ import re
 import enum
 
 chrome_options = Options()
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument('capabilities={"acceptInsecureCerts": True}')
 
 class Plays(enum.Enum):
     MAKES_THREE_POINT_JUMPER = 0
-    MISSES_THREE_POINT_JUMPER = 100
-    MAKES_TWO_POINT = 200
-    MISSES_TWO_POINT = 300
-    MAKES_PULLUP = 400
-    MISSES_PULLUP = 500
-    BLOCK = 600
-    DEFENSIVE_REBOUND = 700
-    TURNOVER = 800
-    SHOOTING_FOUL = 900
-    MAKES_FREE_THROW_ONE_OF_ONE = 1000
-    MISSES_FREE_THROW_ONE_OF_ONE = 1100
-    MAKES_FREE_THROW_ONE_OF_TWO = 1200
-    MAKES_FREE_THROW_TWO_OF_TWO = 1300
-    MAKES_FREE_THROW_ONE_OF_THREE = 1400
-    MAKES_FREE_THROW_TWO_OF_THREE = 1500
-    MAKES_FREE_THROW_THREE_OF_THREE = 1600
-    MISSES_FREE_THROW_ONE_OF_TWO = 1700
-    MISSES_FREE_THROW_TWO_OF_TWO = 1800
-    MISSES_FREE_THROW_ONE_OF_THREE = 1900
-    MISSES_FREE_THROW_TWO_OF_THREE = 2000
-    MISSES_FREE_THROW_THREE_OF_THREE = 2100
-    OFFENSIVE_REBOUND = 2200
-    MAKES_DRIVING_LAYUP = 2300
-    MISSES_DRIVING_LAYUP = 2400
-    MAKES_LAYUP = 2500
-    MISSES_LAYUP = 2600
-    BAD_PASS = 2700
-    MAKES_DRIVING_FLOATING_JUMPSHOT = 2800
-    MISSES_DRIVING_FLOATING_JUMPSHOT = 2900
-    MAKES_THREE_POINT_PULLUP = 3000
-    MISSES_THREE_POINT_PULLUP = 3100
-    PERSONAL_FOUL = 3200
-    MAKES_DRIVING_DUNK = 3300
-    MISSES_DRIVING_DUNK = 3400
-    MAKES_ALLEY_OOP_DUNK_SHOT = 3500
-    MISSES_ALLEY_OOP_DUNK_SHOT = 3600
-    MAKES_RUNNING_PULLUP_JUMPSHOT = 3700
-    MISSES_RUNNING_PULLUP_JUMPSHOT = 3800
-    MAKES_STEPBACK_JUMPSHOT = 3900
-    MISSES_STEPBACK_JUMPSHOT = 4000
-    MAKES_TIP_SHOT = 4100
-    MISSES_TIP_SHOT = 4200
-    MAKES_ALLEY_OOPS_LAYUP = 4300
-    MISSES_ALLEY_OOPS_LAYUP = 4400
-    OFFENSIVE_FOUL = 4500
-    LOOSE_BALL_FOUL = 4600
-    MAKES_DUNK = 4700
-    MISSES_DUNK = 4800
-    TRAVELING = 4900
-    MAKES_BANK_SHOT = 5000
-    MAKES_HOOK_SHOT = 5100
-    MISSES_HOOK_SHOT = 5200
-    KICKED_BALL_VIOLATION = 5300
-    OFFENSIVE_CHARGE = 5400
-    VIOLATION = 5500
-    MAKES_FINGER_ROLL_LAYUP = 5600
-    MISSES_FINGER_ROLL_LAYUP = 5700
-    PERSONAL_TAKE_FOUL = 5800
-    TRANSITION_TAKE_FOUL = 5900
-    DEFENSIVE_THREE_SECONDS = 6000
-    MAKES_TECHNICAL_FREE_THROW = 6100
-    MISSES_TECHNICAL_FREE_THROW = 6200
-    HANGING_TECHFOUL = 6300
-    TECHNICAL_FOUL = 6400
-    MISSES_BANK_SHOT = 6500
-    FLAGRANT_FOUL_1 = 6600
-    MAKES_FREE_THROW_FLAGRANT_1_OF_2 = 6700
-    MAKES_FREE_THROW_FLAGRANT_2_OF_2 = 6800
-    MISSES_FREE_THROW_FLAGRANT_1_OF_2 = 6900
-    MISSES_FREE_THROW_FLAGRANT_2_OF_2 = 7000
-    MAKES_FREE_THROW_FLAGRANT_1_OF_3 = 7100
-    MAKES_FREE_THROW_FLAGRANT_2_OF_3 = 7200
-    MAKES_FREE_THROW_FLAGRANT_3_OF_3 = 7300
-    MISSES_FREE_THROW_FLAGRANT_1_OF_3 = 7400
-    MISSES_FREE_THROW_FLAGRANT_2_OF_3 = 7500
-    MISSES_FREE_THROW_FLAGRANT_3_OF_3 = 7600
-    UNSPECIFIED_FOUL = 7700
-    EJECTED = 7800
-    MAKES_RUNNING_JUMPER = 7900
-    MISSES_RUNNING_JUMPER = 8000
-    DEFENSIVE_TEAM_REBOUND = 8100
-    TEAM_REBOUND = 8200
-    LOST_BALL = 8300
+    MISSES_THREE_POINT_JUMPER = 10
+    MAKES_TWO_POINT = 20
+    MISSES_TWO_POINT = 30
+    MAKES_PULLUP = 40
+    MISSES_PULLUP = 50
+    BLOCK = 60
+    DEFENSIVE_REBOUND = 70
+    TURNOVER = 80
+    SHOOTING_FOUL = 90
+    MAKES_FREE_THROW_ONE_OF_ONE = 100
+    MISSES_FREE_THROW_ONE_OF_ONE = 110
+    MAKES_FREE_THROW_ONE_OF_TWO = 120
+    MAKES_FREE_THROW_TWO_OF_TWO = 130
+    MAKES_FREE_THROW_ONE_OF_THREE = 140
+    MAKES_FREE_THROW_TWO_OF_THREE = 150
+    MAKES_FREE_THROW_THREE_OF_THREE = 160
+    MISSES_FREE_THROW_ONE_OF_TWO = 170
+    MISSES_FREE_THROW_TWO_OF_TWO = 180
+    MISSES_FREE_THROW_ONE_OF_THREE = 190
+    MISSES_FREE_THROW_TWO_OF_THREE = 200
+    MISSES_FREE_THROW_THREE_OF_THREE = 210
+    OFFENSIVE_REBOUND = 220
+    MAKES_DRIVING_LAYUP = 230
+    MISSES_DRIVING_LAYUP = 240
+    MAKES_LAYUP = 250
+    MISSES_LAYUP = 260
+    BAD_PASS = 270
+    MAKES_DRIVING_FLOATING_JUMPSHOT = 280
+    MISSES_DRIVING_FLOATING_JUMPSHOT = 290
+    MAKES_THREE_POINT_PULLUP = 300
+    MISSES_THREE_POINT_PULLUP = 310
+    PERSONAL_FOUL = 320
+    MAKES_DRIVING_DUNK = 330
+    MISSES_DRIVING_DUNK = 340
+    MAKES_ALLEY_OOP_DUNK_SHOT = 350
+    MISSES_ALLEY_OOP_DUNK_SHOT = 360
+    MAKES_RUNNING_PULLUP_JUMPSHOT = 370
+    MISSES_RUNNING_PULLUP_JUMPSHOT = 380
+    MAKES_STEPBACK_JUMPSHOT = 390
+    MISSES_STEPBACK_JUMPSHOT = 400
+    MAKES_TIP_SHOT = 410
+    MISSES_TIP_SHOT = 420
+    MAKES_ALLEY_OOPS_LAYUP = 430
+    MISSES_ALLEY_OOPS_LAYUP = 440
+    OFFENSIVE_FOUL = 450
+    LOOSE_BALL_FOUL = 460
+    MAKES_DUNK = 470
+    MISSES_DUNK = 480
+    TRAVELING = 490
+    MAKES_BANK_SHOT = 500
+    MAKES_HOOK_SHOT = 510
+    MISSES_HOOK_SHOT = 520
+    KICKED_BALL_VIOLATION = 530
+    OFFENSIVE_CHARGE = 540
+    VIOLATION = 550
+    MAKES_FINGER_ROLL_LAYUP = 560
+    MISSES_FINGER_ROLL_LAYUP = 570
+    PERSONAL_TAKE_FOUL = 580
+    TRANSITION_TAKE_FOUL = 590
+    DEFENSIVE_THREE_SECONDS = 600
+    MAKES_TECHNICAL_FREE_THROW = 610
+    MISSES_TECHNICAL_FREE_THROW = 620
+    HANGING_TECHFOUL = 630
+    TECHNICAL_FOUL = 640
+    MISSES_BANK_SHOT = 650
+    FLAGRANT_FOUL_1 = 660
+    MAKES_FREE_THROW_FLAGRANT_1_OF_2 = 670
+    MAKES_FREE_THROW_FLAGRANT_2_OF_2 = 680
+    MISSES_FREE_THROW_FLAGRANT_1_OF_2 = 690
+    MISSES_FREE_THROW_FLAGRANT_2_OF_2 = 700
+    MAKES_FREE_THROW_FLAGRANT_1_OF_3 = 710
+    MAKES_FREE_THROW_FLAGRANT_2_OF_3 = 720
+    MAKES_FREE_THROW_FLAGRANT_3_OF_3 = 730
+    MISSES_FREE_THROW_FLAGRANT_1_OF_3 = 740
+    MISSES_FREE_THROW_FLAGRANT_2_OF_3 = 750
+    MISSES_FREE_THROW_FLAGRANT_3_OF_3 = 760
+    UNSPECIFIED_FOUL = 770
+    EJECTED = 780
+    MAKES_RUNNING_JUMPER = 790
+    MISSES_RUNNING_JUMPER = 800
+    DEFENSIVE_TEAM_REBOUND = 810
+    TEAM_REBOUND = 820
+    LOST_BALL = 830
 
 REBOUND = 0
 ASSIST = 1
@@ -168,94 +168,94 @@ def name_corrector(player_name, home_roster, away_roster):
 
 
 #returns numerical value of play. FORMAT: Regex, STAT, VALUE
-def playID(play_info, player_name, team):
+def playID(play_info, player_name, team, home_score, away_score, prev_home_score, prev_away_score):
     global box_score
     global team_fouls
     global team_turnovers
-    makes_three_point_jumper = [r"makes (\d+)-foot three point jumper|makes (\d+)-foot three point shot|makes (\d+)-foot three pointer|makes three point jumper|makes three point shot|makes three pointer", POINT, 3]
-    misses_three_point_jumper = [r"misses (\d+)-foot three point jumper|misses (\d+)-foot three point shot|misses (\d+)-foot three pointer|misses three point jumper|misses three point shot|misses three pointer", POINT, 0]
-    makes_two_point = [r"makes (\d+)-foot two point shot|makes (\d+)-foot jumper|makes two point shot|makes jumper", POINT, 2]
-    misses_two_point = [r"misses (\d+)-foot two point shot|misses (\d+)-foot jumper|misses two point shot|misses jumper", POINT, 0]
-    makes_pullup = [r"makes (\d+)-foot pullup jump shot|makes pullup jump shot", POINT, 2]
-    misses_pullup = [r"misses (\d+)-foot pullup jump shot|misses pullup jump shot", POINT, 0]
-    blocks= [r"^blocks", BLOCK, 1]
-    defensive_rebound = [r"defensive rebound", REBOUND, 1]
-    turnover = [r"\bturnover\b", TURNOVER, 1]
-    shooting_foul =  [r"shooting foul", FOUL, 1]
-    makes_free_throw_one_of_one = [r"makes free throw 1 of 1", POINT, 1]
-    misses_free_throw_one_of_one = [r"misses free throw 1 of 1", POINT, 0]
-    makes_free_throw_one_of_two = [r"makes free throw 1 of 2", POINT, 1]
-    makes_free_throw_two_of_two = [r"makes free throw 2 of 2", POINT, 1]
-    makes_free_throw_one_of_three = [r"makes free throw 1 of 3", POINT, 1]
-    makes_free_throw_two_of_three = [r"makes free throw 2 of 3", POINT, 1]
-    makes_free_throw_three_of_three = [r"makes free throw 3 of 3", POINT, 1]
-    misses_free_throw_one_of_two = [r"misses free throw 1 of 2", POINT, 0]
-    misses_free_throw_two_of_two = [r"misses free throw 2 of 2", POINT, 0]
-    misses_free_throw_one_of_three = [r"misses free throw 1 of 3", POINT, 0]
-    misses_free_throw_two_of_three = [r"misses free throw 2 of 3", POINT, 0]
-    misses_free_throw_three_of_three = [r"misses free throw 3 of 3", POINT, 0]
-    offensive_rebound = [r"offensive rebound", REBOUND, 1]
-    makes_driving_layup = [r"makes driving layup", POINT, 2]
-    misses_driving_layup = [r"misses driving layup", POINT, 0]
-    makes_layup = [r"makes layup|makes (\d+)-foot layup", POINT, 2]
-    misses_layup = [r"misses layup|misses (\d+)-foot layup", POINT, 0]
-    bad_pass = [r"bad pass", TURNOVER, 1]
-    makes_driving_floating_jumpshot = [r"makes (\d+)-foot driving floating jump shot|makes driving floating jump shot", POINT, 2]
-    misses_driving_floating_jumpshot = [r"misses (\d+)-foot driving floating jump shot|misses driving floating jump shot", POINT, 0]
-    makes_three_point_pullup = [r"makes (\d+)-foot three point pullup jump shot|makes three point pullup jump shot", POINT, 3]
-    misses_three_point_pullup = [r"misses (\d+)-foot three point pullup jump shot|misses three point pullup jump shot", POINT, 0]
-    personal_foul = [r"personal foul", FOUL, 1]
-    makes_driving_dunk = [r"makes (\d+)-foot driving dunk|makes driving dunk", POINT, 2]
-    misses_driving_dunk = [r"misses (\d+)-foot driving dunk|misses driving dunk", POINT, 0]
-    makes_alley_oop_dunk_shot = [r"makes (\d+)-foot alley oop dunk shot|makes alley oop dunk shot", POINT, 2]
-    misses_alley_oop_dunk_shot = [r"makes (\d+)-foot alley oop dunk shot|misses alley oop dunk shot", POINT, 0]
-    makes_running_pullup_jumpshot = [r"makes (\d+)-foot running pullup jump shot|makes running pullup jump shot", POINT, 2]
-    misses_running_pullup_jumpshot = [r"misses (\d+)-foot running pullup jump shot|misses running pullup jump shot", POINT, 0]
-    makes_stepback_jumpshot = [r"makes (\d+)-foot step back jumpshot|makes step back jumpshot", POINT, 2]
-    misses_stepback_jumpshot = [r"misses (\d+)-foot step back jumpshot|misses step back jumpshot", POINT, 0]
-    makes_tip_shot = [r"makes (\d+)-foot tip shot|makes tip shot", POINT, 2]
-    misses_tip_shot = [r"misses (\d+)-foot tip shot|misses tip shot", POINT, 0]
-    makes_alley_oop_layup = [r"makes alley oop layup", POINT, 2]
-    misses_alley_oop_layup = [r"misses alley oop layup", POINT, 0]
-    offensive_foul = [r"offensive foul", FOUL, 1]
-    loose_ball_foul = [r"loose ball foul", FOUL, 1]
-    makes_dunk = [r"makes (\d+)-foot dunk|makes dunk|makes slam dunk", POINT, 2]
-    misses_dunk = [r"misses (\d+)-foot dunk|misses dunk|misses slam dunk", POINT, 0]
-    traveling = [r"traveling", TURNOVER, 1]
-    makes_bank_shot = [r"makes (\d+)-foot jump bank shot|makes jump bank shot", POINT, 2]
-    makes_hook_shot = [r"makes (\d+)-foot hook shot|makes hook shot", POINT, 2]
-    misses_hook_shot = [r"misses (\d+)-foot hook shot|misses hook shot", POINT, 0]
-    kicked_ball_violation = [r"kicked ball violation", TURNOVER, 1]
-    offensive_charge = [r"offensive charge", FOUL_AND_TURNOVER, 1]
-    violation = [r"violation", TURNOVER, 1]
-    makes_finger_roll_layup = [r"makes finger roll layup", POINT, 2]
-    misses_finger_roll_layup = [r"makes finger roll layup", POINT, 0]
-    personal_take_foul = [r"personal take foul", FOUL, 1]
-    transition_take_foul = [r"transition take foul", FOUL, 1]
-    defensive_three_seconds = [r"defensive 3-seconds", TEAM_FOUL, 1]
-    makes_technical_free_throw = [r"makes technical free throw", POINT, 1]
-    misses_technical_free_throw = [r"misses technical free throw", POINT, 0]
-    hanging_techfoul = [r"hanging techfoul", FOUL, 1]
-    technical_foul = [r"technical foul", FOUL, 1]
-    misses_bank_shot = [r"misses (\d+)-foot jump bank shot|misses jump bank shot", POINT, 0]
-    flagrant_foul_1 = [r"flagrant foul type 1", FOUL, 1]
-    makes_ft_flagrant_1_of_2 = [r"makes free throw flagrant 1 of 2", POINT, 1]
-    makes_ft_flagrant_2_of_2 = [r"makes free throw flagrant 2 of 2", POINT, 1]
-    misses_ft_flagrant_1_of_2 = [r"misses free throw flagrant 1 of 2", POINT, 0]
-    misses_ft_flagrant_2_of_2 = [r"misses free throw flagrant 2 of 2", POINT, 0]
-    makes_ft_flagrant_1_of_3 = [r"makes free throw flagrant 1 of 3", POINT, 1]
-    makes_ft_flagrant_2_of_3 = [r"makes free throw flagrant 2 of 3", POINT, 1]
-    makes_ft_flagrant_3_of_3 = [r"makes free throw flagrant 3 of 3", POINT, 1]
-    misses_ft_flagrant_1_of_3 = [r"misses free throw flagrant 1 of 3", POINT, 0]
-    misses_ft_flagrant_2_of_3 = [r"misses free throw flagrant 2 of 3", POINT, 0]
-    misses_ft_flagrant_3_of_3 = [r"misses free throw flagrant 3 of 3", POINT, 0]
-    unspecified_foul = [r".*foul:.*", BOTH_TEAM_FOUL, 1]
-    ejected = [r"ejected", POINT, 0]
-    makes_running_jumper = [r"makes (\d+)-foot running jumper|makes running jumper", POINT, 2]
-    misses_running_jumper = [r"misses (\d+)-foot running jumper|misses running jumper", POINT, 0]
-    defensive_team_rebound = [r"defensive team rebound", REBOUND, 0]
-    team_rebound = [r"team rebound", REBOUND, 0]
-    lost_ball = [r"lost ball", TURNOVER, 1]
+    makes_three_point_jumper = [r"makes (\d+)-foot three point jumper|makes (\d+)-foot three point shot|makes (\d+)-foot three pointer|makes three point jumper|makes three point shot|makes three pointer", POINT]
+    misses_three_point_jumper = [r"misses (\d+)-foot three point jumper|misses (\d+)-foot three point shot|misses (\d+)-foot three pointer|misses three point jumper|misses three point shot|misses three pointer", POINT]
+    makes_two_point = [r"makes (\d+)-foot two point shot|makes (\d+)-foot jumper|makes two point shot|makes jumper", POINT]
+    misses_two_point = [r"misses (\d+)-foot two point shot|misses (\d+)-foot jumper|misses two point shot|misses jumper", POINT]
+    makes_pullup = [r"makes (\d+)-foot pullup jump shot|makes pullup jump shot", POINT]
+    misses_pullup = [r"misses (\d+)-foot pullup jump shot|misses pullup jump shot", POINT]
+    blocks= [r"^blocks", BLOCK]
+    defensive_rebound = [r"defensive rebound", REBOUND]
+    turnover = [r"\bturnover\b", TURNOVER]
+    shooting_foul =  [r"shooting foul", FOUL]
+    makes_free_throw_one_of_one = [r"makes free throw 1 of 1", POINT]
+    misses_free_throw_one_of_one = [r"misses free throw 1 of 1", POINT]
+    makes_free_throw_one_of_two = [r"makes free throw 1 of 2", POINT]
+    makes_free_throw_two_of_two = [r"makes free throw 2 of 2", POINT]
+    makes_free_throw_one_of_three = [r"makes free throw 1 of 3", POINT]
+    makes_free_throw_two_of_three = [r"makes free throw 2 of 3", POINT]
+    makes_free_throw_three_of_three = [r"makes free throw 3 of 3", POINT]
+    misses_free_throw_one_of_two = [r"misses free throw 1 of 2", POINT]
+    misses_free_throw_two_of_two = [r"misses free throw 2 of 2", POINT]
+    misses_free_throw_one_of_three = [r"misses free throw 1 of 3", POINT]
+    misses_free_throw_two_of_three = [r"misses free throw 2 of 3", POINT]
+    misses_free_throw_three_of_three = [r"misses free throw 3 of 3", POINT]
+    offensive_rebound = [r"offensive rebound", REBOUND]
+    makes_driving_layup = [r"makes driving layup", POINT]
+    misses_driving_layup = [r"misses driving layup", POINT]
+    makes_layup = [r"makes layup|makes (\d+)-foot layup", POINT]
+    misses_layup = [r"misses layup|misses (\d+)-foot layup", POINT]
+    bad_pass = [r"bad pass", TURNOVER]
+    makes_driving_floating_jumpshot = [r"makes (\d+)-foot driving floating jump shot|makes driving floating jump shot", POINT]
+    misses_driving_floating_jumpshot = [r"misses (\d+)-foot driving floating jump shot|misses driving floating jump shot", POINT]
+    makes_three_point_pullup = [r"makes (\d+)-foot three point pullup jump shot|makes three point pullup jump shot", POINT]
+    misses_three_point_pullup = [r"misses (\d+)-foot three point pullup jump shot|misses three point pullup jump shot", POINT]
+    personal_foul = [r"personal foul", FOUL]
+    makes_driving_dunk = [r"makes (\d+)-foot driving dunk|makes driving dunk", POINT]
+    misses_driving_dunk = [r"misses (\d+)-foot driving dunk|misses driving dunk", POINT]
+    makes_alley_oop_dunk_shot = [r"makes (\d+)-foot alley oop dunk shot|makes alley oop dunk shot", POINT]
+    misses_alley_oop_dunk_shot = [r"makes (\d+)-foot alley oop dunk shot|misses alley oop dunk shot", POINT]
+    makes_running_pullup_jumpshot = [r"makes (\d+)-foot running pullup jump shot|makes running pullup jump shot", POINT]
+    misses_running_pullup_jumpshot = [r"misses (\d+)-foot running pullup jump shot|misses running pullup jump shot", POINT]
+    makes_stepback_jumpshot = [r"makes (\d+)-foot step back jumpshot|makes step back jumpshot", POINT]
+    misses_stepback_jumpshot = [r"misses (\d+)-foot step back jumpshot|misses step back jumpshot", POINT]
+    makes_tip_shot = [r"makes (\d+)-foot tip shot|makes tip shot", POINT]
+    misses_tip_shot = [r"misses (\d+)-foot tip shot|misses tip shot", POINT]
+    makes_alley_oop_layup = [r"makes alley oop layup", POINT]
+    misses_alley_oop_layup = [r"misses alley oop layup", POINT]
+    offensive_foul = [r"offensive foul", FOUL]
+    loose_ball_foul = [r"loose ball foul", FOUL]
+    makes_dunk = [r"makes (\d+)-foot dunk|makes dunk|makes slam dunk", POINT]
+    misses_dunk = [r"misses (\d+)-foot dunk|misses dunk|misses slam dunk", POINT]
+    traveling = [r"traveling", TURNOVER]
+    makes_bank_shot = [r"makes (\d+)-foot jump bank shot|makes jump bank shot", POINT]
+    makes_hook_shot = [r"makes (\d+)-foot hook shot|makes hook shot", POINT]
+    misses_hook_shot = [r"misses (\d+)-foot hook shot|misses hook shot", POINT]
+    kicked_ball_violation = [r"kicked ball violation", TURNOVER]
+    offensive_charge = [r"offensive charge", FOUL_AND_TURNOVER]
+    violation = [r"violation", TURNOVER]
+    makes_finger_roll_layup = [r"makes finger roll layup", POINT]
+    misses_finger_roll_layup = [r"makes finger roll layup", POINT]
+    personal_take_foul = [r"personal take foul", FOUL]
+    transition_take_foul = [r"transition take foul", FOUL]
+    defensive_three_seconds = [r"defensive 3-seconds", TEAM_FOUL]
+    makes_technical_free_throw = [r"makes technical free throw", POINT]
+    misses_technical_free_throw = [r"misses technical free throw", POINT]
+    hanging_techfoul = [r"hanging techfoul", FOUL]
+    technical_foul = [r"technical foul", FOUL]
+    misses_bank_shot = [r"misses (\d+)-foot jump bank shot|misses jump bank shot", POINT]
+    flagrant_foul_1 = [r"flagrant foul type 1", FOUL]
+    makes_ft_flagrant_1_of_2 = [r"makes free throw flagrant 1 of 2", POINT]
+    makes_ft_flagrant_2_of_2 = [r"makes free throw flagrant 2 of 2", POINT]
+    misses_ft_flagrant_1_of_2 = [r"misses free throw flagrant 1 of 2", POINT]
+    misses_ft_flagrant_2_of_2 = [r"misses free throw flagrant 2 of 2", POINT]
+    makes_ft_flagrant_1_of_3 = [r"makes free throw flagrant 1 of 3", POINT]
+    makes_ft_flagrant_2_of_3 = [r"makes free throw flagrant 2 of 3", POINT]
+    makes_ft_flagrant_3_of_3 = [r"makes free throw flagrant 3 of 3", POINT]
+    misses_ft_flagrant_1_of_3 = [r"misses free throw flagrant 1 of 3", POINT]
+    misses_ft_flagrant_2_of_3 = [r"misses free throw flagrant 2 of 3", POINT]
+    misses_ft_flagrant_3_of_3 = [r"misses free throw flagrant 3 of 3", POINT]
+    unspecified_foul = [r".*foul:.*", BOTH_TEAM_FOUL]
+    ejected = [r"ejected", POINT]
+    makes_running_jumper = [r"makes (\d+)-foot running jumper|makes running jumper", POINT]
+    misses_running_jumper = [r"misses (\d+)-foot running jumper|misses running jumper", POINT]
+    defensive_team_rebound = [r"defensive team rebound", REBOUND]
+    team_rebound = [r"team rebound", REBOUND]
+    lost_ball = [r"lost ball", TURNOVER]
 
 
 
@@ -282,10 +282,16 @@ def playID(play_info, player_name, team):
     for i, play_type in enumerate(play_types):
         match = re.search(play_type[0], play_info)
         if match:
-            if play_type[1] == POINT or play_type[1] == REBOUND or play_type[1] == BLOCK or play_type[1] == STEAL or play_type[1] == FOUL\
+            if play_type[1] == POINT:
+                if team == HOME:
+                    box_score[player_name][POINT] += int(home_score) - prev_home_score
+                elif team == AWAY:
+                    box_score[player_name][POINT] += int(away_score) - prev_away_score
+
+            if play_type[1] == REBOUND or play_type[1] == BLOCK or play_type[1] == STEAL or play_type[1] == FOUL\
                     or play_type[1] == TURNOVER:
                 if player_name is not None:
-                    box_score[player_name][play_type[1]] += play_type[2]
+                    box_score[player_name][play_type[1]] += 1
             if play_type[1] == FOUL:
                 if team is not None:
                     team_fouls[team] += 1
@@ -302,7 +308,7 @@ def playID(play_info, player_name, team):
             if play_type[1] == TEAM_FOUL:
                 team_fouls[team] += 1
             if match.lastindex is None:
-                return i*100
+                return i*10
             else:
                 for index in range(1, match.lastindex + 1):
                     if match.group(index) is not None:
@@ -317,7 +323,7 @@ def playID(play_info, player_name, team):
                             dist = DIST_27_30
                         else:
                             dist = DIST_30_PLUS
-                        return i * 100 + dist
+                        return i * 10 + dist
     return -1
 
 
@@ -425,7 +431,8 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
     for player in home_roster + away_roster:
         box_score[player] = deepcopy(init_array)
 
-
+    prev_home_score = 0
+    prev_away_score = 0
     for quarter_text in quarter_texts:
         team_fouls = [0,0]
         # Click on the quarter button
@@ -512,11 +519,11 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
             play_info = re.sub(r'\(.*?\)', '', play_info).strip()
             player_name = name_corrector(player_name, home_roster, away_roster)
             if player_name in home_roster:
-                play_info_id = playID(play_info, player_name, HOME)
+                play_info_id = playID(play_info, player_name, HOME, home_score, away_score, prev_home_score, prev_away_score)
             elif player_name in away_roster:
-                play_info_id = playID(play_info, player_name, AWAY)
+                play_info_id = playID(play_info, player_name, AWAY, home_score, away_score, prev_home_score, prev_away_score)
             else:
-                play_info_id = playID(play_info, None, None)
+                play_info_id = playID(play_info, None, None, home_score, away_score, prev_home_score, prev_away_score)
                 if player_name != "shot clock" and player_name != "5 second":
                     debug = 1
 
@@ -554,10 +561,13 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 player_points = "None"
                 player_fouls = "None"
                 player_turnovers = "None"
-            play_components_text.append([play_time, play_info_id, quarter_text, home_team, away_team, player_name,
+
+            prev_home_score = int(home_score)
+            prev_away_score = int(away_score)
+            play_components_text.append([play_time, play_info_id, quarter_text, home_team, away_team,curr_team, player_name,
                                          assister, stage, game_num, win_diff, total_games, win_percentage,
                                          home_score, away_score, abs(int(home_score) - int(away_score)), fouls, turnovers, player_rebs,
-                                         player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, curr_team, game_date])
+                                         player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, game_date])
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
@@ -568,9 +578,9 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
 def main():
     page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish the "
                      "program\n")
-    play_data = [["time", "play", "quarter", "home_team", "away_team", "name", "assister", "stage", "game_num",
+    play_data = [["time", "play", "quarter", "home_team", "away_team", "current_team", "name", "assister", "stage", "game_num",
                   "win_difference", "games_played", "win_percentage", "home_score", "away_score", "score_difference", "team_fouls_qtr",
-                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "curr_team", "date"]]
+                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "date"]]
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
