@@ -365,12 +365,10 @@ def open_website_with_retry(url, driver, retries=3, delay=3):
 def get_roster(box_score_url):
     driver = webdriver.Chrome(options=chrome_options)
 
-    # Open the page URL
     open_website_with_retry(box_score_url, driver)
 
-    # Wait for the content to load
-    driver.implicitly_wait(7)  # Adjust the sleep time as needed
-    # Get the page source after the dynamic content is loaded
+    driver.implicitly_wait(7)
+
     time.sleep(1)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     table_selector = ('.GameBoxscore_gbTableSection__zTOUg')
@@ -392,19 +390,17 @@ def get_roster(box_score_url):
 
 
 def get_play_component_data(page_url, stage, game_num, box_score_url):
-    # Initialize WebDriver (make sure to specify the path to your WebDriver)
+
     global box_score
     global team_fouls
     global team_turnovers
     home_roster, away_roster = get_roster(box_score_url)
     driver = webdriver.Chrome(options=chrome_options)
 
-    # Open the page URL
     open_website_with_retry(page_url, driver)
 
-    # Wait for the content to load
-    driver.implicitly_wait(7)  # Adjust the sleep time as needed
-    # Get the page source after the dynamic content is loaded
+    driver.implicitly_wait(7)
+
     time.sleep(1)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     teams = soup.find_all(True, class_=['fw-medium n7 ml2'])
