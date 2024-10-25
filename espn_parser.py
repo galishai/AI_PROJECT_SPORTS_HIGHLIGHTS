@@ -134,6 +134,13 @@ team_turnovers = [0,0]
 #rebounds, assists, steals, blocks, points, fouls
 box_score = {}
 
+def time_to_seconds(time_str):
+    if ':' in time_str:
+        minutes, seconds = map(int, time_str.split(':'))
+        return minutes * 60 + seconds
+    else:
+        return int(float(time_str))
+
 #returns player that assisted, or "None" if unassisted
 def removeAssister(play_info):
 
@@ -562,7 +569,7 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
 
             prev_home_score = int(home_score)
             prev_away_score = int(away_score)
-            play_components_text.append([play_time, play_info_id, quarter_text, home_team, away_team,curr_team, player_name,
+            play_components_text.append([time_to_seconds(play_time), play_info_id, quarter_text, home_team, away_team,curr_team, player_name,
                                          assister, stage, game_num, win_diff, total_games, win_percentage,
                                          home_score, away_score, abs(int(home_score) - int(away_score)), fouls, turnovers, player_rebs,
                                          player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, game_date])
@@ -576,7 +583,7 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
 def main():
     page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish the "
                      "program\n")
-    play_data = [["time", "play", "quarter", "home_team", "away_team", "current_team", "name", "assister", "stage", "game_num",
+    play_data = [["time_left_qtr", "play", "quarter", "home_team", "away_team", "current_team", "name", "assister", "stage", "game_num",
                   "win_difference", "games_played", "win_percentage", "home_score", "away_score", "score_difference", "team_fouls_qtr",
                   "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "date"]]
     if page_url == "AUTO":
