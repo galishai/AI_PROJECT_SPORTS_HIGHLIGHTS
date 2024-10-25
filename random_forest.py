@@ -34,6 +34,11 @@ print("Accuracy:", accuracy)
 print("Classification Report:\n", classification_report(y_test, y_pred))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
+# probabilities of samples being 1
+y_proba = rf.predict_proba(X_test)
+# Get the probability of each sample being class 1
+y_proba_1 = y_proba[:, 1]  # This selects the second column, which corresponds to class 1
+
 
 
 
