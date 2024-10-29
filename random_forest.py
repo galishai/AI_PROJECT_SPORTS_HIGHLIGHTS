@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 
-file_path = 'output_v3_with_target.csv'
+file_path = 'output_v3_with_target_vf.csv'
 dataset = pd.read_csv(file_path)
 
 data = dataset.drop(columns=['target'])
