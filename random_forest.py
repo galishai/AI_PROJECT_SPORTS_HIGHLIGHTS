@@ -29,7 +29,7 @@ for column in modified_dataset.select_dtypes(include=['object']).columns:
     label_encoders[column] = LabelEncoder()
     modified_dataset[column] = label_encoders[column].fit_transform(modified_dataset[column])
 
-data = modified_dataset.drop(columns=['is_highlight'])
+data = modified_dataset.drop(columns=['is_highlight', 'date'])
 target = modified_dataset['is_highlight']
 #print("Data type of 'games_played':", data['time_left_qtr'].dtype)
 X_train = data.iloc[TEST_LAST_ROW_CSV - 1:]
