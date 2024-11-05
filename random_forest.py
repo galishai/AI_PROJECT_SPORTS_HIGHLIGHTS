@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 import csv
+import joblib
 
 #0 for classification, 1 for probabilities
 PROBABILITIES = 0
@@ -42,6 +43,8 @@ test_non_encode = dataset.iloc[:TEST_LAST_ROW_CSV - 1]
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, Y_train)
 
+
+
 if PROBABILITIES == 1:
     y_test_proba = rf.predict_proba(X_test)[:, 1]  # Probability for class 1
     test_non_encode['probability_class_1'] = y_test_proba
@@ -49,7 +52,6 @@ if PROBABILITIES == 1:
     sorted_probabilities = test_non_encode.sort_values(by='probability_class_1', ascending=False)
     sorted_probabilities['time_left_qtr'] = sorted_probabilities['time_left_qtr'].apply(seconds_to_time)
     sorted_probabilities.to_csv('output_test_sorted_probabilities.csv', index=False)
-    print(f"Play component text saved to output_test_sorted_probabilities.csv")
     print("OK :)")
 else:
     Y_pred = rf.predict(X_test)
