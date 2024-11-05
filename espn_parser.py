@@ -9,6 +9,7 @@ import time
 import csv
 import re
 import enum
+from unidecode import unidecode
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -171,7 +172,7 @@ def name_corrector(player_name, home_roster, away_roster):
         return "OG Anunoby"
     if player_name == "Bill Walker":
         return "Henry Walker"
-    return player_name
+    return unidecode(player_name)
 
 
 #returns numerical value of play. FORMAT: Regex, STAT, VALUE
@@ -388,8 +389,8 @@ def get_roster(box_score_url):
     if not home_team_elements:
         print("ERROR ROSTER HOME")
         exit(-1)
-    player_names_home = [player.get_text(strip=True) for player in home_team_elements]
-    player_names_away = [player.get_text(strip=True) for player in away_team_elements]
+    player_names_home = [unidecode(player.get_text(strip=True)) for player in home_team_elements]
+    player_names_away = [unidecode(player.get_text(strip=True)) for player in away_team_elements]
     driver.quit()
     return player_names_home, player_names_away
 
@@ -508,14 +509,14 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 box_score[assister][ASSIST] += 1
                 assister_assists = box_score[assister][ASSIST]
             else:
-                assister_assists = "None"
+                assister_assists = 0
             stealer = removeStealer(play_info)[0]
             stealer = name_corrector(stealer, home_roster, away_roster)
             if stealer in home_roster or stealer in away_roster:
                 box_score[stealer][STEAL] += 1
                 stealer_steals = box_score[stealer][STEAL]
             else:
-                stealer_steals = "None"
+                stealer_steals = 0
             pattern = re.compile(r'\((.*?)\)')
             pattern_match = pattern.findall(play_info)
             if len(pattern_match) > 0:
@@ -547,9 +548,9 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 turnovers = team_turnovers[AWAY]
             else:
                 curr_team = "None"
-                win_percentage = "None"
-                fouls = "None"
-                turnovers = "None"
+                win_percentage = 50
+                fouls = 0
+                turnovers = 0
             if player_name in home_roster or player_name in away_roster:
                 player_rebs = box_score[player_name][REBOUND]
                 player_assists = box_score[player_name][ASSIST]
@@ -559,13 +560,13 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 player_fouls = box_score[player_name][FOUL]
                 player_turnovers = box_score[player_name][TURNOVER]
             else:
-                player_rebs = "None"
-                player_assists = "None"
-                player_steals = "None"
-                player_blocks = "None"
-                player_points = "None"
-                player_fouls = "None"
-                player_turnovers = "None"
+                player_rebs = 0
+                player_assists = 0
+                player_steals = 0
+                player_blocks = 0
+                player_points = 0
+                player_fouls = 0
+                player_turnovers = 0
 
             prev_home_score = int(home_score)
             prev_away_score = int(away_score)
