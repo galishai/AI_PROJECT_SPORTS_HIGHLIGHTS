@@ -63,7 +63,6 @@ else:
     test_non_encode['classified'] = Y_pred
     test_non_encode['time_left_qtr'] = test_non_encode['time_left_qtr'].apply(seconds_to_time)
     test_non_encode.to_csv('output_test_classified.csv', index=False)
-    print(f"Play component text saved to output_test_classified.csv")
     print("OK :)")
 
 
