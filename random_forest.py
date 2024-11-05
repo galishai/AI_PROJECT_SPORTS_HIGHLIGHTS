@@ -7,10 +7,10 @@ from sklearn.preprocessing import LabelEncoder
 import csv
 
 #0 for classification, 1 for probabilities
-PROBABILITIES = 1
+PROBABILITIES = 0
 
 
-TRAIN_LAST_ROW_CSV = 379
+TEST_LAST_ROW_CSV = 3399
 file_path = 'output_v3_with_target_vf.csv'
 
 
@@ -32,12 +32,12 @@ for column in modified_dataset.select_dtypes(include=['object']).columns:
 data = modified_dataset.drop(columns=['is_highlight'])
 target = modified_dataset['is_highlight']
 #print("Data type of 'games_played':", data['time_left_qtr'].dtype)
-X_train = data.iloc[TRAIN_LAST_ROW_CSV - 1:]  # All rows except the last
-Y_train = target.iloc[TRAIN_LAST_ROW_CSV - 1:]
-X_test = data.iloc[:TRAIN_LAST_ROW_CSV - 1]  # Only the last row
-Y_test = target.iloc[:TRAIN_LAST_ROW_CSV - 1]
+X_train = data.iloc[TEST_LAST_ROW_CSV - 1:]
+Y_train = target.iloc[TEST_LAST_ROW_CSV - 1:]
+X_test = data.iloc[:TEST_LAST_ROW_CSV - 1]
+Y_test = target.iloc[:TEST_LAST_ROW_CSV - 1]
 
-test_non_encode = dataset.iloc[:TRAIN_LAST_ROW_CSV - 1]
+test_non_encode = dataset.iloc[:TEST_LAST_ROW_CSV - 1]
 
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, Y_train)
