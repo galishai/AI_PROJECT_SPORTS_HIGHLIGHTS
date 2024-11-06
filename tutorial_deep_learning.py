@@ -1,13 +1,13 @@
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 
 training_data = datasets.FashionMNIST(
     root="data",
     train=True,
-    download=False,
+    download=True,
     transform=ToTensor(),
 )
 
@@ -15,7 +15,7 @@ training_data = datasets.FashionMNIST(
 test_data = datasets.FashionMNIST(
     root="data",
     train=False,
-    download=False,
+    download=True,
     transform=ToTensor(),
 )
 
