@@ -302,16 +302,16 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
 
             if play_type[1] == REBOUND or play_type[1] == BLOCK or play_type[1] == STEAL or play_type[1] == FOUL\
                     or play_type[1] == TURNOVER:
-                if player_name is not None:
+                if player_name != "None":
                     box_score[player_name][play_type[1]] += 1
             if play_type[1] == FOUL:
-                if team is not None:
+                if team != "None":
                     team_fouls[team] += 1
             if play_type[1] == TURNOVER:
-                if team is not None:
+                if team != "None":
                     team_turnovers[team] += 1
             if play_type[1] == FOUL_AND_TURNOVER:
-                if team is not None:
+                if team != "None":
                     team_fouls[team] += 1
                     team_turnovers[team] += 1
             if play_type[1] == BOTH_TEAM_FOUL:
@@ -529,7 +529,7 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
             elif player_name in away_roster:
                 play_info_id = playID(play_info, player_name, AWAY, home_score, away_score, prev_home_score, prev_away_score)
             else:
-                play_info_id = playID(play_info, None, None, home_score, away_score, prev_home_score, prev_away_score)
+                play_info_id = playID(play_info, "None", "None", home_score, away_score, prev_home_score, prev_away_score)
                 if player_name != "shot clock" and player_name != "5 second":
                     debug = 1
 
