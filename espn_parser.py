@@ -18,92 +18,92 @@ chrome_options.add_argument('capabilities={"acceptInsecureCerts": True}')
 
 class Plays(enum.Enum):
     MAKES_THREE_POINT_JUMPER = 0
-    MISSES_THREE_POINT_JUMPER = 10
-    MAKES_TWO_POINT = 20
-    MISSES_TWO_POINT = 30
-    MAKES_PULLUP = 40
-    MISSES_PULLUP = 50
-    BLOCK = 60
-    DEFENSIVE_REBOUND = 70
-    TURNOVER = 80
-    SHOOTING_FOUL = 90
-    MAKES_FREE_THROW_ONE_OF_ONE = 100
-    MISSES_FREE_THROW_ONE_OF_ONE = 110
-    MAKES_FREE_THROW_ONE_OF_TWO = 120
-    MAKES_FREE_THROW_TWO_OF_TWO = 130
-    MAKES_FREE_THROW_ONE_OF_THREE = 140
-    MAKES_FREE_THROW_TWO_OF_THREE = 150
-    MAKES_FREE_THROW_THREE_OF_THREE = 160
-    MISSES_FREE_THROW_ONE_OF_TWO = 170
-    MISSES_FREE_THROW_TWO_OF_TWO = 180
-    MISSES_FREE_THROW_ONE_OF_THREE = 190
-    MISSES_FREE_THROW_TWO_OF_THREE = 200
-    MISSES_FREE_THROW_THREE_OF_THREE = 210
-    OFFENSIVE_REBOUND = 220
-    MAKES_DRIVING_LAYUP = 230
-    MISSES_DRIVING_LAYUP = 240
-    MAKES_LAYUP = 250
-    MISSES_LAYUP = 260
-    BAD_PASS = 270
-    MAKES_DRIVING_FLOATING_JUMPSHOT = 280
-    MISSES_DRIVING_FLOATING_JUMPSHOT = 290
-    MAKES_THREE_POINT_PULLUP = 300
-    MISSES_THREE_POINT_PULLUP = 310
-    PERSONAL_FOUL = 320
-    MAKES_DRIVING_DUNK = 330
-    MISSES_DRIVING_DUNK = 340
-    MAKES_ALLEY_OOP_DUNK_SHOT = 350
-    MISSES_ALLEY_OOP_DUNK_SHOT = 360
-    MAKES_RUNNING_PULLUP_JUMPSHOT = 370
-    MISSES_RUNNING_PULLUP_JUMPSHOT = 380
-    MAKES_STEPBACK_JUMPSHOT = 390
-    MISSES_STEPBACK_JUMPSHOT = 400
-    MAKES_TIP_SHOT = 410
-    MISSES_TIP_SHOT = 420
-    MAKES_ALLEY_OOPS_LAYUP = 430
-    MISSES_ALLEY_OOPS_LAYUP = 440
-    OFFENSIVE_FOUL = 450
-    LOOSE_BALL_FOUL = 460
-    MAKES_DUNK = 470
-    MISSES_DUNK = 480
-    TRAVELING = 490
-    MAKES_BANK_SHOT = 500
-    MAKES_HOOK_SHOT = 510
-    MISSES_HOOK_SHOT = 520
-    KICKED_BALL_VIOLATION = 530
-    OFFENSIVE_CHARGE = 540
-    VIOLATION = 550
-    MAKES_FINGER_ROLL_LAYUP = 560
-    MISSES_FINGER_ROLL_LAYUP = 570
-    PERSONAL_TAKE_FOUL = 580
-    TRANSITION_TAKE_FOUL = 590
-    DEFENSIVE_THREE_SECONDS = 600
-    MAKES_TECHNICAL_FREE_THROW = 610
-    MISSES_TECHNICAL_FREE_THROW = 620
-    HANGING_TECHFOUL = 630
-    TECHNICAL_FOUL = 640
-    MISSES_BANK_SHOT = 650
-    FLAGRANT_FOUL_1 = 660
-    MAKES_FREE_THROW_FLAGRANT_1_OF_2 = 670
-    MAKES_FREE_THROW_FLAGRANT_2_OF_2 = 680
-    MISSES_FREE_THROW_FLAGRANT_1_OF_2 = 690
-    MISSES_FREE_THROW_FLAGRANT_2_OF_2 = 700
-    MAKES_FREE_THROW_FLAGRANT_1_OF_3 = 710
-    MAKES_FREE_THROW_FLAGRANT_2_OF_3 = 720
-    MAKES_FREE_THROW_FLAGRANT_3_OF_3 = 730
-    MISSES_FREE_THROW_FLAGRANT_1_OF_3 = 740
-    MISSES_FREE_THROW_FLAGRANT_2_OF_3 = 750
-    MISSES_FREE_THROW_FLAGRANT_3_OF_3 = 760
-    BOTH_TEAM_FOUL = 770
-    EJECTED = 780
-    MAKES_RUNNING_JUMPER = 790
-    MISSES_RUNNING_JUMPER = 800
-    DEFENSIVE_TEAM_REBOUND = 810
-    TEAM_REBOUND = 820
-    LOST_BALL = 830
-    AWAY_FROM_PLAY_FOUL = 840
-    UNSPECIFIED_FOUL = 850
-    MAKES_FREE_THROW_FLAGRANT_1_OF_1 = 860
+    MISSES_THREE_POINT_JUMPER = 1
+    MAKES_TWO_POINT = 2
+    MISSES_TWO_POINT = 3
+    MAKES_PULLUP = 4
+    MISSES_PULLUP = 5
+    BLOCK = 6
+    DEFENSIVE_REBOUND = 7
+    TURNOVER = 8
+    SHOOTING_FOUL = 9
+    MAKES_FREE_THROW_ONE_OF_ONE = 10
+    MISSES_FREE_THROW_ONE_OF_ONE = 11
+    MAKES_FREE_THROW_ONE_OF_TWO = 12
+    MAKES_FREE_THROW_TWO_OF_TWO = 13
+    MAKES_FREE_THROW_ONE_OF_THREE = 14
+    MAKES_FREE_THROW_TWO_OF_THREE = 15
+    MAKES_FREE_THROW_THREE_OF_THREE = 16
+    MISSES_FREE_THROW_ONE_OF_TWO = 17
+    MISSES_FREE_THROW_TWO_OF_TWO = 18
+    MISSES_FREE_THROW_ONE_OF_THREE = 19
+    MISSES_FREE_THROW_TWO_OF_THREE = 20
+    MISSES_FREE_THROW_THREE_OF_THREE = 21
+    OFFENSIVE_REBOUND = 22
+    MAKES_DRIVING_LAYUP = 23
+    MISSES_DRIVING_LAYUP = 24
+    MAKES_LAYUP = 25
+    MISSES_LAYUP = 26
+    BAD_PASS = 27
+    MAKES_DRIVING_FLOATING_JUMPSHOT = 28
+    MISSES_DRIVING_FLOATING_JUMPSHOT = 29
+    MAKES_THREE_POINT_PULLUP = 30
+    MISSES_THREE_POINT_PULLUP = 31
+    PERSONAL_FOUL = 32
+    MAKES_DRIVING_DUNK = 33
+    MISSES_DRIVING_DUNK = 34
+    MAKES_ALLEY_OOP_DUNK_SHOT = 35
+    MISSES_ALLEY_OOP_DUNK_SHOT = 36
+    MAKES_RUNNING_PULLUP_JUMPSHOT = 37
+    MISSES_RUNNING_PULLUP_JUMPSHOT = 38
+    MAKES_STEPBACK_JUMPSHOT = 39
+    MISSES_STEPBACK_JUMPSHOT = 40
+    MAKES_TIP_SHOT = 41
+    MISSES_TIP_SHOT = 42
+    MAKES_ALLEY_OOPS_LAYUP = 43
+    MISSES_ALLEY_OOPS_LAYUP = 44
+    OFFENSIVE_FOUL = 45
+    LOOSE_BALL_FOUL = 46
+    MAKES_DUNK = 47
+    MISSES_DUNK = 48
+    TRAVELING = 49
+    MAKES_BANK_SHOT = 50
+    MAKES_HOOK_SHOT = 51
+    MISSES_HOOK_SHOT = 52
+    KICKED_BALL_VIOLATION = 53
+    OFFENSIVE_CHARGE = 54
+    VIOLATION = 55
+    MAKES_FINGER_ROLL_LAYUP = 56
+    MISSES_FINGER_ROLL_LAYUP = 57
+    PERSONAL_TAKE_FOUL = 58
+    TRANSITION_TAKE_FOUL = 59
+    DEFENSIVE_THREE_SECONDS = 60
+    MAKES_TECHNICAL_FREE_THROW = 61
+    MISSES_TECHNICAL_FREE_THROW = 62
+    HANGING_TECHFOUL = 63
+    TECHNICAL_FOUL = 64
+    MISSES_BANK_SHOT = 65
+    FLAGRANT_FOUL_1 = 66
+    MAKES_FREE_THROW_FLAGRANT_1_OF_2 = 67
+    MAKES_FREE_THROW_FLAGRANT_2_OF_2 = 68
+    MISSES_FREE_THROW_FLAGRANT_1_OF_2 = 69
+    MISSES_FREE_THROW_FLAGRANT_2_OF_2 = 70
+    MAKES_FREE_THROW_FLAGRANT_1_OF_3 = 71
+    MAKES_FREE_THROW_FLAGRANT_2_OF_3 = 72
+    MAKES_FREE_THROW_FLAGRANT_3_OF_3 = 73
+    MISSES_FREE_THROW_FLAGRANT_1_OF_3 = 74
+    MISSES_FREE_THROW_FLAGRANT_2_OF_3 = 75
+    MISSES_FREE_THROW_FLAGRANT_3_OF_3 = 76
+    BOTH_TEAM_FOUL = 77
+    EJECTED = 78
+    MAKES_RUNNING_JUMPER = 79
+    MISSES_RUNNING_JUMPER = 80
+    DEFENSIVE_TEAM_REBOUND = 81
+    TEAM_REBOUND = 82
+    LOST_BALL = 83
+    AWAY_FROM_PLAY_FOUL = 84
+    UNSPECIFIED_FOUL = 85
+    MAKES_FREE_THROW_FLAGRANT_1_OF_1 = 86
 
 REBOUND = 0
 ASSIST = 1
@@ -134,13 +134,12 @@ team_fouls = [0,0]
 team_turnovers = [0,0]
 #rebounds, assists, steals, blocks, points, fouls
 box_score = {}
-
-def time_to_seconds(time_str):
-    if ':' in time_str:
-        minutes, seconds = map(int, time_str.split(':'))
-        return minutes * 60 + seconds
-    else:
-        return int(float(time_str))
+nba_team_names = ['CELTICS', 'MAVERICKS', 'NUGGETS', 'MAGIC', 'KNICKS', 'ROCKETS', 'PISTONS', 'JAZZ', 'WIZARDS',
+                  'WARRIORS', 'SPURS', 'HAWKS', 'RAPTORS', 'GRIZZLIES', 'SUNS', 'PACERS', 'HORNETS', 'NETS', 'CLIPPERS',
+                  'THUNDER', 'KINGS', 'TRAIL BLAZERS', 'LAKERS', 'HEAT', '76ERS', 'BULLS', 'BUCKS', 'CAVALIERS', 'PELICANS',
+                  'TIMBERWOLVES']
+team_rosters_full = {}
+player_vector_size = 0
 
 #returns player that assisted, or "None" if unassisted
 def removeAssister(play_info):
@@ -148,7 +147,7 @@ def removeAssister(play_info):
     assist_pattern = re.compile(rf'\((.*?)\s+assists?\)')
     assist_match = assist_pattern.findall(play_info)
     if not assist_match:
-        return ["None"]
+        return ["Blank"]
     else:
         return assist_match
 
@@ -156,7 +155,7 @@ def removeStealer(play_info):
     steal_pattern = re.compile(rf'\((.*?)\s+steals?\)')
     steal_match = steal_pattern.findall(play_info)
     if not steal_match:
-        return ["None"]
+        return ["Blank"]
     else:
         return steal_match
 
@@ -174,8 +173,14 @@ def name_corrector(player_name, home_roster, away_roster):
         return "Henry Walker"
     return unidecode(player_name)
 
+def roster_fix(roster):
+    if "Jakob Poltl" in roster:
+        roster[roster.index("Jakob Poltl")] = "Jakob Poeltl"
+    if "Trey Jemison III" in roster:
+        roster[roster.index("Trey Jemison III")] = "Trey Jemison"
+    return roster
 
-#returns numerical value of play. FORMAT: Regex, STAT, VALUE
+#returns numerical value of play, distance. FORMAT: Regex, STAT, VALUE
 def playID(play_info, player_name, team, home_score, away_score, prev_home_score, prev_away_score):
     global box_score
     global team_fouls
@@ -244,7 +249,7 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
     makes_technical_free_throw = [r"makes technical free throw", POINT]
     misses_technical_free_throw = [r"misses technical free throw", POINT]
     hanging_techfoul = [r"hanging techfoul", FOUL]
-    technical_foul = [r"technical foul", FOUL]
+    technical_foul = [r"technical foul|Players Technical", FOUL]
     misses_bank_shot = [r"misses (\d+)-foot jump bank shot|misses jump bank shot", POINT]
     flagrant_foul_1 = [r"flagrant foul type 1", FOUL]
     makes_ft_flagrant_1_of_2 = [r"makes free throw flagrant 1 of 2", POINT]
@@ -302,16 +307,16 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
 
             if play_type[1] == REBOUND or play_type[1] == BLOCK or play_type[1] == STEAL or play_type[1] == FOUL\
                     or play_type[1] == TURNOVER:
-                if player_name != "None":
+                if player_name != "Blank":
                     box_score[player_name][play_type[1]] += 1
             if play_type[1] == FOUL:
-                if team != "None":
+                if team != "Blank":
                     team_fouls[team] += 1
             if play_type[1] == TURNOVER:
-                if team != "None":
+                if team != "Blank":
                     team_turnovers[team] += 1
             if play_type[1] == FOUL_AND_TURNOVER:
-                if team != "None":
+                if team != "Blank":
                     team_fouls[team] += 1
                     team_turnovers[team] += 1
             if play_type[1] == BOTH_TEAM_FOUL:
@@ -320,7 +325,7 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
             if play_type[1] == TEAM_FOUL:
                 team_fouls[team] += 1
             if match.lastindex is None:
-                return i*10
+                return i, DIST_DEFAULT_FT
             else:
                 for index in range(1, match.lastindex + 1):
                     if match.group(index) is not None:
@@ -333,10 +338,10 @@ def playID(play_info, player_name, team, home_score, away_score, prev_home_score
                             dist = DIST_15_26
                         elif int(match.group(index)) >= 27 and int(match.group(index)) <= 30:
                             dist = DIST_27_30
-                        else:
+                        elif int(match.group(index)) >= 31:
                             dist = DIST_30_PLUS
-                        return i * 10 + dist
-    return -1
+                        return i, dist
+    return -1, 0
 
 
 def open_website_with_retry(url, driver, retries=3, delay=3):
@@ -366,11 +371,19 @@ def open_website_with_retry(url, driver, retries=3, delay=3):
 
     return driver
 
+def binary_vector_to_decimal(binary_vector):
+    decimal = 0
+    for i, bit in enumerate(reversed(binary_vector)):
+        decimal += bit * (2**i)
+    return decimal
+
+
 
 
 
 
 def get_roster(box_score_url):
+    global team_rosters_full
     driver = webdriver.Chrome(options=chrome_options)
 
     open_website_with_retry(box_score_url, driver)
@@ -383,6 +396,11 @@ def get_roster(box_score_url):
     tables = soup.select(selector=table_selector)
     away_team_elements = tables[0].select(selector='.GameBoxscoreTablePlayer_gbpNameFull__cf_sn')
     home_team_elements = tables[1].select(selector='.GameBoxscoreTablePlayer_gbpNameFull__cf_sn')
+    team_name_elements = soup.select(selector = '.GameBoxscoreTeamHeader_gbt__b9B6g')
+    team_names = [unidecode(team.get_text(strip=True)) for team in team_name_elements]
+    away_team_name = [word.upper() for word in team_names[0].split()]
+    home_team_name = [word.upper() for word in team_names[1].split()]
+
     if not away_team_elements:
         print("ERROR ROSTER AWAY")
         exit(-1)
@@ -391,18 +409,33 @@ def get_roster(box_score_url):
         exit(-1)
     player_names_home = [unidecode(player.get_text(strip=True)) for player in home_team_elements]
     player_names_away = [unidecode(player.get_text(strip=True)) for player in away_team_elements]
+    player_names_home = roster_fix(player_names_home)
+    player_names_away = roster_fix(player_names_away)
+    num_teams_found = 0
+    for team in nba_team_names:
+        if team in away_team_name or (team == "TRAIL BLAZERS" and 'TRAIL' in away_team_name):
+            if team in team_rosters_full:
+                team_rosters_full[team] = list(set(team_rosters_full[team] + player_names_away))
+            else:
+                team_rosters_full[team] = player_names_away
+            num_teams_found += 1
+        if team in home_team_name or (team == "TRAIL BLAZERS" and 'TRAIL' in home_team_name):
+            if team in team_rosters_full:
+                team_rosters_full[team] = list(set(team_rosters_full[team] + player_names_home))
+            else:
+                team_rosters_full[team] = player_names_home
+            num_teams_found += 1
+    assert num_teams_found == 2, " ".join(home_team_name) + ", " + " ".join(away_team_name)
     driver.quit()
     return player_names_home, player_names_away
 
 
-
-
-def get_play_component_data(page_url, stage, game_num, box_score_url):
+def get_play_component_data(page_url, stage, game_num, starting_5s):
 
     global box_score
     global team_fouls
     global team_turnovers
-    home_roster, away_roster = get_roster(box_score_url)
+    #home_roster, away_roster = get_roster(box_score_url)
     driver = webdriver.Chrome(options=chrome_options)
 
     open_website_with_retry(page_url, driver)
@@ -428,6 +461,10 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
 
     home_team = teams_text[1]
     away_team = teams_text[0]
+    home_roster = team_rosters_full[home_team]
+    away_roster = team_rosters_full[away_team]
+    home_starting_5 = starting_5s[0]
+    away_starting_5 = starting_5s[1]
 
     play_components_text = []
     quarter_texts = ['1st', '2nd', '3rd', '4th', 'OT', '2 OT']
@@ -441,6 +478,12 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
 
     prev_home_score = 0
     prev_away_score = 0
+    players_on_court_home = [0] * player_vector_size
+    players_on_court_away = [0] * player_vector_size
+    for player_home, player_away in zip(home_starting_5, away_starting_5):
+        players_on_court_home[home_roster.index(player_home)] = 1
+        players_on_court_away[away_roster.index(player_away)] = 1
+
     for quarter_text in quarter_texts:
         team_fouls = [0,0]
         # Click on the quarter button
@@ -490,11 +533,40 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 continue
             splitted = play_info.split()
             player_name = "cannot identify"
-            if (home_team in play_info.upper() or away_team in play_info.upper() or "enters" in play_info or "End of" in\
+            if (home_team in play_info.upper() or away_team in play_info.upper() or "End of" in\
                     play_info or "Start of" in play_info or "delay" in play_info or "timeout" in play_info or "Game"
                     in play_info):
-                player_name = "None"
+                player_name = "Blank"
                 continue
+            if "enters" in play_info:
+                player_in = splitted[0]
+                player_in_arr = splitted[1:splitted.index("enters")]
+                for w in player_in_arr:
+                    player_in = player_in + ' ' + w
+                player_out = splitted[splitted.index("for") + 1]
+                player_out_arr = splitted[splitted.index("for") + 2:]
+                for w in player_out_arr:
+                    player_out = player_out + ' ' + w
+                player_in = name_corrector(player_in, home_roster, away_roster)
+                player_out = name_corrector(player_out, home_roster, away_roster)
+                if not ((player_in in home_roster and player_out in home_roster) or (
+                            player_in in away_roster and player_out in away_roster)):
+                    print("player in: " + player_in)
+                    print("player out: " + player_out)
+                    print(home_roster)
+                    print(away_roster)
+                    assert(1 == 0)
+                if player_in in home_roster and player_in in away_roster and player_out in home_roster and player_out in away_roster:
+                    print("SPECIAL CASE ATTENTION NEEDED")
+                    exit(1)
+                elif player_in in home_roster and player_out in home_roster:
+                    players_on_court_home[home_roster.index(player_in)] = 1
+                    players_on_court_home[home_roster.index(player_out)] = 0
+                else:
+                    players_on_court_away[away_roster.index(player_in)] = 1
+                    players_on_court_away[away_roster.index(player_out)] = 0
+                continue
+
             if len(splitted) >= 2:
                 if "Jr." == splitted[2] or "II" == splitted[2] or "III" == splitted[2] or "IV" == splitted[2] or "Sr." == splitted[2]:
                     player_name = splitted[0] + " " + splitted[1] + " " + splitted[2]
@@ -525,13 +597,12 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
             play_info = re.sub(r'\(.*?\)', '', play_info).strip()
             player_name = name_corrector(player_name, home_roster, away_roster)
             if player_name in home_roster:
-                play_info_id = playID(play_info, player_name, HOME, home_score, away_score, prev_home_score, prev_away_score)
+                play_info_id, dist = playID(play_info, player_name, HOME, home_score, away_score, prev_home_score, prev_away_score)
             elif player_name in away_roster:
-                play_info_id = playID(play_info, player_name, AWAY, home_score, away_score, prev_home_score, prev_away_score)
+                play_info_id, dist = playID(play_info, player_name, AWAY, home_score, away_score, prev_home_score, prev_away_score)
             else:
-                play_info_id = playID(play_info, "None", "None", home_score, away_score, prev_home_score, prev_away_score)
-                if player_name != "shot clock" and player_name != "5 second":
-                    debug = 1
+                play_info_id, dist = playID(play_info, "Blank", "Blank", home_score, away_score, prev_home_score, prev_away_score)
+                player_name = "Blank"
 
             if play_info_id == -1:
                 play_info_id = play_info
@@ -541,16 +612,23 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 win_percentage = home_win_percentage
                 fouls = team_fouls[HOME]
                 turnovers = team_turnovers[HOME]
+                if stage == 'RS':
+                    total_games = home_wins + home_losses
             elif player_name in away_roster:
                 curr_team = away_team
                 win_percentage = away_win_percentage
                 fouls = team_fouls[AWAY]
                 turnovers = team_turnovers[AWAY]
+                if stage == 'RS':
+                    total_games = away_wins + away_losses
             else:
-                curr_team = "None"
+                curr_team = "Blank"
                 win_percentage = 50
                 fouls = 0
                 turnovers = 0
+                total_games = 0
+            if stage != 'RS':
+                total_games = game_num
             if player_name in home_roster or player_name in away_roster:
                 player_rebs = box_score[player_name][REBOUND]
                 player_assists = box_score[player_name][ASSIST]
@@ -568,12 +646,22 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
                 player_fouls = 0
                 player_turnovers = 0
 
+            if curr_team == home_team:
+                poc = players_on_court_home
+            elif curr_team == away_team:
+                poc = players_on_court_away
+            else:
+                poc = [0]*player_vector_size
+
+            num_starters_playing = sum(poc[:5])
+
             prev_home_score = int(home_score)
             prev_away_score = int(away_score)
-            play_components_text.append([time_to_seconds(play_time), play_info_id, quarter_text, home_team, away_team,curr_team, player_name,
-                                         assister, stage, game_num, win_diff, total_games, win_percentage,
-                                         home_score, away_score, abs(int(home_score) - int(away_score)), fouls, turnovers, player_rebs,
-                                         player_assists, player_steals, player_blocks, player_points, player_fouls, player_turnovers, assister_assists, stealer, stealer_steals, game_date])
+            play_components_text.append([play_time, play_info_id, dist, quarter_text, home_team, away_team,curr_team, player_name,
+                                         assister, stage, win_diff, total_games, win_percentage,
+                                         home_score, away_score, fouls, turnovers, player_rebs,
+                                         player_assists, player_steals, player_blocks, player_points, player_fouls,
+                                         player_turnovers, assister_assists, stealer, stealer_steals, binary_vector_to_decimal(poc), game_date])
     if not play_components_text:
         print("No play components found. Verify the class name or structure of the HTML.")
     else:
@@ -582,35 +670,50 @@ def get_play_component_data(page_url, stage, game_num, box_score_url):
     return play_components_text
 
 def main():
+    global player_vector_size
     page_url = input("Enter AUTO to generate default. Or enter ESPN game urls manually and enter END to finish the "
                      "program\n")
-    play_data = [["time_left_qtr", "play", "quarter", "home_team", "away_team", "current_team", "name", "assister", "stage", "game_num",
-                  "win_difference", "games_played", "win_percentage", "home_score", "away_score", "score_difference", "team_fouls_qtr",
-                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points", "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "date"]]
+    play_data = [["time_left_qtr", "play", "distance", "quarter", "home_team", "away_team", "current_team", "name", "assister", "stage",
+                  "win_difference", "games_played", "win_percentage", "home_score", "away_score", "team_fouls_qtr",
+                  "team_turnovers","player_rebounds","player_assists","player_steals","player_blocks","player_points",
+                  "player_fouls", "player_turnovers","assister_assists","stolen_by","stealer_steals", "players_binary_vector", "date"]]
+    page_urls_arr = []
+    box_score_urls_arr = []
+    stage_arr = []
+    game_num_arr = []
+    starting_5s_arr = []
     if page_url == "AUTO":
         with open('game_urls.txt', 'r') as file:
             for line in file:
                 # Strip the newline character and any leading/trailing whitespace
                 cleaned_line = line.strip()
                 split_line = cleaned_line.split()
-                print(line)
-                stage = split_line[0]
-                game_num = split_line[1]
-                page_url = split_line[2]
-                box_score_url = split_line[3]
-                play_data += get_play_component_data(page_url, stage, game_num, box_score_url)
-
+                #print(line)
+                stage_arr.append(split_line[0])
+                game_num_arr.append(split_line[1])
+                page_urls_arr.append(split_line[2])
+                box_score_urls_arr.append(split_line[3])
     else:
         while page_url != "END":
             box_score_url = input("Enter nba.com box score URL\n")
             stage = input("enter stage\n")
             game_num = input("enter game num\n")
-            play_data += get_play_component_data(page_url, stage, game_num, box_score_url)
-            if play_data == -1:
-                print("FATAL ERROR")
-                return
-            #save_to_file(play_data, 'play_components.txt')
+            page_urls_arr.append(page_url)
+            box_score_urls_arr.append(box_score_url)
+            stage_arr.append(stage)
+            game_num_arr.append(game_num)
             page_url = input("Enter next espn URL or END to finish\n")
+    #getting nba rosters
+    for bs_url in box_score_urls_arr:
+        starting_5_home, starting_5_away = get_roster(bs_url)
+        starting_5s_arr.append([starting_5_home[:5], starting_5_away[:5]])
+    player_vector_size = max(len(team_rosters_full[team]) for team in team_rosters_full)
+    for p_url, bs_url, stage, game_num, starting_5s in zip(page_urls_arr, box_score_urls_arr, stage_arr, game_num_arr, starting_5s_arr):
+        print("page_url: " + p_url + ", bs_url " + bs_url)
+        play_data += get_play_component_data(p_url, stage, game_num, starting_5s)
+        if play_data == -1:
+            print("FATAL ERROR")
+            return
     with open('output_v3.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(play_data)
