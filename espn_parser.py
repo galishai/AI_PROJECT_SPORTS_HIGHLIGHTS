@@ -717,7 +717,7 @@ def main():
     with open('output_v3.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(play_data)
-    print(f"Play component text saved to output_v3.csv")
+    print(f"Play component text saved to output_v4.csv")
     print("OK :)")
 
 if __name__ == '__main__':
