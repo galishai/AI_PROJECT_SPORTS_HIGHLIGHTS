@@ -90,13 +90,14 @@ if __name__ == '__main__':
     roi_time = [None] * 4
     roi_quarter = [None] * 4
     frame_names = get_all_file_names_in_directory(dest_path)
+
+    roi_sample_path = filedialog.askopenfilename()
+    roi_time = cropped_image_by_selection_area(roi_sample_path, None, 1, 0, dest_path + '/Time')
+    roi_quarter = cropped_image_by_selection_area(roi_sample_path, None, 1, 0, dest_path + '/Quarter')
+
     for i, file in enumerate(frame_names):
-        if i == 0:
-            roi_time = cropped_image_by_selection_area(dest_path + '/' + file, None, 1, i, dest_path + '/Time')
-            roi_quarter = cropped_image_by_selection_area(dest_path + '/' + file, None, 1, i, dest_path + '/Quarter')
-        if i > 0:
-            cropped_image_by_selection_area(dest_path + '/' + file, roi_time, 0, i, dest_path + '/Time')
-            cropped_image_by_selection_area(dest_path + '/' + file, roi_quarter, 0, i, dest_path + '/Quarter')
+        cropped_image_by_selection_area(dest_path + '/' + file, roi_time, 0, i, dest_path + '/Time')
+        cropped_image_by_selection_area(dest_path + '/' + file, roi_quarter, 0, i, dest_path + '/Quarter')
 
     cropped_frames_time = get_all_file_names_in_directory(dest_path + '/Time/Cropped frames')
     cropped_frames_quarter = get_all_file_names_in_directory(dest_path + '/Quarter/Cropped frames')
@@ -106,14 +107,16 @@ if __name__ == '__main__':
         frame_text_time = extract_text_from_image(dest_path + '/Time/Cropped frames/' + file)
         frame_text_time = frame_text_time.replace("\n", "")
         frame_text_quarter = extract_text_from_image(dest_path + '/Quarter/Cropped frames/' + file)
-        frame_text_quarter = 'Q' + frame_text_quarter.replace("\n", "")
-        if any(char.isalpha() for char in frame_text_time) or (frame_text_time, frame_text_quarter) in time_dict.values():
+        digits_only = ''.join([char for char in frame_text_quarter if char.isdigit()])
+        frame_text_quarter = 'Q' + digits_only
+        if any(char.isalpha() for char in frame_text_time): # or (frame_text_time, frame_text_quarter) in time_dict.values():
             continue
+
         time_dict[frame_num] = (frame_text_time, frame_text_quarter)
 
     text_file_path = dest_path.split('/frames')[0]
     with open(text_file_path + '/plot.txt', 'w', encoding='utf-8') as file:
-        file.write(video_path.split('/')[-1]+'/')
+        #file.write(video_path.split('/')[-1]+'/')
         json.dump(time_dict, file, ensure_ascii=False, indent=4)
 
     if os.path.exists(dest_path):
