@@ -55,7 +55,7 @@ def intensity_sound_analyze(file_path):
     plt.title("Sound Intensity and Volume Spikes\n" + audio_name + "\n number of spikes: " + str(np.size(filtered_spikes)))
     plt.legend()
     plt.savefig(audio_name + '.png')
-    plt.show()
+    #plt.show()
 
     return filtered_spikes
 
