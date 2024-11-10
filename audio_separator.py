@@ -40,9 +40,9 @@ if __name__ == '__main__':
     file_names = get_video_file_names(video_folder)
     for file in file_names:
         if file.endswith('.mp4'):
-            separate_audio(video_folder + '/' + file, audio_folder + file.split('.mp4')[0] + '.mp3')
+            separate_audio(video_folder + '/' + file, audio_folder + '/' + file.split('.mp4')[0] + '.mp3')
         if file.endswith('.mkv'):
-            separate_audio(video_folder + '/' + file, audio_folder + file.split('.mkv')[0] + '.mp3')
+            separate_audio(video_folder + '/' + file, audio_folder + '/' + file.split('.mkv')[0] + '.mp3')
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
