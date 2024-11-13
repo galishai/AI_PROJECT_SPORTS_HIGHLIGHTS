@@ -1,5 +1,7 @@
 # This is a sample Python script.
+import shutil
 from os import times_result
+from tkinter import filedialog
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
@@ -10,8 +12,11 @@ import pytesseract
 import json
 import easyocr
 from itertools import product
+import numpy as np
 
-HAVE_FRAMES = 0
+HAVE_FRAMES = 1
+
+DELETE_FRAMES_ON_DONE = 0
 
 count = 0
 
@@ -19,8 +24,13 @@ time_dict = {}
 
 
 def convert_to_binary_frame(frame, threshold=128):
+    frame = cv2.resize(frame, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
+    frame = 255 - frame
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    _, binary_frame = cv2.threshold(gray_frame, threshold, 255, cv2.THRESH_BINARY)
+    kernel = np.ones((1, 1), np.uint8)
+    gray_frame = cv2.dilate(gray_frame, kernel, iterations=1)
+    gray_frame = cv2.erode(gray_frame, kernel, iterations=1)
+    binary_frame = cv2.threshold(cv2.medianBlur(gray_frame, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
     return binary_frame
 
 
@@ -66,8 +76,8 @@ def crop_text_from_image(image_path, dest_path):  # Not work as expected, im try
 
 def extract_text_from_images(time_frame, qtr_frame):
     global count
-    text_time = pytesseract.image_to_string(time_frame, config='--psm 6')
-    text_qtr = pytesseract.image_to_string(qtr_frame, config='--psm 6')
+    text_time = pytesseract.image_to_string(time_frame, config=' --psm 7')
+    text_qtr = pytesseract.image_to_string(qtr_frame, config=' --psm 6')
     if count % 100 == 0:
         print("times used extract: " + str(count))
     count += 1
@@ -101,8 +111,8 @@ def get_all_file_names_in_directory(dest_folder="."):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print("Choose video folder:")
-    video_path = "/Users/galishai/Dropbox/AI Project Gal/Playoffs/Finals/17.6.24 Finals G5 Celtics Mavericks.mkv"  # filedialog.askopenfilename()
-    dest_path = "/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/frames"  # os.path.dirname(video_path) + '/frames'
+    video_path = filedialog.askopenfilename() #"/Users/galishai/Dropbox/AI Project Gal/Playoffs/Finals/17.6.24 Finals G5 Celtics Mavericks.mkv"  # filedialog.askopenfilename()
+    dest_path = filedialog.askopenfilename() + '/frames' #"/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/frames"  # os.path.dirname(video_path) + '/frames'
     if not os.path.exists(dest_path):
         os.makedirs(dest_path)
     if not HAVE_FRAMES:
@@ -112,7 +122,7 @@ if __name__ == '__main__':
 
     frames_cropped_dict = {}  # values - (time, quarter)
 
-    roi_sample_path = "/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/frames/frame_0003.jpg"  # filedialog.askopenfilename()
+    roi_sample_path = filedialog.askopenfilename() #"/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/frames/frame_0667.jpg"  # filedialog.askopenfilename()
     frame_names = get_all_file_names_in_directory(dest_path)
     roi_time, first_time = cropped_image_by_selection_area_first(roi_sample_path)
     roi_qtr, first_qtr = cropped_image_by_selection_area_first(roi_sample_path)
@@ -127,33 +137,33 @@ if __name__ == '__main__':
         frames_cropped_dict[file_num] = (file_time, file_qtr)
     cv2.destroyAllWindows()
 
-    futures = []
-    reader = easyocr.Reader(['en'])
+    #futures = []
+    #reader = easyocr.Reader(['en'])
+    flag = 0
     for four_digit_num in product('0123456789', repeat=4):
+
         num = ''.join(four_digit_num)
+        #if num == '0617':
+        #    flag = 1
+        #if flag == 0:
+        #    continue
+        #if num == '0887':
+            #break
         if num not in frames_cropped_dict:
             break
         time_frame, qtr_frame = frames_cropped_dict[num]
-        text_time, text_qtr = extract_text_from_images(time_frame, qtr_frame, reader)
+        text_time, text_qtr = extract_text_from_images(time_frame, qtr_frame)
         text_time = text_time.replace("\n", "")
-        if any(char.isalpha() for char in
-               text_time) or text_time == '':  # or (frame_text_time, frame_text_quarter) in time_dict.values():
+        if (not any(char.isdigit() for char in text_time)) or text_time == '':  # or (frame_text_time, frame_text_quarter) in time_dict.values():
             continue
-        qtr_digits_only = ''.join([char for char in text_qtr if char.isdigit()])
-        if qtr_digits_only == '':
-            if num == "0000":
-                continue
-            else:
-                text_qtr = time_dict[num][1]
-        else:
-            text_qtr = 'Q' + qtr_digits_only[0]
-        time_dict[num] = (text_time, text_qtr)
-        last_num = num
+        qtr_digits_only = 'Q' + ''.join([char for char in text_qtr if char.isdigit()])
+        time_dict[num] = (text_time, qtr_digits_only)
 
     text_file_path = dest_path.split('/frames')[0]
-    with open(text_file_path + '/plot.txt', 'w', encoding='utf-8') as file:
+    with open(text_file_path + '/plot_test.txt', 'w', encoding='utf-8') as file:
         file.write(video_path.split('/')[-1] + '/')
         json.dump(time_dict, file, ensure_ascii=False, indent=4)
 
-    # if os.path.exists(dest_path):
-    #    shutil.rmtree(dest_path)
+    if DELETE_FRAMES_ON_DONE:
+        if os.path.exists(dest_path):
+            shutil.rmtree(dest_path)
