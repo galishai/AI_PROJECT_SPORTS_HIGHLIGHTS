@@ -127,8 +127,9 @@ if __name__ == '__main__':
         if not os.path.exists(frames_dest_path):
             os.makedirs(frames_dest_path)
     if not HAVE_FRAMES:
-        for video_path, frames_dest_path in zip(video_paths, frames_dest_paths):
+        for video_name, video_path, frames_dest_path in zip(video_names, video_paths, frames_dest_paths):
             num_frames = video_to_frame(video_path, frames_dest_path)
+            print("finished extracting frames from "+video_name +'. number of frames: ' + str(num_frames))
     roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
     with open(roi_sample_paths_txt, 'r') as file1:
         sample_paths = []
@@ -166,7 +167,7 @@ if __name__ == '__main__':
             file_time, file_qtr = crop_both(frames_dest_path + '/' + img_name, roi_time, roi_qtr)
             file_num = img_name.removesuffix('.jpg')[-4:]
             frames_cropped_dict[file_num] = (file_time, file_qtr)
-
+        print("finished cropping frames from " + video_name)
         # futures = []
         # reader = easyocr.Reader(['en'])
         flag = 0
@@ -189,6 +190,8 @@ if __name__ == '__main__':
                 continue
             qtr_digits_only = 'Q' + ''.join([char for char in text_qtr if char.isdigit()])
             time_dict[num] = (text_time, qtr_digits_only)
+        print("finished extracting text from " + video_name)
+
 
 
         if not os.path.exists(dest_dir + '/plots'):
@@ -197,6 +200,8 @@ if __name__ == '__main__':
         with open(text_file_path, 'w', encoding='utf-8') as file:
             file.write(video_name + '/')
             json.dump(time_dict, file, ensure_ascii=False, indent=4)
+
+        print("done with " + video_name)
 
     if DELETE_FRAMES_ON_DONE:
 
