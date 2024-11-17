@@ -19,6 +19,8 @@ HAVE_FRAMES = 0
 
 DELETE_FRAMES_ON_DONE = 0
 
+STARTING_GAME_NUM = 0
+
 count = 0
 
 
@@ -151,6 +153,7 @@ if __name__ == '__main__':
         first_times.append(first_time)
         first_quarters.append(first_qtr)
     #CROPPING + IMG TO TEXT
+    game_num = STARTING_GAME_NUM
     for video_name, sample_path, frames_dest_path, roi_time, roi_qtr, first_time, first_qtr \
             in zip (video_names, sample_paths, frames_dest_paths, roi_times, roi_quarters, first_times, first_quarters):
 
@@ -196,12 +199,13 @@ if __name__ == '__main__':
 
         if not os.path.exists(dest_dir + '/plots'):
             os.makedirs(dest_dir + '/plots')
-        text_file_path = dest_dir + '/plots/' + video_name.replace('.','') + '.txt'
+        text_file_path = dest_dir + '/plots/' + 'game_' + str(game_num) + '_' + video_name.replace('.','') + '.txt'
         with open(text_file_path, 'w', encoding='utf-8') as file:
             file.write(video_name + '/')
             json.dump(time_dict, file, ensure_ascii=False, indent=4)
 
         print("done with " + video_name)
+        game_num += 1
 
     if DELETE_FRAMES_ON_DONE:
 
