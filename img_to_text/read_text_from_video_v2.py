@@ -111,6 +111,7 @@ def get_all_file_names_in_directory(dest_folder="."):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    global count
     dest_dir = input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
     video_paths_txt = input("enter video paths text file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
     with open(video_paths_txt, 'r') as file: #in video_folder_dirs every line is of the form: video_dir
@@ -206,6 +207,7 @@ if __name__ == '__main__':
 
         print("done with " + video_name)
         game_num += 1
+        count = 0
 
     if DELETE_FRAMES_ON_DONE:
 
