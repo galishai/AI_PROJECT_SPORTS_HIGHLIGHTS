@@ -2,4 +2,5 @@
 2) Note the following flags:
       HAVE_FRAMES - turn on if the frames are already generated.
       DELETE_FRAMES_ON_DONE - turn on to allow deletion of all frame images after program ends.
-3) After generating the the frames, choose a sample for each video and make a sample paths text file that on each line contains a path to a sample img (same line number as sample's video in (1))
+      STARTING_GAME_NUM - line number of first video in game_urls.txt
+3) After generating the frames, choose a sample for each video and make a sample paths text file that on each line contains a path to a sample img (same line number as sample's video in (1))
