@@ -109,8 +109,8 @@ def get_all_file_names_in_directory(dest_folder="."):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    dest_dir = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
-    video_paths_txt = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
+    dest_dir = input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
+    video_paths_txt = input("enter video paths text file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
     with open(video_paths_txt, 'r') as file: #in video_folder_dirs every line is of the form: video_dir
         video_paths = []
         for line in file:
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     if not HAVE_FRAMES:
         for video_path, frames_dest_path in zip(video_paths, frames_dest_paths):
             num_frames = video_to_frame(video_path, frames_dest_path)
-    roi_sample_paths_txt = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
+    roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
     with open(roi_sample_paths_txt, 'r') as file1:
         sample_paths = []
         for line in file1:
