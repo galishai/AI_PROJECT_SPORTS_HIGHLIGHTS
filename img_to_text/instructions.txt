@@ -1,0 +1,5 @@
+1) Make a video paths text file that has a path of a video in each line
+2) Note the following flags:
+      HAVE_FRAMES - turn on if the frames are already generated.
+      DELETE_FRAMES_ON_DONE - turn on to allow deletion of all frame images after program ends.
+3) After generating the files, make a sample paths text file that on each line contains a path to a sample img (same line number as sample's video in (1))
