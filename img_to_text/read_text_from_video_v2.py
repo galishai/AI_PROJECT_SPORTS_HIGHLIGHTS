@@ -19,7 +19,7 @@ HAVE_FRAMES = 0
 
 DELETE_FRAMES_ON_DONE = 0
 
-STARTING_GAME_NUM = 27
+STARTING_GAME_NUM = 1
 
 count = 0
 
@@ -120,7 +120,7 @@ def get_all_file_names_in_directory(dest_folder="."):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    dest_dir = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text_plotfiles'#input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
+    dest_dir = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text_plotfiles' #input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
     video_paths_txt = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/video_paths.txt' #input("enter video paths text file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
     with open(video_paths_txt, 'r') as file: #in video_folder_dirs every line is of the form: video_dir
         video_paths = []
@@ -143,17 +143,18 @@ if __name__ == '__main__':
     if not HAVE_FRAMES:
         for video_name, video_path, frames_dest_path in zip(video_names, video_paths, frames_dest_paths):
             num_frames = video_to_frame(video_path, frames_dest_path)
-            print("finished extracting frames from "+video_name +'. number of frames: ' + str(num_frames))
+            print("finished extracting frames from "+ video_name +'. number of frames: ' + str(num_frames))
             game_num += 1
     roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
     with open(roi_sample_paths_txt, 'r') as file1:
         sample_paths = []
         for line, frames_dest_path in zip(file1,frames_dest_paths):
             cleaned_line = line.strip()
-            split_line = cleaned_line.split()
-            if len(split_line) > 1:
+            if cleaned_line[-1] == '1':
                 invert_imgs_in_folder(frames_dest_path)
-            sample_paths.append(split_line[0])
+                sample_paths.append(cleaned_line[:-2])
+            else:
+                sample_paths.append(cleaned_line)
     assert len(video_paths) == len(sample_paths), "videos num: " + str(len(video_paths)) + " samples num: " + str(len(sample_paths))
     # for all videos
     roi_times = []
