@@ -152,10 +152,7 @@ if __name__ == '__main__':
             cleaned_line = line.strip()
             split_line = cleaned_line.split()
             if len(split_line) > 1:
-
-
-
-
+                invert_imgs_in_folder(frames_dest_path)
             sample_paths.append(split_line[0])
     assert len(video_paths) == len(sample_paths), "videos num: " + str(len(video_paths)) + " samples num: " + str(len(sample_paths))
     # for all videos
