@@ -19,7 +19,7 @@ HAVE_FRAMES = 0
 
 DELETE_FRAMES_ON_DONE = 0
 
-STARTING_GAME_NUM = 1
+STARTING_GAME_NUM = 27
 
 count = 0
 
@@ -111,8 +111,8 @@ def get_all_file_names_in_directory(dest_folder="."):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    dest_dir = '/Users/galishai/Desktop/AI Project/AI_SPORTS_HIGHLIGHTS/img_to_text_plotfiles'#input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
-    video_paths_txt = '/Users/galishai/Desktop/AI Project/AI_SPORTS_HIGHLIGHTS/img_to_text/video_paths.txt' #input("enter video paths text file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
+    dest_dir = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text_plotfiles'#input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
+    video_paths_txt = '/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/video_paths.txt' #input("enter video paths text file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/video_paths.txt' #input("enter path of txt file with video paths\n") # filedialog.askopenfilename()
     with open(video_paths_txt, 'r') as file: #in video_folder_dirs every line is of the form: video_dir
         video_paths = []
         for line in file:
@@ -149,8 +149,8 @@ if __name__ == '__main__':
     first_quarters = []
     #CHOOSING CROP DIMENSIONS
     for sample_path in sample_paths:
-        roi_time, first_time = cropped_image_by_selection_area_first(sample_path)
-        roi_qtr, first_qtr = cropped_image_by_selection_area_first(sample_path)
+        roi_time, first_time = cropped_image_by_selection_area_first(sample_path.strip())
+        roi_qtr, first_qtr = cropped_image_by_selection_area_first(sample_path.strip())
         cv2.destroyAllWindows()
         roi_times.append(roi_time)
         roi_quarters.append(roi_qtr)
