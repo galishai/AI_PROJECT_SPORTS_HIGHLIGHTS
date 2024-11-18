@@ -34,6 +34,15 @@ def convert_to_binary_frame(frame, threshold=128):
     binary_frame = cv2.threshold(cv2.medianBlur(gray_frame, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
     return binary_frame
 
+def invert_imgs_in_folder(frames_dir):
+    frame_names = os.listdir(frames_dir)
+    for frame_name in frame_names:
+        frame_path = os.path.join(frames_dir, frame_name)
+        frame = cv2.imread(frame_path)
+        inverted_frame = 255 - frame
+        cv2.imwrite(frame_path, inverted_frame)
+
+
 
 def video_to_frame(video_path, dest_path):
     frames_saved_count = 0
@@ -139,8 +148,15 @@ if __name__ == '__main__':
     roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
     with open(roi_sample_paths_txt, 'r') as file1:
         sample_paths = []
-        for line in file1:
-            sample_paths.append(line)
+        for line, frames_dest_path in zip(file1,frames_dest_paths):
+            cleaned_line = line.strip()
+            split_line = cleaned_line.split()
+            if len(split_line) > 1:
+
+
+
+
+            sample_paths.append(split_line[0])
     assert len(video_paths) == len(sample_paths), "videos num: " + str(len(video_paths)) + " samples num: " + str(len(sample_paths))
     # for all videos
     roi_times = []
