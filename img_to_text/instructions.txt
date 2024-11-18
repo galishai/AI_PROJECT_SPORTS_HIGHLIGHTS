@@ -1,6 +1,5 @@
-1) Make a video paths text file that has a path of a video in each line
+1) Make a video paths text file that has a path of a video in each line followed by a " 1" if game has a white text in time/qtr
 2) Note the following flags:
       HAVE_FRAMES - turn on if the frames are already generated.
       DELETE_FRAMES_ON_DONE - turn on to allow deletion of all frame images after program ends.
       STARTING_GAME_NUM - line number of first video in game_urls.txt (starting from 1)
-3) After generating the frames, choose a sample for each video and make a sample paths text file that on each line contains a path to a sample img (same line number as sample's video in (1)) IMPORTANT: if a game has white text on black blackground after pre-processing, add " " + "1" to sample line in txt file
