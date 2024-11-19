@@ -13,21 +13,53 @@ import json
 #import easyocr
 from itertools import product
 import numpy as np
+from PIL import Image
 #from torch.utils.tensorboard.summary import video
 
-HAVE_FRAMES = 1
+HAVE_FRAMES = 0
 
 DELETE_FRAMES_ON_DONE = 0
 
-STARTING_GAME_NUM = 27
+STARTING_GAME_NUM = 1
 
 count = 0
 
+def invert_bw_images_fast(input_folder, output_folder):
+    # Create the output folder if it doesn't exist
+    os.makedirs(output_folder, exist_ok=True)
+    count_inv = 0
 
-def convert_to_binary_frame(frame, threshold=128, invert= False):
+    # Process each file in the input folder
+    for filename in os.listdir(input_folder):
+        if count_inv % 100 == 0:
+            print("files inverted: " + str(count_inv))
+        count_inv += 1
+        if filename.lower().endswith('.jpg'):  # Process only .jpg files
+            input_path = os.path.join(input_folder, filename)
+            output_path = os.path.join(output_folder, filename)
+
+            # Open the image and convert to grayscale (if needed)
+            with Image.open(input_path) as img:
+                img = img.convert("L")  # Ensure grayscale
+
+                # Convert the image to a NumPy array
+                img_array = np.array(img)
+
+                # Invert the image (255 - pixel values)
+                inverted_array = 255 - img_array
+
+                # Convert the inverted array back to an image
+                inverted_img = Image.fromarray(inverted_array)
+
+                # Save the inverted image
+                inverted_img.save(output_path)
+
+            #print(f"Inverted: {filename} -> {output_path}")
+
+
+def convert_to_binary_frame(frame, threshold=128):
     frame = cv2.resize(frame, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
-    if invert:
-        frame = 255 - frame
+    frame = 255 - frame
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     kernel = np.ones((1, 1), np.uint8)
     gray_frame = cv2.dilate(gray_frame, kernel, iterations=1)
@@ -35,9 +67,7 @@ def convert_to_binary_frame(frame, threshold=128, invert= False):
     binary_frame = cv2.threshold(cv2.medianBlur(gray_frame, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
     return binary_frame
 
-
-
-def video_to_frame(video_path, dest_path, invert= False):
+def video_to_frame(video_path, dest_path):
     frames_saved_count = 0
     video = cv2.VideoCapture(video_path)
     if not video.isOpened():
@@ -58,7 +88,7 @@ def video_to_frame(video_path, dest_path, invert= False):
                 print("frames saved: " + str(sanity))
             sanity += 1
             frame_filename = os.path.join(dest_path, f'frame_{counter // frame_per_second:04d}.jpg')
-            binary_frame = convert_to_binary_frame(frame, dest_path, invert)
+            binary_frame = convert_to_binary_frame(frame, dest_path)
             cv2.imwrite(frame_filename, binary_frame)
             frames_saved_count += 1
         counter += 1
@@ -118,17 +148,13 @@ if __name__ == '__main__':
     with open(video_paths_txt, 'r') as file: #in video_folder_dirs every line is of the form: video_dir
         video_paths = []
         for line in file:
-            clean_line = line.strip()
-            if clean_line[-1] == '1':
-                video_paths.append((clean_line[:-2], True))
-            else:
-                video_paths.append((clean_line, False))
+            video_paths.append(line.strip())
     video_names = []
     frames_dest_paths = []
     if not os.path.exists(dest_dir + '/frames'):
         os.makedirs(dest_dir + '/frames')
     game_num = STARTING_GAME_NUM
-    for video_path, invert_flag in video_paths:
+    for video_path in video_paths:
         video_name = video_path.split('/')[-1]
         video_names.append(video_name)
         frames_dest_path = dest_dir + '/frames/game_' + str(game_num) + '_' + video_name + '/frames'
@@ -139,7 +165,7 @@ if __name__ == '__main__':
     game_num = STARTING_GAME_NUM
     if not HAVE_FRAMES:
         for video_name, video_path, frames_dest_path in zip(video_names, video_paths, frames_dest_paths):
-            num_frames = video_to_frame(video_path[0], frames_dest_path, video_path[1])
+            num_frames = video_to_frame(video_path, frames_dest_path)
             print("finished extracting frames from "+ video_name +'. number of frames: ' + str(num_frames))
             game_num += 1
     roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
@@ -147,7 +173,11 @@ if __name__ == '__main__':
         sample_paths = []
         for line, frames_dest_path in zip(file1,frames_dest_paths):
             cleaned_line = line.strip()
-            sample_paths.append(cleaned_line)
+            if cleaned_line[-1] == '1':
+                invert_bw_images_fast(frames_dest_path, frames_dest_path)
+                sample_paths.append(cleaned_line[:-2])
+            else:
+                sample_paths.append(cleaned_line)
     assert len(video_paths) == len(sample_paths), "videos num: " + str(len(video_paths)) + " samples num: " + str(len(sample_paths))
     # for all videos
     roi_times = []
