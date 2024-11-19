@@ -165,8 +165,9 @@ if __name__ == '__main__':
     game_num = STARTING_GAME_NUM
     if not HAVE_FRAMES:
         for video_name, video_path, frames_dest_path in zip(video_names, video_paths, frames_dest_paths):
-            num_frames = video_to_frame(video_path, frames_dest_path)
-            print("finished extracting frames from "+ video_name +'. number of frames: ' + str(num_frames))
+            video_to_frame(video_path, frames_dest_path)
+            num_frames = len(os.listdir(frames_dest_path))
+            print("finished extracting frames from " + video_name + '. number of frames: ' + str(num_frames))
             game_num += 1
     roi_sample_paths_txt = input("enter samples paths txt file\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/sample_paths.txt' #input("enter samples paths txt file\n")
     with open(roi_sample_paths_txt, 'r') as file1:
