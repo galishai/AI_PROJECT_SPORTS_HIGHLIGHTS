@@ -17,7 +17,12 @@ import json
 os.system('color')
 
 SAVE_ROSTERS = 1
+DEBUG = 0
 ROSTER_DICT = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/temp_rosters.txt'
+ESPN_LINKS = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/rs_espn_links.txt'
+ESPN_LINKS_DEBUG = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/debug/espn_links_debug.txt'
+NBA_COM_LINKS = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/rs_nbadotcom_links.txt'
+NBA_COM_LINKS_DEBUG = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/debug/nba_com_links_debug.txt'
 IGNORE_PLAY_LIST = []
 
 chrome_options = Options()
@@ -467,16 +472,19 @@ def get_roster(box_score_url):
                 team_rosters_full[team] = list(set(team_rosters_full[team] + player_names_away))
             else:
                 team_rosters_full[team] = player_names_away
+            away_team_short = team
             num_teams_found += 1
         if team in home_team_name or (team == "TRAIL BLAZERS" and 'TRAIL' in home_team_name):
             if team in team_rosters_full:
                 team_rosters_full[team] = list(set(team_rosters_full[team] + player_names_home))
             else:
                 team_rosters_full[team] = player_names_home
+            home_team_short = team
             num_teams_found += 1
     assert num_teams_found == 2, " ".join(home_team_name) + ", " + " ".join(away_team_name)
+    assert home_team_short != away_team_short
     #driver.quit()
-    return player_names_home, player_names_away
+    return player_names_home, player_names_away, home_team_short, away_team_short
 
 def get_team_from_logo(curr_logo):
     for i, logo_t in enumerate(nba_team_logos):
@@ -485,7 +493,7 @@ def get_team_from_logo(curr_logo):
 
 
 
-def get_play_component_data(page_url, starting_5s):
+def get_play_component_data(page_url, starting_5s, roster_teams):
 
     global box_score
     global team_fouls
@@ -519,6 +527,7 @@ def get_play_component_data(page_url, starting_5s):
 
     home_team = teams_text[1]
     away_team = teams_text[0]
+    assert home_team == roster_teams[0] and away_team == roster_teams[1], "team mismatch"
     game_team_dict = {home_team: HOME, away_team: AWAY}
     home_roster = team_rosters_full[home_team]
     away_roster = team_rosters_full[away_team]
@@ -765,10 +774,17 @@ def main():
     stage_arr = []
     game_num_arr = []
     starting_5s_arr = []
+    roster_team_order = []
     games_input_count = 0
     if espn_page_url == "AUTO":
-        with open('/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/rs_espn_links.txt', 'r') as espn_links:
-            with open('/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/rs_nbadotcom_links.txt', 'r') as nba_com_links:
+        if DEBUG == 0:
+            espn_links_path = ESPN_LINKS
+            nba_com_links_path = NBA_COM_LINKS
+        else:
+            espn_links_path = ESPN_LINKS_DEBUG
+            nba_com_links_path = NBA_COM_LINKS_DEBUG
+        with open(espn_links_path, 'r') as espn_links:
+            with open(nba_com_links_path, 'r') as nba_com_links:
                 for espn_link, nba_com_link in zip(espn_links,nba_com_links):
                     # Strip the newline character and any leading/trailing whitespace
                     cleaned_espn, cleaned_nba_com = espn_link.strip(), nba_com_link.strip()
@@ -797,19 +813,20 @@ def main():
     rosters_processed_count = 0
     for bs_url in nba_com_urls_arr:
         try:
-            starting_5_home, starting_5_away = get_roster(bs_url)
+            starting_5_home, starting_5_away, home_team_name, away_team_name = get_roster(bs_url)
         except:
             driver.quit()
             driver = webdriver.Chrome(options=chrome_options)
-            print(colored("FATAL ERROR, last try \n",'red'))
+            print(colored("FATAL ERROR, trying again... \n",'red'))
             try:
-                starting_5_home, starting_5_away = get_roster(bs_url)
+                starting_5_home, starting_5_away, home_team_name, away_team_name = get_roster(bs_url)
             except:
                 print(colored("FATAL ERROR, link: " + bs_url + '\n','red'))
                 driver.quit()
                 return
             print(colored("recovered from fatal error\n", 'green'))
         starting_5s_arr.append([starting_5_home[:5], starting_5_away[:5]])
+        roster_team_order.append([home_team_name,away_team_name])
         rosters_processed_count += 1
         if rosters_processed_count % 20 == 0:
             print(colored("roster links processed: " + str(rosters_processed_count) + '\n','green'))
@@ -824,14 +841,14 @@ def main():
     games_processed_count = 0
     with open('output_full_season_v1.csv', mode='a', newline='') as data_csv_file:
         writer = csv.writer(data_csv_file)
-        for espn_url, bs_url, starting_5s in zip(espn_page_urls_arr, nba_com_urls_arr, starting_5s_arr):
+        for espn_url, bs_url, starting_5s, roster_teams in zip(espn_page_urls_arr, nba_com_urls_arr, starting_5s_arr, roster_team_order):
             print("espn_page_url: " + espn_url + ", bs_url " + bs_url)
-            component = get_play_component_data(espn_url, starting_5s)
+            component = get_play_component_data(espn_url, starting_5s, roster_teams)
             if component == -1:
                 print(colored("FATAL ERROR ESPN, trying again... \n",'red'))
                 driver.quit()
                 driver = webdriver.Chrome(options=chrome_options)
-                component = get_play_component_data(espn_url, starting_5s)
+                component = get_play_component_data(espn_url, starting_5s, roster_teams)
                 if component == -1:
                     print(colored("FATAL ERROR ESPN. link :" + espn_url + '\n','red'))
                     driver.quit()
