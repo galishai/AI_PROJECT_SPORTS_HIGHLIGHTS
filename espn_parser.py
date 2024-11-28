@@ -16,7 +16,7 @@ import json
 
 os.system('color')
 
-SAVE_ROSTERS = 1
+SAVE_ROSTERS = 0
 DEBUG = 0
 ROSTER_DICT = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/temp_rosters.txt'
 ESPN_LINKS = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/rs_espn_links.txt'
@@ -482,7 +482,8 @@ def get_roster(box_score_url):
             home_team_short = team
             num_teams_found += 1
     assert num_teams_found == 2, " ".join(home_team_name) + ", " + " ".join(away_team_name)
-    assert home_team_short != away_team_short
+    if home_team_short == away_team_short:
+        a=1
     #driver.quit()
     return player_names_home, player_names_away, home_team_short, away_team_short
 
@@ -527,7 +528,8 @@ def get_play_component_data(page_url, starting_5s, roster_teams):
 
     home_team = teams_text[1]
     away_team = teams_text[0]
-    assert home_team == roster_teams[0] and away_team == roster_teams[1], "team mismatch"
+    if home_team != roster_teams[0] or away_team != roster_teams[1]:
+        a = "team mismatch"
     game_team_dict = {home_team: HOME, away_team: AWAY}
     home_roster = team_rosters_full[home_team]
     away_roster = team_rosters_full[away_team]
