@@ -17,6 +17,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument('capabilities={"acceptInsecureCerts": True}')
+#TODO CHECK IF NEEDED
+chrome_options.add_argument("--disable-images")
+chrome_options.add_argument("--disable-javascript")
 
 START_DATE = datetime(2023, 10, 24)
 END_DATE = datetime(2024, 4, 8)
@@ -102,7 +105,7 @@ def main():
         playbyplay_list[4] = "playbyplay"
         playbyplay = "/".join(playbyplay_list)
         all_playbyplay.append(playbyplay)
-    with open('rs_espn_links.txt', mode='w', newline='') as file:
+    with open('../full season data/rs_espn_links.txt', mode='w', newline='') as file:
         for link in all_playbyplay:
             file.write(link + "\n")  # Add a newline after each string
     print(f"links saved")

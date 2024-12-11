@@ -11,7 +11,7 @@ from torchvision.transforms import ToTensor
 import pandas as pd
 
 TEST_LAST_ROW_CSV = 3399
-file_path = 'output_v3_with_target_vf_v2.csv'
+file_path = '../old_outputs/output_v3_with_target_vf_v2.csv'
 
 #create dataset that dataloader can work with
 class CSVDataset(Dataset):

@@ -29,6 +29,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument('capabilities={"acceptInsecureCerts": True}')
+#TODO CHECK IF NEEDED
+chrome_options.add_argument("--disable-images")
+chrome_options.add_argument("--disable-javascript")
 driver = webdriver.Chrome(options=chrome_options)
 
 class Plays(enum.Enum):
@@ -762,7 +765,7 @@ def get_play_component_data(page_url, starting_5s, roster_teams):
 def main():
     global player_vector_size, driver, team_rosters_full
 
-    with open('output_full_season_v1.csv', mode='w', newline='') as data_csv_file:
+    with open('../old_outputs/output_full_season_v1.csv', mode='w', newline='') as data_csv_file:
         writer = csv.writer(data_csv_file)
         writer.writerows([["time_left_qtr", "play", "distance", "quarter", "home_team", "away_team", "current_team", "name", "assister",
                       "win_difference", "games_played", "win_percentage", "home_score", "away_score", "team_fouls_qtr",
@@ -841,7 +844,7 @@ def main():
     #team_rosters_full = json.loads(data)#
     player_vector_size = max(len(team_rosters_full[team]) for team in team_rosters_full)
     games_processed_count = 0
-    with open('output_full_season_v1.csv', mode='a', newline='') as data_csv_file:
+    with open('../old_outputs/output_full_season_v1.csv', mode='a', newline='') as data_csv_file:
         writer = csv.writer(data_csv_file)
         for espn_url, bs_url, starting_5s, roster_teams in zip(espn_page_urls_arr, nba_com_urls_arr, starting_5s_arr, roster_team_order):
             print("espn_page_url: " + espn_url + ", bs_url " + bs_url)

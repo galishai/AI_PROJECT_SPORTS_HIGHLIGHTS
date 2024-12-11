@@ -9,6 +9,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument('capabilities={"acceptInsecureCerts": True}')
+#TODO CHECK IF NEEDED
+chrome_options.add_argument("--disable-images")
+chrome_options.add_argument("--disable-javascript")
 
 BUTTON_COUNT = 6
 LINKS_TO_EXCLUDE = []
@@ -57,7 +60,7 @@ def main():
         if href and href not in LINKS_TO_EXCLUDE:
             box_score_links.append(href)
     print("links found: " + str(len(box_score_links)))
-    with open('rs_nbadotcom_links.txt', mode='w', newline='') as file:
+    with open('../full season data/rs_nbadotcom_links.txt', mode='w', newline='') as file:
         for link in box_score_links:
             file.write(link + "\n")  # Add a newline after each string
     print(f"links saved")

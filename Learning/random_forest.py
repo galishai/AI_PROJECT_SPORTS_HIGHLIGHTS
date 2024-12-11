@@ -11,7 +11,7 @@ PROBABILITIES = 1
 
 #379 first game
 TEST_LAST_ROW_CSV = 379
-file_path = 'output_v3_with_target_vf.csv'
+file_path = '../old_outputs/output_v3_with_target_vf.csv'
 
 def time_to_seconds(time_str):
     if ':' in time_str:

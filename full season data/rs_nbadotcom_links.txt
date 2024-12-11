@@ -953,9 +953,9 @@ https://www.nba.com/game/tor-vs-por-0022300923/box-score#box-score
 https://www.nba.com/game/mil-vs-lac-0022300924/box-score#box-score
 https://www.nba.com/game/nop-vs-atl-0022300925/box-score#box-score
 https://www.nba.com/game/was-vs-mia-0022300926/box-score#box-score
+https://www.nba.com/game/phi-vs-nyk-0022300927/box-score#box-score
 https://www.nba.com/game/ind-vs-orl-0022300928/box-score#box-score
 https://www.nba.com/game/hou-vs-sac-0022300929/box-score#box-score
-https://www.nba.com/game/phi-vs-nyk-0022300927/box-score#box-score
 https://www.nba.com/game/bkn-vs-cle-0022300930/box-score#box-score
 https://www.nba.com/game/mem-vs-okc-0022300931/box-score#box-score
 https://www.nba.com/game/min-vs-lal-0022300932/box-score#box-score
@@ -1119,9 +1119,9 @@ https://www.nba.com/game/bkn-vs-ind-0022301089/box-score#box-score
 https://www.nba.com/game/por-vs-orl-0022301090/box-score#box-score
 https://www.nba.com/game/atl-vs-chi-0022301091/box-score#box-score
 https://www.nba.com/game/phx-vs-nop-0022301092/box-score#box-score
+https://www.nba.com/game/okc-vs-phi-0022301093/box-score#box-score
 https://www.nba.com/game/lal-vs-tor-0022301094/box-score#box-score
 https://www.nba.com/game/mil-vs-was-0022301095/box-score#box-score
-https://www.nba.com/game/okc-vs-phi-0022301093/box-score#box-score
 https://www.nba.com/game/nyk-vs-mia-0022301096/box-score#box-score
 https://www.nba.com/game/hou-vs-min-0022301098/box-score#box-score
 https://www.nba.com/game/sas-vs-den-0022301099/box-score#box-score
@@ -1139,7 +1139,6 @@ https://www.nba.com/game/orl-vs-nop-0022301109/box-score#box-score
 https://www.nba.com/game/cle-vs-phx-0022301110/box-score#box-score
 https://www.nba.com/game/phi-vs-mia-0022301111/box-score#box-score
 https://www.nba.com/game/sac-vs-nyk-0022301112/box-score#box-score
-https://www.nba.com/game/atl-vs-dal-0022301124/box-score#box-score
 https://www.nba.com/game/gsw-vs-hou-0022301113/box-score#box-score
 https://www.nba.com/game/den-vs-lac-0022301114/box-score#box-score
 https://www.nba.com/game/orl-vs-cha-0022301115/box-score#box-score
@@ -1152,6 +1151,7 @@ https://www.nba.com/game/det-vs-mem-0022301121/box-score#box-score
 https://www.nba.com/game/tor-vs-mil-0022301122/box-score#box-score
 https://www.nba.com/game/sas-vs-nop-0022301123/box-score#box-score
 https://www.nba.com/game/gsw-vs-dal-0022301097/box-score#box-score
+https://www.nba.com/game/atl-vs-dal-0022301124/box-score#box-score
 https://www.nba.com/game/min-vs-phx-0022301125/box-score#box-score
 https://www.nba.com/game/uta-vs-lac-0022301126/box-score#box-score
 https://www.nba.com/game/cle-vs-lal-0022301127/box-score#box-score
