@@ -1,1 +1,1 @@
-[["TNT", 70], ["LEAGUE PASS", 942], ["ESPN", 75], ["ClipperVision", 17], ["NBA TV", 103], ["ABC/ESPN", 2], ["ABC", 21]]
+[["TNT", 70], ["LEAGUE PASS", 940], ["ESPN", 75], ["ClipperVision", 17], ["NBA TV", 102], ["ABC/ESPN", 2], ["ABC", 21]]
