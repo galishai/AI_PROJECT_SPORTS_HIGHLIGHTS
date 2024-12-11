@@ -1,6 +1,6 @@
 # Define input and output file paths
-input_file = "rs_nbadotcom_links.txt"  # Replace with the name of your input file
-output_file = "game_recap_links.txt"  # Name of the output file
+input_file = "../full season data/rs_nbadotcom_links.txt"  # Replace with the name of your input file
+output_file = "../full season data/game_recap_links.txt"  # Name of the output file
 
 # Open the input file and process each line
 with open(input_file, "r") as infile, open(output_file, "w") as outfile:

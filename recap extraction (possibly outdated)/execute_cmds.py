@@ -1,7 +1,7 @@
 import subprocess
 
 # Path to the input file containing commands
-input_file = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/full season data/ordered_cmds_v2.txt'  # Replace with the path to your file
+input_file = '/recap extraction (possibly outdated)/ordered_cmds_v2.txt'  # Replace with the path to your file
 
 STARTING_COUNT = 55
 # Open and read all lines from the file
