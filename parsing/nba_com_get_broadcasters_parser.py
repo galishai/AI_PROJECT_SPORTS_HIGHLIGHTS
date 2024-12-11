@@ -302,11 +302,11 @@ def main():
     broadcast_list = []
     for bc, desc in zip(logos_extracted_total, desc_extracted_total):
         broadcast_list.append([bc,''.join(desc)])
-    with open('broadcast_list.txt', mode='w') as file:
+    with open('../full season data/broadcast_list.txt', mode='w') as file:
         json.dump(broadcast_list,file)
     print("saved bc_list")
     bc_types = list(Counter(logos_extracted_total).items())
-    with open('unique_broadcasts.txt', mode='w') as file:
+    with open('../full season data/unique_broadcasts.txt', mode='w') as file:
         json.dump(bc_types,file)
     print("saved unique_bc")
 
