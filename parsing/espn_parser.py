@@ -875,8 +875,6 @@ def main():
         driver.quit()
     print(colored(f"Play component text saved to output_full_season_v1.csv",'green'))
     print(colored("OK :)",'green'))
-    if not SAVE_ROSTERS:
-        os.remove('temp_rosters.txt')
 
 if __name__ == '__main__':
     main()
