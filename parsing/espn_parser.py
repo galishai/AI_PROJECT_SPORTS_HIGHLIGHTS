@@ -162,7 +162,7 @@ nba_team_logos = ['bos','dal','den','orl','ny','hou','det','utah','wsh','gs','sa
                   'lac','okc','sac','por','lal','mia','phi','chi','mil','cle','no','min']
 
 nba_teams_to_logos = {}
-for name, logo in zip(nba_team_names,nba_team_logos):
+for name, logo in zip(nba_team_names, nba_team_logos):
     nba_teams_to_logos[name] = logo + '.png'
 
 team_rosters_full = {}
@@ -216,6 +216,8 @@ def name_corrector(player_name, home_roster, away_roster):
         return "KJ Martin"
     if player_name == "Matthew Hurt":
         return "Matt Hurt"
+    if player_name == "Brandon Boston Jr.":
+        return "Brandon Boston"
     return unidecode(player_name)
 
 def roster_fix(roster):
@@ -650,7 +652,7 @@ def get_play_component_data(page_url, starting_5s, roster_teams):
                     print("player out: " + player_out)
                     print(home_roster)
                     print(away_roster)
-                    assert(1 == 0)
+                    assert (1 == 0)
                 if nba_teams_to_logos[home_team] in curr_logo:
                     players_on_court_home[home_roster.index(player_in)] = 1
                     players_on_court_home[home_roster.index(player_out)] = 0
@@ -727,6 +729,10 @@ def get_play_component_data(page_url, starting_5s, roster_teams):
                 player_fouls = box_score[player_name][FOUL]
                 player_turnovers = box_score[player_name][TURNOVER]
             else:
+                if player_name == "Wes Unseld Jr.":
+                    continue
+                if len(player_name.split()) > 2:
+                    assert 1==0, "Player not in rosters: " + player_name + " Play info: " + play_info_copy
                 player_rebs = 0
                 player_assists = 0
                 player_steals = 0
@@ -765,7 +771,7 @@ def get_play_component_data(page_url, starting_5s, roster_teams):
 def main():
     global player_vector_size, driver, team_rosters_full
 
-    with open('../old_outputs/output_full_season_v1.csv', mode='w', newline='') as data_csv_file:
+    with open('../full season data/output_full_season_v2.csv', mode='w', newline='') as data_csv_file:
         writer = csv.writer(data_csv_file)
         writer.writerows([["time_left_qtr", "play", "distance", "quarter", "home_team", "away_team", "current_team", "name", "assister",
                       "win_difference", "games_played", "win_percentage", "home_score", "away_score", "team_fouls_qtr",
@@ -844,7 +850,7 @@ def main():
     #team_rosters_full = json.loads(data)#
     player_vector_size = max(len(team_rosters_full[team]) for team in team_rosters_full)
     games_processed_count = 0
-    with open('../old_outputs/output_full_season_v1.csv', mode='a', newline='') as data_csv_file:
+    with open('../full season data/output_full_season_v2.csv', mode='a', newline='') as data_csv_file:
         writer = csv.writer(data_csv_file)
         for espn_url, bs_url, starting_5s, roster_teams in zip(espn_page_urls_arr, nba_com_urls_arr, starting_5s_arr, roster_team_order):
             print("espn_page_url: " + espn_url + ", bs_url " + bs_url)
