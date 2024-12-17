@@ -112,7 +112,7 @@ with open('test_game.txt', mode='w', newline='') as file:
                                                config=' -c tessedit_char_whitelist=0123456789:. --psm 7 --user-patterns /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/ocr_config/time_patterns.txt --tessdata-dir /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/tessdata_best-main --oem 1')
         if img_time_text == '' or img_qtr_text == '':
             continue
-        data = "(" + str(cropped_time) + ", " + str(cropped_qtr) + ")\n"
+        data = "(" + img_time_text + ", " + img_qtr_text + ")\n"
         file.write(data)
         print("frame :" + str(i) + " qtr: " + img_qtr_text + " time: " + img_time_text + '\n')
 
