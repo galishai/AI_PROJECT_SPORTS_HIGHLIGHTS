@@ -69,7 +69,7 @@ directory_path = '/Users/galishai/Desktop/img_to_text_plotfiles/frames'
 file_names = list_files_in_directory(directory_path)
 count = 1
 
-scaleFactor = 1.2
+scaleFactor = 1.7
 qtr_inv = True
 time_inv = False
 
@@ -110,7 +110,7 @@ for i, img_path in enumerate(file_names):
     img_qtr_text = pytesseract.image_to_string(cropped_qtr, lang='eng',
                                            config=' -c tessedit_char_whitelist=1234 --psm 11 --user-patterns /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/ocr_config/qtr_patterns.txt --tessdata-dir /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/tessdata_best-main --oem 1')
     img_time_text = pytesseract.image_to_string(cropped_time, lang='eng',
-                                           config=' -c tessedit_char_whitelist=0123456789:. --psm 7 --user-patterns /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/ocr_config/time_patterns.txt --tessdata-dir /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/tessdata_best-main --oem 1')
+                                           config=' -c tessedit_char_whitelist=0123456789:. --psm 6 --user-patterns /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/ocr_config/time_patterns.txt --tessdata-dir /Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/img_to_text/tessdata_best-main --oem 1')
     if img_time_text == '' or img_qtr_text == '':
         continue
     print("frame :" + str(i) + " qtr: " + img_qtr_text + " time: " + img_time_text + '\n')
