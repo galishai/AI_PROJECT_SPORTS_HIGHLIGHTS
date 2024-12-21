@@ -9,8 +9,10 @@ from PIL import Image
 import re
 import csv
 
-SHOW_QUARTER = True
-HAVE_FRAMES = True
+SHOW_QUARTER = False
+SHOW_TIME = False
+HAVE_FRAMES = False
+READ_TEXT = True
 pattern = r'^\d{1,2}:\d{2}$'
 scaleFactor = 1.7
 inv_list = {'TNT':(1, 1),'CHA': (0, 0),'IND': (0, 0),'ESPN': (0, 1),'ORL': (0, 0),'BKN': (0, 0),'MIA': (0, 0),'TOR': (0, 0),'CHI': (0, 0),'MEM': (0, 0),'UTA': (1, 1),'LAC': (0, 0),'ATL': (0, 0),
@@ -41,7 +43,7 @@ def load_dict(filename):
     return dictionary
 
 def unique_first_elements_dict(list_of_lists):
-    first_elements = {sublist[0]: None for sublist in list_of_lists}
+    first_elements = {sublist: None for sublist in list_of_lists}
     return first_elements
 
 def unique_first_elements_list(list_of_lists):
@@ -67,10 +69,10 @@ def manual_crop_with_roi(image_path,scale_factor=0.5):
 
     return original_roi
 
-def crop_image(image_path, crop_box):
-    with Image.open(image_path) as img:
-        cropped_img = img.crop(crop_box)
-        return cropped_img
+def crop_image(image, crop_box):
+    x1, y1, x2, y2 = crop_box
+    cropped_img = image[y1:y2, x1:x2]
+    return cropped_img
 
 def select_frame(frames_path):
     root = tk.Tk()
@@ -98,9 +100,10 @@ def read_text_from_box(image, temp1, temp2):
     return img_text
 """
 
-def read_text_from_box(image, is_time=True, inv=False):
-    cropped_img_np = np.array(image)
-    inputImage = cv2.resize(cropped_img_np, None, fx=scaleFactor, fy=scaleFactor, interpolation=cv2.INTER_LINEAR)
+def read_text_from_box(image_path,crop_box, is_time=True, inv=False):
+    image = cv2.imread(image_path)
+    img_np = np.array(image)
+    inputImage = cv2.resize(img_np, None, fx=scaleFactor, fy=scaleFactor, interpolation=cv2.INTER_LINEAR)
     gray = cv2.cvtColor(inputImage, cv2.COLOR_BGR2GRAY)
     kernel = np.ones((1, 1), np.uint8)
     gray = cv2.dilate(gray, kernel, iterations=1)
@@ -109,11 +112,32 @@ def read_text_from_box(image, is_time=True, inv=False):
     blurred = cv2.GaussianBlur(thresh, (5, 5), 0)
     if inv:
         blurred = 255 - blurred
+
+    blurred = cv2.resize(blurred, None, fx=1/scaleFactor, fy=1/scaleFactor, interpolation=cv2.INTER_LINEAR)
+    cropped_img_time = crop_image(blurred, crop_box[0])
+    cropped_img_quarter = crop_image(blurred, crop_box[1])
+
+    if SHOW_TIME:
+        if not isinstance(cropped_img_time, np.ndarray):  # section for debug the cropping quarter image
+            temp = np.array(cropped_img_time)
+            cropped_img_time = temp
+        cv2.imshow('Cropped Image Time', cropped_img_time)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    if SHOW_QUARTER:
+        if not isinstance(cropped_img_quarter, np.ndarray):  # section for debug the cropping quarter image
+            temp = np.array(cropped_img_quarter)
+            cropped_img_quarter = temp
+        cv2.imshow('Cropped Image Quarter', cropped_img_quarter)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
     if not is_time:
         #plt.imshow(blurred)
-        img_text = pytesseract.image_to_string(blurred, lang='eng', config=' -c tessedit_char_whitelist=1234 --psm 11 --user-patterns C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/qtr_patterns.txt --tessdata-dir C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/tessdata_best-main --oem 1')
+        img_text = pytesseract.image_to_string(cropped_img_quarter, lang='eng', config=' -c tessedit_char_whitelist=1234 --psm 11 --user-patterns C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/qtr_patterns.txt --tessdata-dir C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/tessdata_best-main --oem 1')
     else:
-        img_text = pytesseract.image_to_string(blurred, lang='eng', config=' -c tessedit_char_whitelist=0123456789:. --psm 6 --user-patterns C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/time_patterns.txt --tessdata-dir C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/tessdata_best-main --oem 1')
+        img_text = pytesseract.image_to_string(cropped_img_time, lang='eng', config=' -c tessedit_char_whitelist=0123456789:. --psm 6 --user-patterns C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/time_patterns.txt --tessdata-dir C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/TEMP/tessdata_best-main --oem 1')
     return img_text
 
 
@@ -140,25 +164,23 @@ def process_frames(target_dir, recap_list, broadcast_dict):
                 file_path = os.path.join(frames_path, file)
                 if broadcast_dict[broadcast_type] is None:
                     temp_file_to_crop = select_frame(frames_path)
-                    x, y, w, h = manual_crop_with_roi(temp_file_to_crop, 0.2)
-                    x2, y2, w2, h2 = manual_crop_with_roi(temp_file_to_crop, 0.2)
+                    img_np = np.array(temp_file_to_crop)
+                    inputImage = cv2.resize(img_np, None, fx=scaleFactor, fy=scaleFactor, interpolation=cv2.INTER_LINEAR)
+                    x, y, w, h = manual_crop_with_roi(inputImage, 0.2)
+                    x2, y2, w2, h2 = manual_crop_with_roi(inputImage, 0.2)
                     broadcast_dict[broadcast_type] = [(x, y, x + w, y + h), (x2, y2, x2 + w2, y2 + h2)]
                 crop_box = broadcast_dict[broadcast_type]
-                cropped_img_time = crop_image(file_path, crop_box[0])
-                cropped_img_quarter = crop_image(file_path, crop_box[1])
-                time = read_text_from_box(cropped_img_time, True, inv_list[broadcast_type][0])
+                #cropped_img_time = crop_image(file_path, crop_box[0])
+                #cropped_img_quarter = crop_image(file_path, crop_box[1])
+                if not READ_TEXT:
+                    continue
+                time = read_text_from_box(file_path, crop_box, True, inv_list[broadcast_type][0])
 
-                if SHOW_QUARTER:
-                    if not isinstance(cropped_img_quarter, np.ndarray):             #section for debug the cropping quarter image
-                        temp = np.array(cropped_img_quarter)
-                    cv2.imshow('Cropped Image Quarter', temp)
-                    cv2.waitKey(0)
-                    cv2.destroyAllWindows()
-                    cropped_img_time = temp
-
-                quarter = read_text_from_box(cropped_img_quarter, False, inv_list[broadcast_type][1])
+                quarter = read_text_from_box(file_path, crop_box, False, inv_list[broadcast_type][1])
                 if re.match(pattern, time) and time != '':
                     time_list.append((time, quarter))
+        if not READ_TEXT:
+            continue
         text_folder_path = os.path.join(os.path.dirname(target_dir), 'output')
         os.makedirs(text_folder_path, exist_ok=True)
         text_file_path = os.path.join(text_folder_path, f"{game_dir}.txt")
@@ -171,12 +193,15 @@ def save_dict_to_file(dictionary, filename):
             file.write(f"{key}: {value}\n")
 
 def capture_broadcast_coor(target_dir, broadcast_dict, broadcast_list):
+
     for i, file in enumerate(os.listdir(target_dir)):
         temp_file = os.path.join(target_dir, file)
-        x, y, w, h = manual_crop_with_roi(temp_file, 0.2)
-        x2, y2, w2, h2 = manual_crop_with_roi(temp_file, 0.2)
+        x, y, w, h = manual_crop_with_roi(temp_file, 0.7)
+        x2, y2, w2, h2 = manual_crop_with_roi(temp_file, 0.7)
+
         broadcast_dict[broadcast_list[i]] = ((x, y, x + w, y + h), (x2, y2, x2 + w2, y2 + h2))
-    file_name = os.path.join(target_dir, 'broadcast_coor.txt')
+    print('stop')
+    file_name = os.path.join(target_dir, f'broadcast_coor.txt')
     save_dict_to_file(broadcast_dict, file_name)
 
 def parse_tuple_string(s):
@@ -203,7 +228,9 @@ def transform_dict_values(dict):
 
 
 def video_to_frame(video_path, dest_path):
+
     frames_saved_count = 0
+
     video = cv2.VideoCapture(video_path)
     if not video.isOpened():
         exit()
@@ -223,8 +250,8 @@ def video_to_frame(video_path, dest_path):
                 print("frames saved: " + str(sanity))
             sanity += 1
             frame_filename = os.path.join(dest_path, f'frame_{counter // frame_per_second:04d}.jpg')
-            binary_frame = resize_frame(frame, dest_path)
-            cv2.imwrite(frame_filename, binary_frame)
+            #binary_frame = resize_frame(frame, dest_path)
+            cv2.imwrite(frame_filename,frame)     #binary_frame)
             frames_saved_count += 1
         counter += 1
 
@@ -240,12 +267,13 @@ def ocr_for_video_frames(csv_path, broadcast_dict_path, target_folder):
     recap_list = read_list_from_file(csv_path)
     broadcast_dict = load_dict(broadcast_dict_path)
     broadcast_dict = apply_parse_to_dict(broadcast_dict)
+
     #transform_dict_values(broadcast_dict)
-    #broadcast_list = unique_first_elements_list(recap_list)
+    #broadcast_list = unique_first_elements_list(recap_list)         #only for capture
     recap_dir = target_folder
     process_frames(recap_dir, recap_list, broadcast_dict)
-    #broadcast_frames_samples_dir = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/All broadcast recaps/broadcast_sampels'
-    #capture_broadcast_coor(broadcast_frames_samples_dir, broadcast_dict, broadcast_list)
+    #broadcast_frames_samples_dir = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/All broadcast recaps/broadcast-sampels'        #only for capture
+    #capture_broadcast_coor(broadcast_frames_samples_dir, broadcast_dict, broadcast_list)        #only for capture
 
 
 def process_videos_in_batches(target_folder,  csv_path, broadcast_dict_path, batch_size=50):
@@ -269,7 +297,7 @@ def process_videos_in_batches(target_folder,  csv_path, broadcast_dict_path, bat
         shutil.rmtree(frame_dir)
 
 if __name__ == '__main__':
-    target_folder = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/Recaps' #input("enter destination path (must be empty folder)\n") #'/Users/galishai/Desktop/AI Project/AI_Project/AI_PROJECT_SPORTS_HIGHLIGHTS/test_img_to_txt' #input("enter destination path\n") # filedialog.askopenfilename()
-    csv_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/Updated_Broadcast_List_with_ClipperVision_Replaced.csv'  # Enter the path of broadcast_list in your computer
-    broadcast_dict_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/broadcast_coor_dict_check.txt'                      # Enter the broadcast_coor_dict.txt
+    target_folder = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/All broadcast recaps'                                 # Enter destination path - folder that contain only the recap videos
+    csv_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/‏‏Broadcast-csv.csv'                                   # Enter the path of broadcast_csv in your computer
+    broadcast_dict_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/broadcast_coor_with_corrections.txt'            # Enter the broadcast_coor.txt
     process_videos_in_batches(target_folder, csv_path, broadcast_dict_path, batch_size=2)
