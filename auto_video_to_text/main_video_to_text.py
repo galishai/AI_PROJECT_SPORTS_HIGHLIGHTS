@@ -13,6 +13,7 @@ SHOW_QUARTER = False
 SHOW_TIME = False
 HAVE_FRAMES = False
 READ_TEXT = True
+TRACE_FRAMES_EXTRACTED = True
 pattern = r'^\d{1,2}:\d{2}$'
 scaleFactor = 1.7
 inv_list = {'TNT':(1, 1),'CHA': (0, 0),'IND': (0, 0),'ESPN': (0, 1),'ORL': (0, 0),'BKN': (0, 0),'MIA': (0, 0),'TOR': (0, 0),'CHI': (0, 0),'MEM': (0, 0),'UTA': (1, 1),'LAC': (0, 0),'ATL': (0, 0),
@@ -70,7 +71,7 @@ def manual_crop_with_roi(image_path,scale_factor=0.5):
     return original_roi
 
 def crop_image(image, crop_box):
-    x1, y1, x2, y2 = crop_box
+    x1, y1, x2, y2 = tuple(int(x * scaleFactor) for x in crop_box)
     cropped_img = image[y1:y2, x1:x2]
     return cropped_img
 
@@ -113,7 +114,7 @@ def read_text_from_box(image_path,crop_box, is_time=True, inv=False):
     if inv:
         blurred = 255 - blurred
 
-    blurred = cv2.resize(blurred, None, fx=1/scaleFactor, fy=1/scaleFactor, interpolation=cv2.INTER_LINEAR)
+    #blurred = cv2.resize(blurred, None, fx=1/scaleFactor, fy=1/scaleFactor, interpolation=cv2.INTER_LINEAR)
     cropped_img_time = crop_image(blurred, crop_box[0])
     cropped_img_quarter = crop_image(blurred, crop_box[1])
 
@@ -150,16 +151,16 @@ def expand_image_right(image, pixels=50):
     return expanded_image
 
 
-def process_frames(target_dir, recap_list, broadcast_dict):
+def process_frames(target_dir, recap_list, broadcast_dict, current_game):
     print('extracting text file')
     for i, game_dir in enumerate(os.listdir(target_dir)):
         frames_path = game_path = os.path.join(target_dir, game_dir)
         #frames_path = os.path.join(game_path, 'frames')
         if not os.path.isdir(frames_path):
             continue
-        broadcast_type = recap_list[i][0]  # Get the broadcast type for this directory
+        broadcast_type = recap_list[current_game][0]  # Get the broadcast type for this directory
         time_list = []
-        for file in os.listdir(frames_path):
+        for j, file in enumerate(os.listdir(frames_path)):
             if file.endswith('.jpg'):
                 file_path = os.path.join(frames_path, file)
                 if broadcast_dict[broadcast_type] is None:
@@ -179,6 +180,9 @@ def process_frames(target_dir, recap_list, broadcast_dict):
                 quarter = read_text_from_box(file_path, crop_box, False, inv_list[broadcast_type][1])
                 if re.match(pattern, time) and time != '':
                     time_list.append((time, quarter))
+                if TRACE_FRAMES_EXTRACTED:
+                    if j%20 == 0:
+                        print("extracted text from frame: " + str(j))
         if not READ_TEXT:
             continue
         text_folder_path = os.path.join(os.path.dirname(target_dir), 'output')
@@ -263,7 +267,7 @@ def resize_frame(frame, threshold=128):
     frame = cv2.resize(frame, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
     return frame
 
-def ocr_for_video_frames(csv_path, broadcast_dict_path, target_folder):
+def ocr_for_video_frames(csv_path, broadcast_dict_path, target_folder, current_game):
     recap_list = read_list_from_file(csv_path)
     broadcast_dict = load_dict(broadcast_dict_path)
     broadcast_dict = apply_parse_to_dict(broadcast_dict)
@@ -271,7 +275,7 @@ def ocr_for_video_frames(csv_path, broadcast_dict_path, target_folder):
     #transform_dict_values(broadcast_dict)
     #broadcast_list = unique_first_elements_list(recap_list)         #only for capture
     recap_dir = target_folder
-    process_frames(recap_dir, recap_list, broadcast_dict)
+    process_frames(recap_dir, recap_list, broadcast_dict, current_game)
     #broadcast_frames_samples_dir = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/All broadcast recaps/broadcast-sampels'        #only for capture
     #capture_broadcast_coor(broadcast_frames_samples_dir, broadcast_dict, broadcast_list)        #only for capture
 
@@ -292,12 +296,12 @@ def process_videos_in_batches(target_folder,  csv_path, broadcast_dict_path, bat
             if not HAVE_FRAMES:
                 os.makedirs(frames_folder)
                 video_to_frame(video_path, frames_folder)
-            ocr_for_video_frames(csv_path, broadcast_dict_path, frame_dir)
+            ocr_for_video_frames(csv_path, broadcast_dict_path, frame_dir, i)
 
         shutil.rmtree(frame_dir)
 
 if __name__ == '__main__':
-    target_folder = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/All broadcast recaps'                                 # Enter destination path - folder that contain only the recap videos
-    csv_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/‏‏Broadcast-csv.csv'                                   # Enter the path of broadcast_csv in your computer
+    target_folder = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/Recaps'                                 # Enter destination path - folder that contain only the recap videos
+    csv_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/Updated_Broadcast_List_with_ClipperVision_Replaced.csv'                                   # Enter the path of broadcast_csv in your computer
     broadcast_dict_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/NBA Recap/broadcast_coor_with_corrections.txt'            # Enter the broadcast_coor.txt
     process_videos_in_batches(target_folder, csv_path, broadcast_dict_path, batch_size=2)
