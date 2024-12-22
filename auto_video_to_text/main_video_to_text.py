@@ -152,8 +152,8 @@ def expand_image_right(image, pixels=50):
 
 
 def process_frames(target_dir, recap_list, broadcast_dict, current_game):
-    print('extracting text file')
     for i, game_dir in enumerate(os.listdir(target_dir)):
+        print('extracting text file from ' + game_dir.split('/')[-1])
         frames_path = game_path = os.path.join(target_dir, game_dir)
         #frames_path = os.path.join(game_path, 'frames')
         if not os.path.isdir(frames_path):
@@ -181,7 +181,7 @@ def process_frames(target_dir, recap_list, broadcast_dict, current_game):
                 if re.match(pattern, time) and time != '':
                     time_list.append((time, quarter))
                 if TRACE_FRAMES_EXTRACTED:
-                    if j%20 == 0:
+                    if j%40 == 0:
                         print("extracted text from frame: " + str(j))
         if not READ_TEXT:
             continue
@@ -296,8 +296,7 @@ def process_videos_in_batches(target_folder,  csv_path, broadcast_dict_path, bat
             if not HAVE_FRAMES:
                 os.makedirs(frames_folder)
                 video_to_frame(video_path, frames_folder)
-            ocr_for_video_frames(csv_path, broadcast_dict_path, frame_dir, i)
-
+        ocr_for_video_frames(csv_path, broadcast_dict_path, frame_dir, i)
         shutil.rmtree(frame_dir)
 
 if __name__ == '__main__':
