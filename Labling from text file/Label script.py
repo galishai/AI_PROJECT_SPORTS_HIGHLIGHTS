@@ -1,6 +1,7 @@
 import csv
 import re
 from tqdm import tqdm
+import os
 
 def read_csv(file_path):
     with open(file_path, mode='r', newline='', encoding='utf-8') as file:
@@ -26,6 +27,8 @@ def write_list_to_file(file_path, list):
 
 def check_time_input(time):
     times = time.split(":")
+    if len(times) != 2:
+        return False
     if not times[0].isdigit() or not times[1].isdigit() or int(times[0]) >= 12 or int(times[1]) >= 59:
         return False
     return True
@@ -43,6 +46,8 @@ def read_text(file_path):
     for line in data:
         line = line.replace("(", "").replace(")", "").replace("\\n", "").replace("'", "")
         parts = line.split(",")
+        if len(parts) < 2:
+            continue
         time = parts[0].strip()
         quarter = parts[1].strip()
         if not check_time_input(time):
@@ -88,6 +93,9 @@ def tag_moves_for_game(iterator, text_data):
         previous_row = row
     return update_rows, count
 
+def extract_game_number(filename):
+    match = re.search(r'frames_Game_Recap_(\d+)_', filename)
+    return int(match.group(1)) if match else float('inf')
 
 def write_csv(file_path, data):
     with open(file_path, mode='w', newline='', encoding='utf-8') as file:
@@ -127,16 +135,17 @@ class GamesIterator:
         return self.current_game_rows[0] if self.current_game_rows else None
 
 csv_file_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/Labling from text file/output_full_season_v3.csv'
-text_file_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/full season data/ocr_text_files/frames_Game_Recap_1_Nuggets_vs_Lakers.mp4.txt'
-output_csv_file_path = csv_file_path
+text_folder_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/full season data/ocr_text_files'
 
 csv_data = read_csv(csv_file_path)
-text_data = read_text(text_file_path)
+text_files = sorted([os.path.join(text_folder_path, f) for f in os.listdir(text_folder_path) if f.endswith('.txt')], key=extract_game_number)
 iterator = GamesIterator(csv_file_path)
 add_column(csv_data, 'Label', 0)
 games_counter = []
 #write_to_csv(csv_file_path, csv_data)
 for i, game in enumerate(tqdm(iterator, desc="Processing games")):
+    text_file_path = text_files[i % len(text_files)]
+    text_data = read_text(text_file_path)
     game_rows, count = tag_moves_for_game(iterator, text_data)
     if game_rows:
         games_counter.append((game_rows[0]['home_team'] + ' vs ' + game_rows[0]['away_team'] + ' ' + game_rows[0]['date'],count))
