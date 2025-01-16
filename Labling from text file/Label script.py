@@ -3,6 +3,8 @@ import re
 from tqdm import tqdm
 import os
 
+ADD_LABEL_COLUMN = False
+
 def read_csv(file_path):
     with open(file_path, mode='r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -25,8 +27,18 @@ def write_list_to_file(file_path, list):
         for element in list:
             file.write(f"{element}\n")
 
+def reformat_time(time):
+    temp_time = time
+    if temp_time.startswith("."):
+        temp_time = temp_time[1:]
+    if temp_time.startswith(':'):
+        temp_time = temp_time[1:].split('.')[0]
+    if ':' not in temp_time:
+        temp_time = '0:' + temp_time.split('.')[0]
+    return temp_time
+
 def check_time_input(time):
-    times = time.split(":")
+    times = time.split(':')
     if len(times) != 2:
         return False
     if not times[0].isdigit() or not times[1].isdigit() or int(times[0]) >= 12 or int(times[1]) >= 59:
@@ -34,10 +46,56 @@ def check_time_input(time):
     return True
 
 def check_quarter_input(quarter):
-    qurters = [1, 2, 3, 4]
-    if not quarter.isdigit() or int(quarter) not in qurters:
-        return False
-    return True
+    qurters = [1, 2, 3, 4, 'FIRST', 'SECOND', 'THIRD', 'FOURTH']
+    if quarter.startswith('FIRST'):
+        return True, 1
+    if quarter.startswith('SECOND'):
+        return True, 2
+    if quarter.startswith('THIRD'):
+        return True, 3
+    if quarter.startswith('FOURTH'):
+        return True, 4
+    if not quarter.isdigit() and quarter not in qurters:
+        return False, 0
+    if quarter.isdigit() and int(quarter) not in qurters:
+        return False, 0
+    return True, 0
+
+def create_intervals(text_data):
+    intervals = []
+    start_time = None
+    end_time = None
+    start_quarter = None
+
+    for time, quarter in text_data:
+        time = reformat_time(time)
+        try:
+            if not check_quarter_input(quarter)[0]:
+                continue
+            if not check_time_input(time):
+                continue
+            minutes, seconds = map(int, time.split(":"))
+            total_seconds = minutes * 60 + seconds
+        except ValueError:
+            continue
+
+        if start_time is None:
+            start_time = total_seconds
+            end_time = total_seconds
+            start_quarter = quarter
+        else:
+            if quarter == start_quarter and end_time - total_seconds <= 2 and end_time >= total_seconds:
+                end_time = total_seconds
+            else:
+                intervals.append(((start_time, end_time), start_quarter))
+                start_time = total_seconds
+                end_time = total_seconds
+                start_quarter = quarter
+
+    if start_time is not None and end_time is not None:
+        intervals.append(((start_time, end_time), start_quarter))
+
+    return intervals
 
 def read_text(file_path):
     with open(file_path, mode='r', encoding='utf-8') as file:
@@ -49,10 +107,20 @@ def read_text(file_path):
         if len(parts) < 2:
             continue
         time = parts[0].strip()
+        time = reformat_time(time)
         quarter = parts[1].strip()
-        if not check_time_input(time):
+        flag, q = check_quarter_input(quarter)
+        if not flag and q == 0:
             continue
-        if not check_quarter_input(quarter):
+        elif flag and q == 1:
+            quarter = '1'
+        elif flag and q == 2:
+            quarter = '2'
+        elif flag and q == 3:
+            quarter = '3'
+        elif flag and q == 4:
+            quarter = '4'
+        if not check_time_input(time):
             continue
         if re.match(r'^\d+:\d+$', time) and re.match(r'^\d+$', quarter):
             cleaned_data.append([time, quarter])
@@ -63,7 +131,20 @@ def add_column(csv_data, column_name, default_value):
         row[column_name] = default_value
     return csv_data
 
-def tag_moves_for_game(iterator, text_data):
+def is_in_interval(time, quarter, intervals):
+    if '.' in time:
+        temp_time = time.split('.')[0]
+        time = f"0:{temp_time}"
+    if not re.match(r'^\d+:\d+$', time):
+        return False
+    minutes, seconds = map(int, time.split(":"))
+    total_seconds = minutes * 60 + seconds
+    for (start, end), q in intervals:
+        if start >= total_seconds and total_seconds >= end and quarter == q:
+            return True
+    return False
+
+def tag_moves_for_game(iterator, intervals):
     previous_row = None
     count = 0
     update_rows = []
@@ -72,7 +153,7 @@ def tag_moves_for_game(iterator, text_data):
     except StopIteration:
         return
 
-    if (first_row['time_left_qtr'], first_row['quarter'][0]) in text_data:
+    if is_in_interval(first_row['time_left_qtr'], first_row['quarter'][0], intervals):
         first_row['Label'] = 1
         count += 1
     else:
@@ -81,7 +162,7 @@ def tag_moves_for_game(iterator, text_data):
 
     for row in iterator:
         if previous_row is None or (previous_row['home_team'] == row['home_team'] and previous_row['away_team'] == row['away_team'] and previous_row['date'] == row['date']):
-            if [row['time_left_qtr'], row['quarter'][0]] in text_data:
+            if is_in_interval(row['time_left_qtr'], row['quarter'][0], intervals):
                 row['Label'] = 1
                 count += 1
             else:
@@ -134,28 +215,63 @@ class GamesIterator:
     def peek(self):
         return self.current_game_rows[0] if self.current_game_rows else None
 
-csv_file_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/Labling from text file/output_full_season_v3.csv'
+csv_file_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/Labling from text file/output_full_season_v4.csv'
 text_folder_path = 'C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/full season data/ocr_text_files'
 
 csv_data = read_csv(csv_file_path)
 text_files = sorted([os.path.join(text_folder_path, f) for f in os.listdir(text_folder_path) if f.endswith('.txt')], key=extract_game_number)
 iterator = GamesIterator(csv_file_path)
-add_column(csv_data, 'Label', 0)
 games_counter = []
-#write_to_csv(csv_file_path, csv_data)
+
+if ADD_LABEL_COLUMN:
+    add_column(csv_data, 'Label', 0)
+    write_to_csv(csv_file_path, csv_data)
+
 for i, game in enumerate(tqdm(iterator, desc="Processing games")):
     text_file_path = text_files[i % len(text_files)]
     text_data = read_text(text_file_path)
-    game_rows, count = tag_moves_for_game(iterator, text_data)
+    intervals_list = create_intervals(text_data)
+    game_rows, count = tag_moves_for_game(iterator, intervals_list)
     if game_rows:
         games_counter.append((game_rows[0]['home_team'] + ' vs ' + game_rows[0]['away_team'] + ' ' + game_rows[0]['date'],count))
         #print(f"finished labeling: {game_rows[0]['home_team']} vs {game_rows[0]['away_team']} {game_rows[0]['date']}")
-threshold = 10
-count_below_threshold = sum(1 for game in games_counter if game[1] < threshold)
+        """         #remove comment if you want to write to original CSV file
+        for updated_row in game_rows:
+            for original_row in csv_data:
+                if (original_row['home_team'] == updated_row['home_team'] and
+                    original_row['away_team'] == updated_row['away_team'] and
+                    original_row['date'] == updated_row['date'] and
+                    original_row['time_left_qtr'] == updated_row['time_left_qtr'] and
+                    original_row['quarter'] == updated_row['quarter']):
+                    original_row['Label'] = updated_row['Label']
+write_to_csv(csv_file_path, csv_data)
+"""
+threshold = 7
+count_below_threshold = sum(1 for game in games_counter if game[1] <= threshold)
 print(f"Number of games below threshold:{count_below_threshold}")
+write_list_to_file('C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/Labling from text file/label_counter.txt', games_counter)
+
+
+
+
+
+
+
+
+
+"""
+for i, game in enumerate(iterator):
+    if isinstance(game, GamesIterator):
+        if game.current_game_rows[0]['quarter'] == 'FIRST':
+            print("Debug now")
+    text_file_path = text_files[i % len(text_files)]
+    text_data = read_text(text_file_path)
+    print(i)
+    print(create_intervals(text_data))
+
 
 write_list_to_file('C:/Users/Sahar/Desktop/Computer Science/236502 Artificial inetlligence project/git_files/Labling from text file/label_counter.txt', games_counter)
-"""    
+ 
     for updated_row in game_rows:
         for original_row in csv_data:
             if (original_row['home_team'] == updated_row['home_team'] and
