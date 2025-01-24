@@ -8,13 +8,71 @@ import pandas as pd
 
 EARLY_STOPPING_INDEX = -1
 
-HIGHLIGHT_CONFIDENCE_THRESH = 2
+HIGHLIGHT_CONFIDENCE_THRESH = 3
 
-GAME_CONFIDENCE_THRESH = 7
+GAME_CONFIDENCE_THRESH = 11
 
 PRINT_HIGHLIGHTS = 0
 
 SHOW_ERRORS = 0
+
+import csv
+
+class CSVRowIterator:
+    """
+    Iterator to go through rows in a CSV file with the ability to update a value for a specific feature in a row.
+    """
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.rows = []
+        self.header = []
+        self.load_csv()
+
+    def load_csv(self):
+        """
+        Load the CSV file into memory.
+        """
+        with open(self.file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            self.header = next(reader)  # First row is the header
+            self.rows = [dict(zip(self.header, row)) for row in reader]
+
+    def __iter__(self):
+        self.index = 0
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.rows):
+            raise StopIteration
+        current_row = self.rows[self.index]
+        self.index += 1
+        return current_row
+
+    def update_row(self, row_index, feature, new_value):
+        """
+        Update the value of a specific feature in a row.
+        :param row_index: Index of the row to update.
+        :param feature: Feature (column name) to update.
+        :param new_value: New value for the feature.
+        """
+        if 0 <= row_index < len(self.rows):
+            if feature in self.rows[row_index]:
+                self.rows[row_index][feature] = new_value
+            else:
+                raise KeyError(f"Feature '{feature}' not found in the header.")
+        else:
+            raise IndexError(f"Row index {row_index} is out of bounds.")
+
+    def save_csv(self, output_path):
+        """
+        Save the updated CSV file to a new file.
+        :param output_path: Path to save the updated CSV.
+        """
+        with open(output_path, mode='w', encoding='utf-8', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=self.header)
+            writer.writeheader()
+            writer.writerows(self.rows)
+        print(f"Updated CSV saved to {output_path}")
 
 class PlayIterator:
 
@@ -135,7 +193,7 @@ def quarter_to_csv_format(quarter):
     if quarter == 'OT':
         return 'OT'
     if quarter == '2OT':
-        return '2OT'
+        return '2 OT'
     print("cant_id")
     assert 1 == 0
 
@@ -227,14 +285,18 @@ def print_histogram(game_interval_list, interval_hist):
     for ivl, confidence_count in zip(game_interval_list, interval_hist):
         print(f"interval: {ivl}, confidence: {confidence_count}")
 
-
+def get_row_count(file_path):
+    with open(file_path, mode='r', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        row_count = sum(1 for row in reader)  # Count all rows
+    return row_count
 
 
 if __name__ == "__main__":
 
     ## IMPORTANT: For safety run on a copy of the original text file folder
     txt_files_path = '/Users/galishai/Desktop/ocr_results/gamestxt_without_corruption'
-    csv_file_path = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/Labling from text file/new_output.csv'
+    csv_file_path = '/full season data/new_output_labeled.csv'
     txt_files_name_list = list_files_in_directory(txt_files_path)
     txt_files_path_list = [txt_files_path + '/' + file_name for file_name in txt_files_name_list]
     csv_data = pd.read_csv(csv_file_path)
@@ -243,9 +305,17 @@ if __name__ == "__main__":
     game_index = 0
     games_above_thresh = 0
     failed_games = []
-    for game_interval_list, txt_file_path in zip(game_intervals, txt_files_path_list):
+    hist_highlight_count = [0] * 60
+
+    input_file = "/full season data/new_output_labeled.csv"  # Replace with your file path
+
+    csv_iterator = CSVRowIterator(input_file)
+    curr_row = 0
+
+
+    for game_interval_list, txt_file_path in tqdm(zip(game_intervals, txt_files_path_list),total=len(txt_files_path_list)):
         print(f"game index: {game_index}, txt_path: {txt_file_path}")
-        interval_hist = [0]* len(game_interval_list) #histogram of times found in each interval
+        interval_hist = [0] * len(game_interval_list) #histogram of times found in each interval
         text_data = read_text(txt_file_path)
         highlights_above_thresh = 0
         for txt_time, txt_quarter in text_data:
@@ -265,8 +335,6 @@ if __name__ == "__main__":
                 sanity_end = reformat_time(tmp_end_time)
                 int_start_time = time_to_int(sanity_start)
                 int_end_time = time_to_int(sanity_end)
-                if txt_time == '.47.3' and interval_qtr == '2nd':
-                    a = 1
                 if int_start_time != int_end_time:
                     int_start_time -= 1
                 if int_end_time <= int_txt_time <= int_start_time and qtr_csv_format == interval_qtr:
@@ -282,19 +350,35 @@ if __name__ == "__main__":
         for ivl, confidence_count in zip(game_interval_list, interval_hist):
             if confidence_count >= HIGHLIGHT_CONFIDENCE_THRESH:
                 highlights_above_thresh += 1
+                csv_iterator.update_row(curr_row, "is_highlight", '1')
+            else:
+                csv_iterator.update_row(curr_row, "is_highlight", '0')
+            curr_row += 1
+
+
         if highlights_above_thresh >= GAME_CONFIDENCE_THRESH:
             games_above_thresh += 1
         else:
             failed_games.append("game index: " + str(game_index) + ", txt_path: " + txt_file_path + "highlights found: " + str(highlights_above_thresh))
             print_histogram(game_interval_list, interval_hist)
+        hist_highlight_count[highlights_above_thresh] += 1
         if PRINT_HIGHLIGHTS:
             print_highlights(game_interval_list, interval_hist)
         if game_index==EARLY_STOPPING_INDEX:
             break
         game_index += 1
+    '''
     print(f"Total Games Processed: {len(txt_files_name_list)}")
     print(f"Games above thresh={GAME_CONFIDENCE_THRESH}: {games_above_thresh}")
     print(f"Games below thresh: {len(txt_files_name_list) - games_above_thresh}")
     print("Failed games:")
     print(failed_games)
+    '''
+    csv_iterator.save_csv(csv_file_path)
+    games_left = len(txt_files_name_list)
+    for i in range(60):
+        print(f"Total Games Processed: {len(txt_files_name_list)}")
+        print(f"Games above thresh={i}: {games_left}")
+        print(f"Games below thresh: {len(txt_files_name_list) - games_left}")
+        games_left -= hist_highlight_count[i]
 

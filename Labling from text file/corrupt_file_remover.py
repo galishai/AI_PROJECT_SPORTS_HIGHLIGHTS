@@ -107,8 +107,8 @@ if __name__ == "__main__":
 
     ## IMPORTANT: For safety run on a copy of the original text file folder
     txt_files_path = '/Users/galishai/Desktop/ocr_results/gamestxt_without_corruption'
-    csv_file_path = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/Labling from text file/output_full_season_v3.csv'
-    output_csv_path = '/Users/galishai/PycharmProjects/AI_PROJECT_SPORTS_HIGHLIGHTS/Labling from text file/new_output.csv'
+    csv_file_path = '/old_outputs/output_full_season_test.csv'
+    output_csv_path = '/Labling from text file/new_output_filtered.csv'
     txt_files_name_list = list_files_in_directory(txt_files_path)
     txt_files_path_list = [txt_files_path + '/' + file_name for file_name in txt_files_name_list]
     csv_data = pd.read_csv(csv_file_path)
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     with open(output_csv_path, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(csv_data.columns)
-        for game, txt_file_path in zip(iterator.games_only(), txt_files_path_list):
+        for game, txt_file_path in tqdm(zip(iterator.games_only(), txt_files_path_list), total=len(txt_files_path_list)):
             if os.path.isfile(txt_file_path):
                 file_size = os.path.getsize(txt_file_path)
                 if file_size < file_size_limit:
