@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0e24c6acaaa2c47603686d9c91cb65503be86138113098d3893445876027635c
-size 351
+time_left_qtr,play,distance,quarter,home_team,away_team,current_team,name,assister,win_difference,games_played,win_percentage,home_score,away_score,team_fouls_qtr,team_turnovers,player_rebounds,player_assists,player_steals,player_blocks,player_points,player_fouls,player_turnovers,assister_assists,stolen_by,stealer_steals,players_binary_vector,date
