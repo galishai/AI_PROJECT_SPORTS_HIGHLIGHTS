@@ -1,0 +1,63 @@
+On training with max_depth=10, threshold=0.1: #TODO BETA=1
+Accuracy: 0.9127327145054784
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.96      0.94      0.95    270959
+           1       0.28      0.37      0.31     15712
+
+    accuracy                           0.91    286671
+   macro avg       0.62      0.65      0.63    286671
+weighted avg       0.92      0.91      0.92    286671
+
+Confusion Matrix:
+ [[255914  15045]
+ [  9972   5740]]
+On test with max_depth=10, threshold=0.1:
+Accuracy: 0.9063040687615114
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.96      0.94      0.95     67657
+           1       0.25      0.33      0.28      4011
+
+    accuracy                           0.91     71668
+   macro avg       0.60      0.64      0.62     71668
+weighted avg       0.92      0.91      0.91     71668
+
+Confusion Matrix:
+ [[63625  4032]
+ [ 2683  1328]]
+OK :)
+
+On training with max_depth=10, threshold=0.07: #TODO BETA=2
+Accuracy: 0.8349187744836415
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.97      0.85      0.91    270959
+           1       0.19      0.61      0.29     15712
+
+    accuracy                           0.83    286671
+   macro avg       0.58      0.73      0.60    286671
+weighted avg       0.93      0.83      0.87    286671
+
+Confusion Matrix:
+ [[229695  41264]
+ [  6060   9652]]
+On test with max_depth=10, threshold=0.07:
+Accuracy: 0.8301612993246638
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.97      0.84      0.90     67657
+           1       0.18      0.59      0.28      4011
+
+    accuracy                           0.83     71668
+   macro avg       0.58      0.72      0.59     71668
+weighted avg       0.93      0.83      0.87     71668
+
+Confusion Matrix:
+ [[57127 10530]
+ [ 1642  2369]]
+OK :)
