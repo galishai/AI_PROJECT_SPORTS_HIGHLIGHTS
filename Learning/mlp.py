@@ -1,22 +1,17 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from training import *
+#from training import *
 import pandas as pd
 import numpy as np
-import pandas as pd
 import random
-import torch
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
 import argparse
 import random
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-import torch
-import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
+import tqdm
 
 def freeze_seeds(seed=0):
     random.seed(seed)
@@ -150,7 +145,7 @@ def evaluate(model, loader, device, threshold=0.5):
         'precision': precision_score(ys, preds, zero_division=0),
         'recall': recall_score(ys, preds, zero_division=0),
         'f1': f1_score(ys, preds, zero_division=0),
-        'roc_auc': roc_auc_score(ys, ps),
+        'roc_auc': roc_auc_score(ys, ps)
     }
 
 def train_fold(model, train_loader, val_loader, device, epochs, lr, threshold):
@@ -169,6 +164,7 @@ def train_fold(model, train_loader, val_loader, device, epochs, lr, threshold):
                 loss = criterion(logits, yb)
                 loss.backward()
                 optimizer.step()
+                pbar.update(1)
 
             val_metrics = evaluate(model, val_loader, device, threshold)
             pbar.set_description(f"{pbar_name} Epoch {epoch:02d} | Threshold {threshold:.2f} | "
@@ -189,9 +185,9 @@ def main():
 
 
 
-    data = "../full season data/plays_with_onehot_v1.csv"
+    data = "../full season data/plays_with_onehot_v2.csv"
 
-    folds = 2
+    folds = 0
     epochs = 20
     batch_size = 64
     hidden_dim = 256
@@ -212,28 +208,44 @@ def main():
     X = df.drop(columns=['is_highlight']).values.astype(np.float32)
     y = df['is_highlight'].values.astype(int)
 
-    skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
-    all_fold_metrics = []
+    if folds > 0:
+        skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
+        all_fold_metrics = []
 
-    for fold, (train_idx, val_idx) in enumerate(skf.split(X, y), start=1):
-        print(f"===== Fold {fold}/{folds} =====")
-        X_train, X_val = X[train_idx], X[val_idx]
-        y_train, y_val = y[train_idx], y[val_idx]
+        for fold, (train_idx, val_idx) in enumerate(skf.split(X, y), start=1):
+            print(f"===== Fold {fold}/{folds} =====")
+            X_train, X_val = X[train_idx], X[val_idx]
+            y_train, y_val = y[train_idx], y[val_idx]
+
+            train_ds = TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
+            val_ds   = TensorDataset(torch.from_numpy(X_val),   torch.from_numpy(y_val))
+            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+            val_loader   = DataLoader(val_ds,   batch_size=batch_size, shuffle=False)
+
+            model = MLPClassifier(input_dim=X.shape[1], hidden_dim=hidden_dim, dropout=dropout).to(device)
+            model = train_fold(model, train_loader, val_loader, device, epochs, lr=lr, threshold=threshold)
+            metrics = evaluate(model, val_loader, device, threshold=threshold)
+            all_fold_metrics.append(metrics)
+
+        # Aggregate
+        agg = {k: np.mean([m[k] for m in all_fold_metrics]) for k in all_fold_metrics[0]}
+        print("===== Cross-Validation Results =====")
+        for k,v in agg.items(): print(f"{k}: {v:.4f}")
+    else:
+        X_train, X_val ,y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=seed, stratify=y)
 
         train_ds = TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
-        val_ds   = TensorDataset(torch.from_numpy(X_val),   torch.from_numpy(y_val))
+        val_ds = TensorDataset(torch.from_numpy(X_val), torch.from_numpy(y_val))
         train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
-        val_loader   = DataLoader(val_ds,   batch_size=batch_size, shuffle=False)
+        val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
 
         model = MLPClassifier(input_dim=X.shape[1], hidden_dim=hidden_dim, dropout=dropout).to(device)
         model = train_fold(model, train_loader, val_loader, device, epochs, lr=lr, threshold=threshold)
         metrics = evaluate(model, val_loader, device, threshold=threshold)
-        all_fold_metrics.append(metrics)
 
-    # Aggregate
-    agg = {k: np.mean([m[k] for m in all_fold_metrics]) for k in all_fold_metrics[0]}
-    print("===== Cross-Validation Results =====")
-    for k,v in agg.items(): print(f"{k}: {v:.4f}")
+        print("===== Training Results =====")
+        for k, v in metrics.items():
+            print(f"{k}: {v:.4f}")
 
     # Final train on full data & test (if you have a held-out test set)
 
