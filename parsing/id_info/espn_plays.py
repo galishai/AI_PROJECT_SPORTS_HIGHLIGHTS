@@ -112,3 +112,115 @@ DIST_5_TO_14 = 2
 DIST_15_26 = 3
 DIST_27_30 = 4
 DIST_30_PLUS = 5
+
+
+makes_three = {Plays.MAKES_THREE_POINT_JUMPER,
+              Plays.MAKES_THREE_POINT_PULLUP}
+
+misses_three = {Plays.MISSES_THREE_POINT_JUMPER,
+                Plays.MISSES_THREE_POINT_PULLUP,
+                }
+
+makes_two = {Plays.MAKES_TWO_POINT,
+             Plays.MAKES_PULLUP,
+             Plays.MAKES_DRIVING_LAYUP,
+             Plays.MAKES_LAYUP,
+             Plays.MAKES_RUNNING_PULLUP_JUMPSHOT,
+             Plays.MAKES_STEPBACK_JUMPSHOT,
+             Plays.MAKES_TIP_SHOT,
+             Plays.MAKES_BANK_SHOT,
+             Plays.MAKES_HOOK_SHOT,
+             Plays.MAKES_FINGER_ROLL_LAYUP,
+             Plays.MAKES_RUNNING_JUMPER}
+
+misses_two = {Plays.MISSES_TWO_POINT,
+              Plays.MISSES_PULLUP,
+              Plays.MISSES_DRIVING_LAYUP,
+              Plays.MISSES_LAYUP,
+              Plays.MISSES_DRIVING_FLOATING_JUMPSHOT,
+              Plays.MISSES_DRIVING_DUNK,
+              Plays.MISSES_ALLEY_OOP_DUNK_SHOT,
+              Plays.MISSES_RUNNING_PULLUP_JUMPSHOT,
+              Plays.MISSES_STEPBACK_JUMPSHOT,
+              Plays.MISSES_TIP_SHOT,
+              Plays.MISSES_ALLEY_OOPS_LAYUP,
+              Plays.MISSES_DUNK,
+              Plays.MISSES_HOOK_SHOT,
+              Plays.MISSES_FINGER_ROLL_LAYUP,
+              Plays.MISSES_BANK_SHOT,
+              Plays.MISSES_RUNNING_JUMPER}
+
+makes_acrobatic_layups_and_dunks = {Plays.MAKES_DRIVING_FLOATING_JUMPSHOT,
+                                    Plays.MAKES_DRIVING_DUNK,
+                                    Plays.MAKES_ALLEY_OOP_DUNK_SHOT,
+                                    Plays.MAKES_ALLEY_OOPS_LAYUP,
+                                    Plays.MAKES_DUNK}
+
+block = {Plays.BLOCK,
+         }
+
+rebound = {Plays.DEFENSIVE_REBOUND,
+           Plays.OFFENSIVE_REBOUND,
+           Plays.DEFENSIVE_TEAM_REBOUND,
+           Plays.TEAM_REBOUND}
+
+turnover = {Plays.TURNOVER,
+            Plays.BAD_PASS,
+            Plays.TRAVELING,
+            Plays.KICKED_BALL_VIOLATION,
+            Plays.OFFENSIVE_CHARGE,
+            Plays.VIOLATION,
+            Plays.DEFENSIVE_THREE_SECONDS,
+            Plays.LOST_BALL,
+            Plays.UNSPECIFIED_SHOT_CLOCK_TO}
+
+foul = {Plays.SHOOTING_FOUL,
+        Plays.PERSONAL_FOUL,
+        Plays.OFFENSIVE_FOUL,
+        Plays.LOOSE_BALL_FOUL,
+        Plays.PERSONAL_TAKE_FOUL,
+        Plays.TRANSITION_TAKE_FOUL,
+        Plays.HANGING_TECHFOUL,
+        Plays.TECHNICAL_FOUL,
+        Plays.AWAY_FROM_PLAY_FOUL,
+        Plays.UNSPECIFIED_FOUL,
+        }
+
+flagrant = {Plays.FLAGRANT_FOUL_1,
+}
+
+dramatic_fouls = {Plays.BOTH_TEAM_FOUL,
+                  Plays.EJECTED,}
+
+one_ft = {Plays.MAKES_FREE_THROW_ONE_OF_ONE,
+          Plays.MISSES_FREE_THROW_ONE_OF_ONE,
+          Plays.MAKES_FREE_THROW_FLAGRANT_1_OF_1,}
+
+two_ft = {Plays.MAKES_FREE_THROW_ONE_OF_TWO,
+          Plays.MAKES_FREE_THROW_TWO_OF_TWO,
+          Plays.MISSES_FREE_THROW_ONE_OF_TWO,
+          Plays.MISSES_FREE_THROW_TWO_OF_TWO,
+          Plays.MAKES_FREE_THROW_FLAGRANT_1_OF_2,
+          Plays.MAKES_FREE_THROW_FLAGRANT_2_OF_2,
+          Plays.MISSES_FREE_THROW_FLAGRANT_1_OF_2,
+          Plays.MISSES_FREE_THROW_FLAGRANT_2_OF_2,
+          }
+
+three_ft = {Plays.MAKES_FREE_THROW_ONE_OF_THREE,
+            Plays.MAKES_FREE_THROW_TWO_OF_THREE,
+            Plays.MAKES_FREE_THROW_THREE_OF_THREE,
+            Plays.MISSES_FREE_THROW_ONE_OF_THREE,
+            Plays.MISSES_FREE_THROW_TWO_OF_THREE,
+            Plays.MISSES_FREE_THROW_THREE_OF_THREE,
+            Plays.MAKES_FREE_THROW_FLAGRANT_1_OF_3,
+            Plays.MAKES_FREE_THROW_FLAGRANT_2_OF_3,
+            Plays.MAKES_FREE_THROW_FLAGRANT_3_OF_3,
+            Plays.MISSES_FREE_THROW_FLAGRANT_1_OF_3,
+            Plays.MISSES_FREE_THROW_FLAGRANT_2_OF_3,
+            Plays.MISSES_FREE_THROW_FLAGRANT_3_OF_3,
+            }
+
+technical_ft = {Plays.MAKES_TECHNICAL_FREE_THROW,
+                Plays.MISSES_TECHNICAL_FREE_THROW}
+
+
