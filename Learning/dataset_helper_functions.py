@@ -16,6 +16,8 @@ map_quarter_to_int = {'1st': 1,
                   '3rd': 3,
                   '4th': 4}
 
+LABEL_COLS = ['is_highlight', 'game_id']
+
 def group_plays():
     play_to_group = {}
     for p in makes_three:
@@ -53,6 +55,15 @@ def group_plays():
 
     return  play_to_group_int
 
+def add_game_ids(df: pd.DataFrame):
+    out = df.copy()
+    new_game = (
+            (out["home_team"] != out["home_team"].shift()) |
+            (out["away_team"] != out["away_team"].shift()) |
+            (out["date"] != out["date"].shift())
+    )
+    out["game_id"] = new_game.cumsum()
+    return out
 
 def freeze_seeds(seed=0):
     random.seed(seed)
@@ -70,6 +81,10 @@ def seconds_to_time(seconds):
     minutes = seconds // 60
     remaining_seconds = seconds % 60
     return f"{minutes}:{remaining_seconds:02d}"
+
+def build_star_power_mapping(train_df: pd.DataFrame) -> pd.Series:
+    sp = get_star_power(train_df)
+    return sp.set_index('name')['count']
 
 def get_star_power(dataset):
     df_h = dataset[dataset['is_highlight'] == 1]
@@ -93,6 +108,14 @@ def get_star_power(dataset):
 
     return star_power
 
+def align_to_train(df, feature_cols):
+    miss = [c for c in feature_cols if c not in df.columns]
+    if miss:
+        df = df.assign(**{c: 0 for c in miss})
+    extras = [c for c in df.columns if c not in feature_cols + LABEL_COLS]
+    if extras:
+        df = df.drop(columns=extras)
+    return df[feature_cols + LABEL_COLS]
 
 def calculate_oncourt_star(row, team_rosters, oncourt_cols, mapping_dict):
     team = row['current_team']
@@ -103,7 +126,7 @@ def calculate_oncourt_star(row, team_rosters, oncourt_cols, mapping_dict):
                 star_power += mapping_dict[team_rosters[team][i]]  #
     return star_power
 
-def get_dataset(ds, verbose=False, rm_ft_ds= False, add_game_idx=False, play_context_window=0,team_context_window=0, compact_players=False, compact_oncourt = False, compact_current_team = False, drop_home_away_teams = False, group_all_plays = False, enum_quarters=False):
+def get_dataset(ds, verbose=False, rm_ft_ds= False, add_game_idx=False, play_context_window=0,team_context_window=0, compact_players=False, compact_oncourt = False, compact_current_team = False, drop_home_away_teams = False, group_all_plays = False, enum_quarters=False, star_power_mapping = None, return_mapping = False):
     dataset = ds.copy()
     total_new_columns = []
     if add_game_idx:
@@ -149,27 +172,16 @@ def get_dataset(ds, verbose=False, rm_ft_ds= False, add_game_idx=False, play_con
     #time to ordinal
     dataset['time_left_qtr'] = dataset['time_left_qtr'].apply(time_to_seconds)
 
-
-    #dates to ordinal
-    '''dataset['date'] = pd.to_datetime(dataset['date'], format='%B %d, %Y')
-    first_date = dataset['date'].min()
-    dataset['days_since_first_game'] = (dataset['date'] - first_date).dt.days
-    if verbose:
-        print(f"{aug_count}. num cols: {len(dataset.columns)}")
-        aug_count+=1'''
     dataset = dataset.drop(columns=['date'])
 
-
-
-
-    '''#remove unimportant players:
-    player_counts = dataset['name'].value_counts()
-    common = player_counts[player_counts >= 500].index
-    dataset['name'] = dataset['name'].where(dataset['name'].isin(common) | dataset['name'] == 'Blank', 'Other')
-    dataset['assister'] = dataset['assister'].where(dataset['assister'].isin(common) | dataset['assister'] == 'Blank', 'Other')
-    dataset['stolen_by'] = dataset['stolen_by'].where(dataset['stolen_by'].isin(common) | dataset['stolen_by'] == 'Blank', 'Other')'''
     star_power = get_star_power(dataset)
     mapping = star_power.set_index('name')['count']
+    if star_power_mapping is None:
+        if verbose:
+            print("WARNING: star_power computed on provided ds; compute on TRAIN to avoid leakage")
+        mapping = get_star_power(dataset).set_index('name')['count']
+    else:
+        mapping = star_power_mapping
     if compact_players:
 
         dataset['name_star_power'] = dataset['name'].map(mapping).fillna(0).astype(float)
@@ -260,5 +272,6 @@ def get_dataset(ds, verbose=False, rm_ft_ds= False, add_game_idx=False, play_con
     if len(total_new_columns) > 0:
         dataset = pd.get_dummies(dataset, columns=total_new_columns)
 
-
+    if return_mapping:
+        return dataset, mapping
     return dataset
